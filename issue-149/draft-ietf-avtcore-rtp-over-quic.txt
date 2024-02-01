@@ -1136,17 +1136,17 @@ Table of Contents
 
    A wide variety of congestion control algorithms for real-time media
    have been developed (for example, "Google Congestion Controller"
-   [I-D.draft-ietf-rmcat-gcc]).  The IETF has defined two algorithms in
-   two Experimental RFCs (SCReAM [RFC8298] and NADA [RFC8698]).  These
-   algorithms for RTP are specifically tailored for real-time
-   transmissions at low latencies, but this section would apply to any
-   rate adaptation algorithm that meets the requirements described in
-   "Congestion Control Requirements for Interactive Real-Time Media"
-   [RFC8836].
+   [I-D.draft-ietf-rmcat-gcc]).  The IETF has defined two such
+   algorithms in Experimental RFCs (SCReAM [RFC8298] and NADA
+   [RFC8698]).  These algorithms for RTP are specifically tailored for
+   real-time transmissions at low latencies, but this section would
+   apply to any rate adaptation algorithm that meets the requirements
+   described in "Congestion Control Requirements for Interactive Real-
+   Time Media" [RFC8836].
 
    Some low latency congestion control algorithms depend on detailed
    arrival time feedback to estimate the current one-way delay between
-   sender and receiver, which is unavailable in QUIC [rfc9000] without
+   sender and receiver, which is unavailable in QUIC [RFC9000] without
    extensions.  The QUIC implementations of the sender and receiver can
    use an extension to add this information to QUIC as described in
    Appendix A.  An alternative to these dedicated real-time media
@@ -1726,11 +1726,6 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc8999>.
 
    [RFC9000]  Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
-              Multiplexed and Secure Transport", RFC 9000,
-              DOI 10.17487/RFC9000, May 2021,
-              <https://www.rfc-editor.org/rfc/rfc9000>.
-
-   [rfc9000]  Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", RFC 9000,
               DOI 10.17487/RFC9000, May 2021,
               <https://www.rfc-editor.org/rfc/rfc9000>.
