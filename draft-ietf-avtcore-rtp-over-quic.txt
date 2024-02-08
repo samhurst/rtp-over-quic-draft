@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Standards Track             Technical University Munich
-Expires: 30 May 2024                                          S. Dawkins
+Expires: 11 August 2024                                       S. Dawkins
                                                      Tencent America LLC
-                                                        27 November 2023
+                                                         8 February 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,11 +49,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 May 2024.
+   This Internet-Draft will expire on 11 August 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -788,7 +788,7 @@ Table of Contents
 
    QUIC requires the use of ALPN [RFC7301] tokens during connection
    setup.  RoQ uses "rtp-mux-quic" as ALPN token in the TLS handshake
-   (see also Section 13.
+   (see also Section 13).
 
    Note that the use of a given RTP profile is not reflected in the ALPN
    token even though it could be considered part of the application
@@ -861,7 +861,7 @@ Table of Contents
    identifiers.  Thus, it is possible to send RTP and RTCP packets
    belonging to the same session using different flow identifiers.  RTP
    and RTCP packets of a single RTP session MAY use the same flow
-   identifier (following the procedures defined in [RFC5761], or they
+   identifier (following the procedures defined in [RFC5761]), or they
    MAY use different flow identifiers.
 
    The association between flow identifiers and data streams MUST be
@@ -1797,9 +1797,9 @@ Table of Contents
    [I-D.draft-ietf-quic-reliable-stream-reset]
               Seemann, M. and K. Oku, "Reliable QUIC Stream Resets",
               Work in Progress, Internet-Draft, draft-ietf-quic-
-              reliable-stream-reset-03, 19 October 2023,
+              reliable-stream-reset-05, 23 January 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              reliable-stream-reset-03>.
+              reliable-stream-reset-05>.
 
    [I-D.draft-ietf-rmcat-gcc]
               Holmer, S., Lundin, H., Carlucci, G., De Cicco, L., and S.
@@ -1812,9 +1812,9 @@ Table of Contents
    [I-D.draft-ietf-wish-whip]
               Murillo, S. G. and A. Gouaillard, "WebRTC-HTTP ingestion
               protocol (WHIP)", Work in Progress, Internet-Draft, draft-
-              ietf-wish-whip-09, 24 July 2023,
+              ietf-wish-whip-13, 7 February 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wish-
-              whip-09>.
+              whip-13>.
 
    [I-D.draft-smith-quic-receive-ts]
               Smith, C. and I. Swett, "QUIC Extension for Reporting
