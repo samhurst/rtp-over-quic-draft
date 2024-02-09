@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Standards Track             Technical University Munich
-Expires: 3 August 2024                                        S. Dawkins
+Expires: 12 August 2024                                       S. Dawkins
                                                      Tencent America LLC
-                                                         31 January 2024
+                                                         9 February 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 August 2024.
+   This Internet-Draft will expire on 12 August 2024.
 
 Copyright Notice
 
@@ -486,10 +486,6 @@ Table of Contents
       dropped by intermediary network elements, which the algorithm
       treats as a signal of congestion.
 
-   Media Encoder:  An entity that is used by an application to produce a
-      stream of encoded media, which can be packetized in RTP packets to
-      be transmitted over QUIC.
-
    QUIC congestion controller:  A software component of an application's
       QUIC implementation that implements a congestion control
       algorithm.
@@ -789,7 +785,7 @@ Table of Contents
 
    QUIC requires the use of ALPN [RFC7301] tokens during connection
    setup.  RoQ uses "rtp-mux-quic" as ALPN token in the TLS handshake
-   (see also Section 13.
+   (see also Section 13).
 
    Note that the use of a given RTP profile is not reflected in the ALPN
    token even though it could be considered part of the application
@@ -862,7 +858,7 @@ Table of Contents
    identifiers.  Thus, it is possible to send RTP and RTCP packets
    belonging to the same session using different flow identifiers.  RTP
    and RTCP packets of a single RTP session MAY use the same flow
-   identifier (following the procedures defined in [RFC5761], or they
+   identifier (following the procedures defined in [RFC5761]), or they
    MAY use different flow identifiers.
 
    The association between flow identifiers and data streams MUST be
@@ -1523,19 +1519,31 @@ Table of Contents
 
 11.3.  Coalescing RTP packets in single QUIC packet
 
-   Applications usually cannot control how the QUIC stack maps
-   application data to QUIC packets.  While the application controls the
-   content of QUIC DATAGRAM frames, stream frames may contain any amount
-   of data.  QUIC packets can include multiple STREAM frames from
-   different streams and one or more DATAGRAM frames.  Applications
-   don't necessarily control how the QUIC stack maps STREAM and DATAGRAM
-   frames to QUIC packets Section 13 of [RFC9000] and Section 5 of
-   [RFC9308].
+   Applications have some control over how the QUIC stack maps
+   application data to QUIC frames, but applications cannot control how
+   the QUIC stack maps STREAM and DATAGRAM frames to QUIC packets
+   Section 13 of [RFC9000] and Section 5 of [RFC9308].
 
-   If there is not enough data, QUIC stacks might wait before sending
-   out packets to optimize for bandwidth utilization instead of latency,
-   while real-time applications usually prefer to optimize for latency
-   rather than bandwidth utilization.
+   *  When RTP payloads are carried over QUIC streams, the RTP payload
+      is treated as an ordered byte stream that will be carried in QUIC
+      STREAM frames, with no effort to match application data
+      boundaries.
+
+   *  When RTP payloads are carried over QUIC DATAGRAMs, each RTP
+      payload data unit is mapped into a QUIC DATAGRAM frame, but
+
+   *  QUIC implementations can include multiple STREAM frames from
+      different streams and one or more DATAGRAM frames into a single
+      QUIC packet, and may include other QUIC frames as well.
+
+   QUIC stacks are allowed to wait for a short period of time if the
+   queued QUIC packet is shorter than the path MTU, in order to optimize
+   for bandwidth utilization instead of latency, while real-time
+   applications usually prefer to optimize for latency rather than
+   bandwidth utilization.  This waiting interval is under the QUIC
+   implementation's control, and might be based on knowledge about
+   application sending behavior or heuristics to determine whether and
+   for how long to wait.
 
    When there are a lot of small DATAGRAM frames (e.g., an audio stream)
    and a lot of large DATAGRAM (e.g., a video stream), it may be a good
@@ -1840,9 +1848,9 @@ Table of Contents
    [I-D.draft-ietf-wish-whip]
               Murillo, S. G. and A. Gouaillard, "WebRTC-HTTP ingestion
               protocol (WHIP)", Work in Progress, Internet-Draft, draft-
-              ietf-wish-whip-12, 26 January 2024,
+              ietf-wish-whip-13, 7 February 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wish-
-              whip-12>.
+              whip-13>.
 
    [I-D.draft-smith-quic-receive-ts]
               Smith, C. and I. Swett, "QUIC Extension for Reporting

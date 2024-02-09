@@ -17,18 +17,18 @@ endpoints, in order to reduce the need to exchange RTCP packets and how to
 implement congestion control and rate adaptation without relying on RTCP
 feedback. 
     " name="description">
-<meta content="xml2rfc 3.19.1" name="generator">
+<meta content="xml2rfc 3.19.2" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-avtcore-rtp-over-quic-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.1
+  xml2rfc 3.19.2
     Python 3.11.6
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 4.1.0
+    platformdirs 4.2.0
     pycountry 22.3.5
     PyYAML 6.0.1
     requests 2.31.0
@@ -1055,11 +1055,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">RTP over QUIC (RoQ)</td>
-<td class="right">January 2024</td>
+<td class="right">February 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ott, et al.</td>
-<td class="center">Expires 3 August 2024</td>
+<td class="center">Expires 12 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1072,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-avtcore-rtp-over-quic-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-01-31" class="published">31 January 2024</time>
+<time datetime="2024-02-09" class="published">9 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-03">3 August 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-12">12 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1136,7 +1136,7 @@ feedback.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1687,36 +1687,30 @@ differently, the term datagram in this document refers to a QUIC Datagram as def
           <p id="section-2-8.14.1">A congestion control algorithm that uses packet loss, or an Explicit Congestion Notification (ECN) that is interpreted as loss (as in <span>[<a href="#RFC3168" class="cite xref">RFC3168</a>]</span>), as a signal for congestion. Loss-based congestion control algorithms allow senders to send data on a path until packets are dropped by intermediary network elements, which the algorithm treats as a signal of congestion.<a href="#section-2-8.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.15">Media Encoder:</dt>
+<dt id="section-2-8.15">QUIC congestion controller:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.16">
-          <p id="section-2-8.16.1">An entity that is used by an application to produce a stream of encoded media, which can be
-packetized in RTP packets to be transmitted over QUIC.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.16.1">A software component of an application's QUIC implementation that implements a congestion control algorithm.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.17">QUIC congestion controller:</dt>
+<dt id="section-2-8.17">Rate Adaptation:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.18">
-          <p id="section-2-8.18.1">A software component of an application's QUIC implementation that implements a congestion control algorithm.<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.18.1">A mechanism that adjusts the sending rate of an application in order to
+respond to sending rate limitations imposed by congestion control algorithms.<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.19">Rate Adaptation:</dt>
+<dt id="section-2-8.19">Receiver:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.20">
-          <p id="section-2-8.20.1">A mechanism that adjusts the sending rate of an application in order to
-respond to sending rate limitations imposed by congestion control algorithms.<a href="#section-2-8.20.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.20.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.21">Receiver:</dt>
+<dt id="section-2-8.21">RTP congestion controller:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.22">
-          <p id="section-2-8.22.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.22.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.22.1">A software component of an application's RTP implementation that implements a congestion control algorithm.<a href="#section-2-8.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.23">RTP congestion controller:</dt>
+<dt id="section-2-8.23">Sender:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.24">
-          <p id="section-2-8.24.1">A software component of an application's RTP implementation that implements a congestion control algorithm.<a href="#section-2-8.24.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-8.25">Sender:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-8.26">
-          <p id="section-2-8.26.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.26.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.24.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.24.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -2039,7 +2033,7 @@ topology.</em><a href="#section-3.2-7.18.1" class="pilcrow">¶</a></p>
       </h2>
 <p id="section-4-1">QUIC requires the use of ALPN <span>[<a href="#RFC7301" class="cite xref">RFC7301</a>]</span> tokens during connection setup. RoQ
 uses "rtp-mux-quic" as ALPN token in the TLS handshake (see also
-<a href="#iana-considerations" class="auto internal xref">Section 13</a>.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<a href="#iana-considerations" class="auto internal xref">Section 13</a>).<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">Note that the use of a given RTP profile is not reflected in the ALPN token even
 though it could be considered part of the application usage.  This is simply
 because different RTP sessions, which may use different RTP profiles, may be
@@ -2118,7 +2112,7 @@ session, they MAY do so by following <span>[<a href="#RFC8860" class="cite xref"
 <p id="section-5.1-4">A single RTP session MAY be associated with one or two flow identifiers. Thus,
 it is possible to send RTP and RTCP packets belonging to the same session using
 different flow identifiers. RTP and RTCP packets of a single RTP session MAY use
-the same flow identifier (following the procedures defined in <span>[<a href="#RFC5761" class="cite xref">RFC5761</a>]</span>, or
+the same flow identifier (following the procedures defined in <span>[<a href="#RFC5761" class="cite xref">RFC5761</a>]</span>), or
 they MAY use different flow identifiers.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.1-5">The association between flow identifiers and data streams MUST be negotiated
 using appropriate signaling. Applications MAY send data using flow identifiers
@@ -2856,24 +2850,40 @@ the receiver.<a href="#section-11.2-3.1.1" class="pilcrow">¶</a></p>
         <h3 id="name-coalescing-rtp-packets-in-s">
 <a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-coalescing-rtp-packets-in-s" class="section-name selfRef">Coalescing RTP packets in single QUIC packet</a>
         </h3>
-<p id="section-11.3-1">Applications usually cannot control how the QUIC stack maps application data to
-QUIC packets. While the application controls the content of QUIC DATAGRAM
-frames, stream frames may contain any amount of data. QUIC packets can include
-multiple STREAM frames from different streams and one or more DATAGRAM frames.
-Applications don't necessarily control how the QUIC stack maps STREAM and
+<p id="section-11.3-1">Applications have some control over how the QUIC stack maps application data to
+QUIC frames, but applications cannot control how the QUIC stack maps STREAM and
 DATAGRAM frames to QUIC packets <span><a href="https://rfc-editor.org/rfc/rfc9000#section-13" class="relref">Section 13</a> of [<a href="#RFC9000" class="cite xref">RFC9000</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9308#section-5" class="relref">Section 5</a> of [<a href="#RFC9308" class="cite xref">RFC9308</a>]</span>.<a href="#section-11.3-1" class="pilcrow">¶</a></p>
-<p id="section-11.3-2">If there is not enough data, QUIC stacks might wait before sending out packets
-to optimize for bandwidth utilization instead of latency, while real-time
-applications usually prefer to optimize for latency rather than bandwidth
-utilization.<a href="#section-11.3-2" class="pilcrow">¶</a></p>
-<p id="section-11.3-3">When there are a lot of small DATAGRAM frames (e.g., an audio stream) and a lot
+<ul class="normal">
+<li class="normal" id="section-11.3-2.1">
+            <p id="section-11.3-2.1.1">When RTP payloads are carried over QUIC streams, the RTP payload is treated as
+an ordered byte stream that will be carried in QUIC STREAM frames, with no
+effort to match application data boundaries.<a href="#section-11.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.3-2.2">
+            <p id="section-11.3-2.2.1">When RTP payloads are carried over QUIC DATAGRAMs, each RTP payload data unit
+is mapped into a QUIC DATAGRAM frame, but<a href="#section-11.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.3-2.3">
+            <p id="section-11.3-2.3.1">QUIC implementations can include multiple STREAM frames from different streams
+and one or more DATAGRAM frames into a single QUIC packet, and may include
+other QUIC frames as well.<a href="#section-11.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-11.3-3">QUIC stacks are allowed to wait for a short period of time if the queued QUIC
+packet is shorter than the path MTU, in order to optimize for bandwidth
+utilization instead of latency, while real-time applications usually prefer to
+optimize for latency rather than bandwidth utilization. This waiting interval is
+under the QUIC implementation's control, and might be based on knowledge about
+application sending behavior or heuristics to determine whether and for how long
+to wait.<a href="#section-11.3-3" class="pilcrow">¶</a></p>
+<p id="section-11.3-4">When there are a lot of small DATAGRAM frames (e.g., an audio stream) and a lot
 of large DATAGRAM (e.g., a video stream), it may be a good idea to make sure the
 audio frames can be included in a QUIC packet that also carries video frames
 (i.e., the video frames don't fill the whole QUIC packet). Otherwise, the QUIC
 stack may have to send additional small packets only carrying single audio
-frames, which would waste some bandwidth.<a href="#section-11.3-3" class="pilcrow">¶</a></p>
-<p id="section-11.3-4">Application designers are advised to take these considerations into account when
-selecting and configuring a QUIC stack for use with RoQ.<a href="#section-11.3-4" class="pilcrow">¶</a></p>
+frames, which would waste some bandwidth.<a href="#section-11.3-4" class="pilcrow">¶</a></p>
+<p id="section-11.3-5">Application designers are advised to take these considerations into account when
+selecting and configuring a QUIC stack for use with RoQ.<a href="#section-11.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3202,7 +3212,7 @@ list a change controller of the IETF and a contact of the AVTCORE working group
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-wish-whip">[I-D.draft-ietf-wish-whip]</dt>
         <dd>
-<span class="refAuthor">Murillo, S. G.</span> and <span class="refAuthor">A. Gouaillard</span>, <span class="refTitle">"WebRTC-HTTP ingestion protocol (WHIP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wish-whip-12</span>, <time datetime="2024-01-26" class="refDate">26 January 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wish-whip-12">https://datatracker.ietf.org/doc/html/draft-ietf-wish-whip-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Murillo, S. G.</span> and <span class="refAuthor">A. Gouaillard</span>, <span class="refTitle">"WebRTC-HTTP ingestion protocol (WHIP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wish-whip-13</span>, <time datetime="2024-02-07" class="refDate">7 February 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wish-whip-13">https://datatracker.ietf.org/doc/html/draft-ietf-wish-whip-13</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-smith-quic-receive-ts">[I-D.draft-smith-quic-receive-ts]</dt>
         <dd>
