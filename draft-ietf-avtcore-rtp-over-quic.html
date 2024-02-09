@@ -1059,7 +1059,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ott, et al.</td>
-<td class="center">Expires 11 August 2024</td>
+<td class="center">Expires 12 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1072,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-avtcore-rtp-over-quic-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-02-08" class="published">8 February 2024</time>
+<time datetime="2024-02-09" class="published">9 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-11">11 August 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-12">12 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1136,7 +1136,7 @@ feedback.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 11 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1684,36 +1684,30 @@ differently, the term datagram in this document refers to a QUIC Datagram as def
           <p id="section-2-8.14.1">A congestion control algorithm that uses packet loss, or an Explicit Congestion Notification (ECN) that is interpreted as loss (as in <span>[<a href="#RFC3168" class="cite xref">RFC3168</a>]</span>), as a signal for congestion. Loss-based congestion control algorithms allow senders to send data on a path until packets are dropped by intermediary network elements, which the algorithm treats as a signal of congestion.<a href="#section-2-8.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.15">Media Encoder:</dt>
+<dt id="section-2-8.15">QUIC congestion controller:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.16">
-          <p id="section-2-8.16.1">An entity that is used by an application to produce a stream of encoded media, which can be
-packetized in RTP packets to be transmitted over QUIC.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.16.1">A software component of an application's QUIC implementation that implements a congestion control algorithm.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.17">QUIC congestion controller:</dt>
+<dt id="section-2-8.17">Rate Adaptation:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.18">
-          <p id="section-2-8.18.1">A software component of an application's QUIC implementation that implements a congestion control algorithm.<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.18.1">A mechanism that adjusts the sending rate of an application in order to
+respond to sending rate limitations imposed by congestion control algorithms.<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.19">Rate Adaptation:</dt>
+<dt id="section-2-8.19">Receiver:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.20">
-          <p id="section-2-8.20.1">A mechanism that adjusts the sending rate of an application in order to
-respond to sending rate limitations imposed by congestion control algorithms.<a href="#section-2-8.20.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.20.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.21">Receiver:</dt>
+<dt id="section-2-8.21">RTP congestion controller:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.22">
-          <p id="section-2-8.22.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.22.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.22.1">A software component of an application's RTP implementation that implements a congestion control algorithm.<a href="#section-2-8.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.23">RTP congestion controller:</dt>
+<dt id="section-2-8.23">Sender:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.24">
-          <p id="section-2-8.24.1">A software component of an application's RTP implementation that implements a congestion control algorithm.<a href="#section-2-8.24.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-8.25">Sender:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-8.26">
-          <p id="section-2-8.26.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.26.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.24.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.24.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
