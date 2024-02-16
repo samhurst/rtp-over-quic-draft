@@ -1312,6 +1312,9 @@ feedback.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
                 <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-0-rtt-considerations" class="internal xref">0-RTT considerations</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3">
+                <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-coalescing-rtp-packets-in-s" class="internal xref">Coalescing RTP packets in single QUIC packet</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
@@ -2839,6 +2842,47 @@ the same connection, replayed media packets would be discarded as duplicates by
 the receiver.<a href="#section-11.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+</section>
+</div>
+<div id="coalescing-rtp-packets-in-single-quic-packet">
+<section id="section-11.3">
+        <h3 id="name-coalescing-rtp-packets-in-s">
+<a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-coalescing-rtp-packets-in-s" class="section-name selfRef">Coalescing RTP packets in single QUIC packet</a>
+        </h3>
+<p id="section-11.3-1">Applications have some control over how the QUIC stack maps application data to
+QUIC frames, but applications cannot control how the QUIC stack maps STREAM and
+DATAGRAM frames to QUIC packets <span><a href="https://rfc-editor.org/rfc/rfc9000#section-13" class="relref">Section 13</a> of [<a href="#RFC9000" class="cite xref">RFC9000</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc9308#section-5" class="relref">Section 5</a> of [<a href="#RFC9308" class="cite xref">RFC9308</a>]</span>.<a href="#section-11.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-11.3-2.1">
+            <p id="section-11.3-2.1.1">When RTP payloads are carried over QUIC streams, the RTP payload is treated as
+an ordered byte stream that will be carried in QUIC STREAM frames, with no
+effort to match application data boundaries.<a href="#section-11.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.3-2.2">
+            <p id="section-11.3-2.2.1">When RTP payloads are carried over QUIC DATAGRAMs, each RTP payload data unit
+is mapped into a QUIC DATAGRAM frame, but<a href="#section-11.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.3-2.3">
+            <p id="section-11.3-2.3.1">QUIC implementations can include multiple STREAM frames from different streams
+and one or more DATAGRAM frames into a single QUIC packet, and may include
+other QUIC frames as well.<a href="#section-11.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-11.3-3">QUIC stacks are allowed to wait for a short period of time if the queued QUIC
+packet is shorter than the path MTU, in order to optimize for bandwidth
+utilization instead of latency, while real-time applications usually prefer to
+optimize for latency rather than bandwidth utilization. This waiting interval is
+under the QUIC implementation's control, and might be based on knowledge about
+application sending behavior or heuristics to determine whether and for how long
+to wait.<a href="#section-11.3-3" class="pilcrow">¶</a></p>
+<p id="section-11.3-4">When there are a lot of small DATAGRAM frames (e.g., an audio stream) and a lot
+of large DATAGRAM (e.g., a video stream), it may be a good idea to make sure the
+audio frames can be included in a QUIC packet that also carries video frames
+(i.e., the video frames don't fill the whole QUIC packet). Otherwise, the QUIC
+stack may have to send additional small packets only carrying single audio
+frames, which would waste some bandwidth.<a href="#section-11.3-4" class="pilcrow">¶</a></p>
+<p id="section-11.3-5">Application designers are advised to take these considerations into account when
+selecting and configuring a QUIC stack for use with RoQ.<a href="#section-11.3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
