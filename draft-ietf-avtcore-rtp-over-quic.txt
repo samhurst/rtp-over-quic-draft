@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Standards Track             Technical University Munich
-Expires: 12 August 2024                                       S. Dawkins
+Expires: 19 August 2024                                       S. Dawkins
                                                      Tencent America LLC
-                                                         9 February 2024
+                                                        16 February 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 August 2024.
+   This Internet-Draft will expire on 19 August 2024.
 
 Copyright Notice
 
@@ -2152,7 +2152,7 @@ Table of Contents
               "IP Multimedia Subsystem (IMS); Multimedia telephony;
               Media handling and interaction", 5 January 2023,
               <https://portal.3gpp.org/desktopmodules/Specifications/
-              specificationId=1404>.
+              SpecificationDetails.aspx?specificationId=1404>.
 
 Appendix A.  List of optional QUIC Extensions
 
@@ -2257,7 +2257,7 @@ B.1.  RTCP Control Packet Types
    | AVB RTCP     |AVB     |   |           |           |               |
    | packet       |        |   |           |           |               |
    +--------------+--------+---+-----------+-----------+---------------+
-   | Receiver     |RSI     |209| [RFC5760] |           |               |
+   | Receiver     |RSI     |209| [RFC5760] | no        |               |
    | Summary      |        |   |           |           |               |
    | Information  |        |   |           |           |               |
    +--------------+--------+---+-----------+-----------+---------------+
@@ -2266,7 +2266,7 @@ B.1.  RTCP Control Packet Types
    | IDMS         |IDMS    |211| [RFC7272] | no        |               |
    | Settings     |        |   |           |           |               |
    +--------------+--------+---+-----------+-----------+---------------+
-   | Reporting    |RGRS    |212| [RFC8861] |           |               |
+   | Reporting    |RGRS    |212| [RFC8861] | no        |               |
    | Group        |        |   |           |           |               |
    | Reporting    |        |   |           |           |               |
    | Sources      |        |   |           |           |               |
@@ -2349,7 +2349,7 @@ B.2.  Extended Reports (XR)
    |Block          |          |         |                                  |
    +---------------+----------+---------+----------------------------------+
    |Packet Delay   |[RFC6798] |no       |QUIC timestamps may be used to    |
-   |Variation      |          |         |achieve the same goal?            |
+   |Variation      |          |         |achieve the same goal             |
    |Metrics Block  |          |         |                                  |
    +---------------+----------+---------+----------------------------------+
    |Delay Metrics  |[RFC6843] |no       |QUIC has RTT and can provide      |
@@ -2359,7 +2359,7 @@ B.2.  Extended Reports (XR)
    |               |          |         |only used on one segment of the   |
    |               |          |         |path.                             |
    +---------------+----------+---------+----------------------------------+
-   |Burst/Gap Loss |[RFC7004] |         |QUIC ACKs?                        |
+   |Burst/Gap Loss |[RFC7004] |no       |                                  |
    |Summary        |          |         |                                  |
    |Statistics     |          |         |                                  |
    |Block          |          |         |                                  |
@@ -2374,7 +2374,7 @@ B.2.  Extended Reports (XR)
    |Statistics     |          |         |                                  |
    |Summary        |          |         |                                  |
    +---------------+----------+---------+----------------------------------+
-   |Burst/Gap Loss |[RFC6958] |         |QUIC ACKs?                        |
+   |Burst/Gap Loss |[RFC6958] |         |no                                |
    |Metrics Block  |          |         |                                  |
    +---------------+----------+---------+----------------------------------+
    |Burst/Gap      |[RFC7003] |no       |                                  |
@@ -2472,15 +2472,16 @@ B.3.  Generic RTP Feedback (RTPFB)
    |       |of Multicast     |                 |         |                |
    |       |Sessions         |                 |         |                |
    +-------+-----------------+-----------------+---------+----------------+
-   |TLLEI  |Transport-Layer  |[RFC6642]        |no?      |no way of       |
-   |       |Third-Party Loss |                 |         |telling QUIC    |
+   |TLLEI  |Transport-Layer  |[RFC6642]        |no       |There is no way |
+   |       |Third-Party Loss |                 |         |of telling QUIC |
    |       |Early Indication |                 |         |peer "don't ask |
    |       |                 |                 |         |for             |
    |       |                 |                 |         |retransmission",|
    |       |                 |                 |         |but QUIC would  |
    |       |                 |                 |         |not ask that    |
    |       |                 |                 |         |anyway, only    |
-   |       |                 |                 |         |RTCP NACK?      |
+   |       |                 |                 |         |RTCP NACK, if   |
+   |       |                 |                 |         |used.           |
    +-------+-----------------+-----------------+---------+----------------+
    |RTCP-  |RTCP ECN Feedback|[RFC6679]        |partly   |see             |
    |ECN-FB |                 |                 |         |Section 8.4.2   |
@@ -2582,87 +2583,82 @@ B.5.  RTP Header extensions
 
 B.5.1.  Compact Header Extensions
 
-   +====================+================+=================+===========+
-   |Extension URI       |Description     |Reference        |Mappable   |
-   |                    |                |                 |from QUIC  |
-   +====================+================+=================+===========+
-   |urn:ietf:params:rtp-|Transmission    |[RFC5450]        |no         |
-   |hdrext:toffset      |Time offsets    |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:ietf:params:rtp-|Audio Level     |[RFC6464]        |no         |
-   |hdrext:ssrc-audio-  |                |                 |           |
-   |level               |                |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:ietf:params:rtp-|Splicing        |[RFC8286]        |no         |
-   |hdrext:splicing-    |Interval        |                 |           |
-   |interval            |                |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:ietf:params:rtp-|SMPTE time-code |[RFC5484]        |no         |
-   |hdrext:smpte-tc     |mapping         |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:ietf:params:rtp-|Reserved as     |[RFC7941]        |no         |
-   |hdrext:sdes         |base URN for    |                 |           |
-   |                    |RTCP SDES items |                 |           |
-   |                    |that are also   |                 |           |
-   |                    |defined as RTP  |                 |           |
-   |                    |compact header  |                 |           |
-   |                    |extensions.     |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:ietf:params:rtp-|Synchronisation |[RFC6051]        |no         |
-   |hdrext:ntp-64       |metadata:       |                 |           |
-   |                    |64-bit          |                 |           |
-   |                    |timestamp       |                 |           |
-   |                    |format          |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:ietf:params:rtp-|Synchronisation |[RFC6051]        |no         |
-   |hdrext:ntp-56       |metadata:       |                 |           |
-   |                    |56-bit          |                 |           |
-   |                    |timestamp       |                 |           |
-   |                    |format          |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:ietf:params:rtp-|Encrypted       |[RFC6904]        |no, but    |
-   |hdrext:encrypt      |extension       |                 |maybe      |
-   |                    |header element  |                 |irrelevant?|
-   +--------------------+----------------+-----------------+-----------+
-   |urn:ietf:params:rtp-|Mixer-to-client |[RFC6465]        |no         |
-   |hdrext:csrc-audio-  |audio level     |                 |           |
-   |level               |indicators      |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:3gpp:video-     |Higher          |[_3GPP-TS-26.114]|probably   |
-   |orientation:6       |granularity     |                 |not(?)     |
-   |                    |(6-bit)         |                 |           |
-   |                    |coordination of |                 |           |
-   |                    |video           |                 |           |
-   |                    |orientation     |                 |           |
-   |                    |(CVO) feature,  |                 |           |
-   |                    |see clause      |                 |           |
-   |                    |6.2.3           |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:3gpp:video-     |Coordination of |[_3GPP-TS-26.114]|probably   |
-   |orientation         |video           |                 |not(?)     |
-   |                    |orientation     |                 |           |
-   |                    |(CVO) feature,  |                 |           |
-   |                    |see clause      |                 |           |
-   |                    |6.2.3           |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:3gpp:roi-sent   |Signalling of   |[_3GPP-TS-26.114]|probably   |
-   |                    |the arbitrary   |                 |not(?)     |
-   |                    |region-of-      |                 |           |
-   |                    |interest (ROI)  |                 |           |
-   |                    |information for |                 |           |
-   |                    |the sent video, |                 |           |
-   |                    |see clause      |                 |           |
-   |                    |6.2.3.4         |                 |           |
-   +--------------------+----------------+-----------------+-----------+
-   |urn:3gpp:predefined-|Signalling of   |[_3GPP-TS-26.114]|probably   |
-   |roi-sent            |the predefined  |                 |not(?)     |
-   |                    |region-of-      |                 |           |
-   |                    |interest (ROI)  |                 |           |
-   |                    |information for |                 |           |
-   |                    |the sent video, |                 |           |
-   |                    |see clause      |                 |           |
-   |                    |6.2.3.4         |                 |           |
-   +--------------------+----------------+-----------------+-----------+
+   +======================+=================+=================+========+
+   | Extension URI        |Description      |Reference        |Mappable|
+   |                      |                 |                 |from    |
+   |                      |                 |                 |QUIC    |
+   +======================+=================+=================+========+
+   | urn:ietf:params:rtp- |Transmission     |[RFC5450]        |no      |
+   | hdrext:toffset       |Time offsets     |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:ietf:params:rtp- |Audio Level      |[RFC6464]        |no      |
+   | hdrext:ssrc-audio-   |                 |                 |        |
+   | level                |                 |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:ietf:params:rtp- |Splicing         |[RFC8286]        |no      |
+   | hdrext:splicing-     |Interval         |                 |        |
+   | interval             |                 |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:ietf:params:rtp- |SMPTE time-code  |[RFC5484]        |no      |
+   | hdrext:smpte-tc      |mapping          |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:ietf:params:rtp- |Reserved as base |[RFC7941]        |no      |
+   | hdrext:sdes          |URN for RTCP     |                 |        |
+   |                      |SDES items that  |                 |        |
+   |                      |are also defined |                 |        |
+   |                      |as RTP compact   |                 |        |
+   |                      |header           |                 |        |
+   |                      |extensions.      |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:ietf:params:rtp- |Synchronisation  |[RFC6051]        |no      |
+   | hdrext:ntp-64        |metadata: 64-bit |                 |        |
+   |                      |timestamp format |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:ietf:params:rtp- |Synchronisation  |[RFC6051]        |no      |
+   | hdrext:ntp-56        |metadata: 56-bit |                 |        |
+   |                      |timestamp format |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:ietf:params:rtp- |Encrypted        |[RFC6904]        |no      |
+   | hdrext:encrypt       |extension header |                 |        |
+   |                      |element          |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:ietf:params:rtp- |Mixer-to-client  |[RFC6465]        |no      |
+   | hdrext:csrc-audio-   |audio level      |                 |        |
+   | level                |indicators       |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:3gpp:video-      |Higher           |[_3GPP-TS-26.114]|probably|
+   | orientation:6        |granularity      |                 |not(?)  |
+   |                      |(6-bit)          |                 |        |
+   |                      |coordination of  |                 |        |
+   |                      |video            |                 |        |
+   |                      |orientation      |                 |        |
+   |                      |(CVO) feature,   |                 |        |
+   |                      |see clause 6.2.3 |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:3gpp:video-      |Coordination of  |[_3GPP-TS-26.114]|probably|
+   | orientation          |video            |                 |not(?)  |
+   |                      |orientation      |                 |        |
+   |                      |(CVO) feature,   |                 |        |
+   |                      |see clause 6.2.3 |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:3gpp:roi-sent    |Signalling of    |[_3GPP-TS-26.114]|probably|
+   |                      |the arbitrary    |                 |not(?)  |
+   |                      |region-of-       |                 |        |
+   |                      |interest (ROI)   |                 |        |
+   |                      |information for  |                 |        |
+   |                      |the sent video,  |                 |        |
+   |                      |see clause       |                 |        |
+   |                      |6.2.3.4          |                 |        |
+   +----------------------+-----------------+-----------------+--------+
+   | urn:3gpp:predefined- |Signalling of    |[_3GPP-TS-26.114]|probably|
+   | roi-sent             |the predefined   |                 |not(?)  |
+   |                      |region-of-       |                 |        |
+   |                      |interest (ROI)   |                 |        |
+   |                      |information for  |                 |        |
+   |                      |the sent video,  |                 |        |
+   |                      |see clause       |                 |        |
+   |                      |6.2.3.4          |                 |        |
+   +----------------------+-----------------+-----------------+--------+
 
                                   Table 7
 
