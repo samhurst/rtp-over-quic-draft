@@ -1190,7 +1190,7 @@ feedback.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                     <p id="section-toc.1-1.1.2.2.2.5.1"><a href="#section-1.2.5" class="auto internal xref">1.2.5</a>.  <a href="#name-multiplexing-rtp-rtcp-and-n" class="internal xref">Multiplexing RTP, RTCP, and Non-RTP Flows on a Single QUIC Connection</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2.2.6">
-                    <p id="section-toc.1-1.1.2.2.2.6.1"><a href="#section-1.2.6" class="auto internal xref">1.2.6</a>.  <a href="#name-exploiting-multiple-connect" class="internal xref">Exploiting Multiple Connections</a></p>
+                    <p id="section-toc.1-1.1.2.2.2.6.1"><a href="#section-1.2.6" class="auto internal xref">1.2.6</a>.  <a href="#name-exploiting-multiple-paths" class="internal xref">Exploiting Multiple Paths</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2.2.7">
                     <p id="section-toc.1-1.1.2.2.2.7.1"><a href="#section-1.2.7" class="auto internal xref">1.2.7</a>.  <a href="#name-exploiting-new-quic-capabil" class="internal xref">Exploiting New QUIC Capabilities</a></p>
@@ -1506,11 +1506,14 @@ blocking).<a href="#section-1.1-2" class="pilcrow">¶</a></p>
 </div>
 <div id="multiple-paths">
 <section id="section-1.2.6">
-          <h4 id="name-exploiting-multiple-connect">
-<a href="#section-1.2.6" class="section-number selfRef">1.2.6. </a><a href="#name-exploiting-multiple-connect" class="section-name selfRef">Exploiting Multiple Connections</a>
+          <h4 id="name-exploiting-multiple-paths">
+<a href="#section-1.2.6" class="section-number selfRef">1.2.6. </a><a href="#name-exploiting-multiple-paths" class="section-name selfRef">Exploiting Multiple Paths</a>
           </h4>
-<p id="section-1.2.6-1">Although there is much interest in multiplexing flows on a single QUIC connection as described in <a href="#single-path" class="auto internal xref">Section 1.2.5</a>, QUIC also provides the capability of establishing and validating multiple paths for a single QUIC connection <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>. Once multiple paths have been validated, a sender can migrate from one path to another with no additional signaling, allowing an endpoint to move from one endpoint address to another without interruption, as long as only a single path is in active use at any point in time.<a href="#section-1.2.6-1" class="pilcrow">¶</a></p>
-<p id="section-1.2.6-2">Connection migration may be desireable for a number of reasons, but to give one example, this allows a sender to distinguish between more costly cellular paths and less costly WiFi paths, with no action required from the application.<a href="#section-1.2.6-2" class="pilcrow">¶</a></p>
+<p id="section-1.2.6-1">Although there is much interest in multiplexing flows on a single QUIC connection as described in <a href="#single-path" class="auto internal xref">Section 1.2.5</a>, QUIC also provides the capability of establishing and validating multiple paths for a single QUIC connection as described in <span><a href="https://rfc-editor.org/rfc/rfc9000#section-9" class="relref">Section 9</a> of [<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>. Once multiple paths have been validated, a sender can migrate from one path to another with no additional signaling, allowing an endpoint to move from one endpoint address to another without interruption, as long as only a single path is in active use at any point in time.<a href="#section-1.2.6-1" class="pilcrow">¶</a></p>
+<p id="section-1.2.6-2">Connection migration may be desireable for a number of reasons, but to give one example, this allows a QUIC connection to survive address changes due to a middlebox allocating a new outgoing port, or even a new outgoing IP address.<a href="#section-1.2.6-2" class="pilcrow">¶</a></p>
+<p id="section-1.2.6-3">The Multipath Extension for QUIC <span>[<a href="#I-D.draft-ietf-quic-multipath" class="cite xref">I-D.draft-ietf-quic-multipath</a>]</span> would allow the application to actively use two or more paths simultaneously, but in all other respects, this functionality is the same as QUIC connection migration.<a href="#section-1.2.6-3" class="pilcrow">¶</a></p>
+<p id="section-1.2.6-4">A sender can use these capabilities to more effectively exploit multiple paths between sender and receiver with no action required from the application, even if these paths have different path characteristics.  Examples of these different path characteristics include handling paths differently if one path has higher available bandwidth and the other has lower one-way latency, or if one is a more costly cellular path and the other is a less costly WiFi path.<a href="#section-1.2.6-4" class="pilcrow">¶</a></p>
+<p id="section-1.2.6-5">Some of these differences can be detected by QUIC itself, while other differences must be described to QUIC based on policy, etc. Possible RTP implementation strategies for path selection and utilization are not discussed in this specification.<a href="#section-1.2.6-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="new-quic">
@@ -1518,7 +1521,7 @@ blocking).<a href="#section-1.1-2" class="pilcrow">¶</a></p>
           <h4 id="name-exploiting-new-quic-capabil">
 <a href="#section-1.2.7" class="section-number selfRef">1.2.7. </a><a href="#name-exploiting-new-quic-capabil" class="section-name selfRef">Exploiting New QUIC Capabilities</a>
           </h4>
-<p id="section-1.2.7-1">In addition to connection migration as described in <a href="#multiple-paths" class="auto internal xref">Section 1.2.6</a>, the capability of validating multiple paths for simultaneous active use is under active development in the IETF <span>[<a href="#I-D.draft-ietf-quic-multipath" class="cite xref">I-D.draft-ietf-quic-multipath</a>]</span>. We don't discuss Multipath QUIC further in this document, because the specification hasn't been approved yet, but it's one example of ways that RTP, a mature protocol, can exploit new transport capabilities as they become available.<a href="#section-1.2.7-1" class="pilcrow">¶</a></p>
+<p id="section-1.2.7-1">The first version of the QUIC protocol described in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span> has been completed, but extensions to QUIC are still under active development in the IETF. Because of this, using QUIC as a transport for a mature protocol like RTP allows developers to exploit new transport capabilities as they become available.<a href="#section-1.2.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
