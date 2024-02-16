@@ -2492,11 +2492,14 @@ limited by the 16-bit UDP source and destination port number sizes
             <p id="section-7.3-2.2.1">Alternatively, all real-time channels are mapped to one QUIC connection, while
 a separate QUIC connection is created for the non-real-time channels.<a href="#section-7.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
+          <li class="normal" id="section-7.3-2.3">
+            <p id="section-7.3-2.3.1">A third option is to multiplex all channels in a single QUIC connection.<a href="#section-7.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
         </ul>
-<p id="section-7.3-3">In both cases, the congestion controllers can be chosen to match the demands of
-the respective channels and the different QUIC connections will compete for the
-same resources in the network. No local prioritization of data across the
-different (types of) channels would be necessary.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3-3">In the first two cases, the congestion controllers can be chosen to match the
+demands of the respective channels and the different QUIC connections will
+compete for the same resources in the network. No local prioritization of data
+across the different (types of) channels would be necessary.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 <p id="section-7.3-4">Although it is possible to multiplex (all or a subset of) real-time and
 non-real-time channels onto a single, shared QUIC connection, which can be done
 by using the flow identifier described in <a href="#multiplexing" class="auto internal xref">Section 5.1</a>, the underlying QUIC
