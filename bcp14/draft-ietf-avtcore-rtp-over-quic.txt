@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Standards Track             Technical University Munich
-Expires: 16 August 2024                                       S. Dawkins
+Expires: 20 August 2024                                       S. Dawkins
                                                      Tencent America LLC
-                                                        13 February 2024
+                                                        17 February 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 August 2024.
+   This Internet-Draft will expire on 20 August 2024.
 
 Copyright Notice
 
@@ -903,9 +903,9 @@ Table of Contents
    streams, because there is no synchronous relationship between sent
    and received RTP/RTCP packets.  A peer that receives a bidirectional
    stream with a flow identifier that is associated with an RTP or RTCP
-   stream, MUST stop reading from the stream and send a STOP_SENDING
-   frame with the application protocol error code set to
-   ROQ_STREAM_CREATION_ERROR.
+   stream, MUST stop reading from the stream and send a CONNECTION_CLOSE
+   frame with the frame type set to APPLICATION_ERROR and the error code
+   set to ROQ_STREAM_CREATION_ERROR.
 
    A RoQ sender can open new QUIC streams for different packets using
    the same flow identifier, for example, to avoid head-of-line
