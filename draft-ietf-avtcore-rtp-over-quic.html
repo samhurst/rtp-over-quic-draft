@@ -17,11 +17,11 @@ endpoints, in order to reduce the need to exchange RTCP packets and how to
 implement congestion control and rate adaptation without relying on RTCP
 feedback. 
     " name="description">
-<meta content="xml2rfc 3.19.2" name="generator">
+<meta content="xml2rfc 3.19.4" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-avtcore-rtp-over-quic-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.19.2
+  xml2rfc 3.19.4
     Python 3.11.6
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
@@ -1059,7 +1059,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ott, et al.</td>
-<td class="center">Expires 19 August 2024</td>
+<td class="center">Expires 23 August 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1072,12 +1072,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-avtcore-rtp-over-quic-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-02-16" class="published">16 February 2024</time>
+<time datetime="2024-02-20" class="published">20 February 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-08-19">19 August 2024</time></dd>
+<dd class="expires"><time datetime="2024-08-23">23 August 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1136,7 +1136,7 @@ feedback.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 August 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1622,103 +1622,98 @@ document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" 
 when, and only when, they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-2-2.1">
-          <p id="section-2-2.1.1"><strong>Editor's note:</strong> the list of terms below will almost certainly grow in size as the specification matures.<a href="#section-2-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.1.1"><strong>Note to the Reader:</strong> the meaning of the terms "congestion control" and "rate adaptation" in the IETF community have evolved over the decades since "slow start" and "congestion avoidance" were added as mandatory to implement in TCP, in <span><a href="https://rfc-editor.org/rfc/rfc1122#section-4.2.2.15" class="relref">Section 4.2.2.15</a> of [<a href="#RFC1122" class="cite xref">RFC1122</a>]</span>. Historically, "congestion control" usually referred to "achieving network stability" (<span>[<a href="#VJMK88" class="cite xref">VJMK88</a>]</span>), by protecting the network from senders who continue to transmit packets that exceed the ability of the network to carry them, even after packet loss occurs (called "congestion collapse").<a href="#section-2-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-2-3.1">
-          <p id="section-2-3.1.1"><strong>Note to the Reader:</strong> the meaning of the terms "congestion control" and "rate adaptation" in the IETF community have evolved over the decades since "slow start" and "congestion avoidance" were added as mandatory to implement in TCP, in <span><a href="https://rfc-editor.org/rfc/rfc1122#section-4.2.2.15" class="relref">Section 4.2.2.15</a> of [<a href="#RFC1122" class="cite xref">RFC1122</a>]</span>. Historically, "congestion control" usually referred to "achieving network stability" (<span>[<a href="#VJMK88" class="cite xref">VJMK88</a>]</span>), by protecting the network from senders who continue to transmit packets that exceed the ability of the network to carry them, even after packet loss occurs (called "congestion collapse").<a href="#section-2-3.1.1" class="pilcrow">¶</a></p>
+          <p id="section-2-3.1.1">Modern general-purpose "congestion control" algorithms have moved beyond avoiding congestion collapse, and work to avoid "bufferbloat", which causes increasing round-trip delays, as described in <a href="#rate-adaptation-application-layer" class="auto internal xref">Section 7.2</a>.<a href="#section-2-3.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-2-4.1">
-          <p id="section-2-4.1.1">Modern general-purpose "congestion control" algorithms have moved beyond avoiding congestion collapse, and work to avoid "bufferbloat", which causes increasing round-trip delays, as described in <a href="#rate-adaptation-application-layer" class="auto internal xref">Section 7.2</a>.<a href="#section-2-4.1.1" class="pilcrow">¶</a></p>
+          <p id="section-2-4.1.1">"Rate adaptation" more commonly refers to strategies intended to guide senders on when to send "the next packet", so that one-way delays along the network path remain minimal.<a href="#section-2-4.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
+<p id="section-2-5">When RTP runs over QUIC, as described in this specification, QUIC is performing congestion control, and the RTP application is responsible for performing rate adaptation.<a href="#section-2-5" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-2-5.1">
-          <p id="section-2-5.1.1">"Rate adaptation" more commonly refers to strategies intended to guide senders on when to send "the next packet", so that one-way delays along the network path remain minimal.<a href="#section-2-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-2-6.1">
+          <p id="section-2-6.1.1">In this document, these terms are used with the meanings listed below, with the recognition that not all the references in this document use these terms in the same way.<a href="#section-2-6.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-2-6">When RTP runs over QUIC, as described in this specification, QUIC is performing congestion control, and the RTP application is responsible for performing rate adaptation.<a href="#section-2-6" class="pilcrow">¶</a></p>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-2-7.1">
-          <p id="section-2-7.1.1">In this document, these terms are used with the meanings listed below, with the recognition that not all the references in this document use these terms in the same way.<a href="#section-2-7.1.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<p id="section-2-8">The following terms are used:<a href="#section-2-8" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-2-9">
-        <dt id="section-2-9.1">Bandwidth Estimation:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.2">
-          <p id="section-2-9.2.1">An algorithm to estimate the available bandwidth of a link in a network. Such
+<p id="section-2-7">The following terms are used:<a href="#section-2-7" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-8">
+        <dt id="section-2-8.1">Bandwidth Estimation:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.2">
+          <p id="section-2-8.2.1">An algorithm to estimate the available bandwidth of a link in a network. Such
 an estimation can be used for rate adaptation, i.e., adapt the rate at which an
-application transmits data.<a href="#section-2-9.2.1" class="pilcrow">¶</a></p>
+application transmits data.<a href="#section-2-8.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.3">Congestion Control:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.4">
-          <p id="section-2-9.4.1">A mechanism to limit the aggregate amount of data that has been sent over a path to a receiver, but has not been acknowledged by the receiver.
+<dt id="section-2-8.3">Congestion Control:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.4">
+          <p id="section-2-8.4.1">A mechanism to limit the aggregate amount of data that has been sent over a path to a receiver, but has not been acknowledged by the receiver.
 This prevents a sender from overwhelming the capacity of a path between a sender and a receiver, causing some outstanding data to be discarded before the receiver can receive the data and acknowledge it to the sender.
 A congestion control mechanism may respond to packet loss (detected by timeouts), or to impending packet loss (signaled by mechanisms such as Explicit Congestion Notification <span>[<a href="#RFC3168" class="cite xref">RFC3168</a>]</span>).
 It may also limit growth in round-trip delays, due to increasing queuing delays (signaled by mechanisms such as Low Latency, Low Loss, and Scalable Throughput (L4S) <span>[<a href="#RFC9330" class="cite xref">RFC9330</a>]</span>).
-Congestion control mechanisms are often implemented at the transport layer of the protocol stack, but can also be implemented at the application layer.<a href="#section-2-9.4.1" class="pilcrow">¶</a></p>
+Congestion control mechanisms are often implemented at the transport layer of the protocol stack, but can also be implemented at the application layer.<a href="#section-2-8.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.5">Datagram:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.6">
-          <p id="section-2-9.6.1">Datagrams exist in UDP as well as in QUIC's unreliable datagram extension. If not explicitly noted
+<dt id="section-2-8.5">Datagram:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.6">
+          <p id="section-2-8.6.1">Datagrams exist in UDP as well as in QUIC's unreliable datagram extension. If not explicitly noted
 differently, the term datagram in this document refers to a QUIC Datagram as defined in
-<span>[<a href="#RFC9221" class="cite xref">RFC9221</a>]</span>.<a href="#section-2-9.6.1" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC9221" class="cite xref">RFC9221</a>]</span>.<a href="#section-2-8.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.7">Delay-based or Low-latency congestion control algorithm:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.8">
-          <p id="section-2-9.8.1">A congestion control algorithm that aims at keeping queues, and thus the latency, at intermediary network elements as short as possible. Delay-based congestion control algorithms use, for example, an increasing one-way delay as a signal of impending congestion, and adjust the sending rate to prevent continued increases in one-way delay.<a href="#section-2-9.8.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.7">Delay-based or Low-latency congestion control algorithm:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.8">
+          <p id="section-2-8.8.1">A congestion control algorithm that aims at keeping queues, and thus the latency, at intermediary network elements as short as possible. Delay-based congestion control algorithms use, for example, an increasing one-way delay as a signal of impending congestion, and adjust the sending rate to prevent continued increases in one-way delay.<a href="#section-2-8.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.9">Endpoint:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.10">
-          <p id="section-2-9.10.1">A QUIC server or client that participates in an RoQ session.<a href="#section-2-9.10.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.9">Endpoint:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.10">
+          <p id="section-2-8.10.1">A QUIC server or client that participates in an RoQ session.<a href="#section-2-8.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.11">Frame:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.12">
-          <p id="section-2-9.12.1">A QUIC frame as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>.<a href="#section-2-9.12.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.11">Frame:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.12">
+          <p id="section-2-8.12.1">A QUIC frame as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>.<a href="#section-2-8.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.13">Loss-based congestion control algorithm:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.14">
-          <p id="section-2-9.14.1">A congestion control algorithm that uses packet loss, or an Explicit Congestion Notification (ECN) that is interpreted as loss (as in <span>[<a href="#RFC3168" class="cite xref">RFC3168</a>]</span>), as a signal for congestion. Loss-based congestion control algorithms allow senders to send data on a path until packets are dropped by intermediary network elements, which the algorithm treats as a signal of congestion.<a href="#section-2-9.14.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.13">Loss-based congestion control algorithm:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.14">
+          <p id="section-2-8.14.1">A congestion control algorithm that uses packet loss, or an Explicit Congestion Notification (ECN) that is interpreted as loss (as in <span>[<a href="#RFC3168" class="cite xref">RFC3168</a>]</span>), as a signal for congestion. Loss-based congestion control algorithms allow senders to send data on a path until packets are dropped by intermediary network elements, which the algorithm treats as a signal of congestion.<a href="#section-2-8.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.15">QUIC congestion controller:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.16">
-          <p id="section-2-9.16.1">A software component of an application's QUIC implementation that implements a congestion control algorithm.<a href="#section-2-9.16.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.15">QUIC congestion controller:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.16">
+          <p id="section-2-8.16.1">A software component of an application's QUIC implementation that implements a congestion control algorithm.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.17">Rate Adaptation:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.18">
-          <p id="section-2-9.18.1">An application-level mechanism that adjusts the sending rate of an application in order to respond to changing path conditions. For example, an application sending video might respond to indications of congestion by adjusting the resolution of the video it is sending.<a href="#section-2-9.18.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.17">Rate Adaptation:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.18">
+          <p id="section-2-8.18.1">An application-level mechanism that adjusts the sending rate of an application in order to respond to changing path conditions. For example, an application sending video might respond to indications of congestion by adjusting the resolution of the video it is sending.<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.19">Receiver:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.20">
-          <p id="section-2-9.20.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-9.20.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.19">Receiver:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.20">
+          <p id="section-2-8.20.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.21">RTP congestion controller:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.22">
-          <p id="section-2-9.22.1">A software component of an application's RTP implementation that implements a congestion control algorithm.<a href="#section-2-9.22.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.21">RTP congestion controller:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.22">
+          <p id="section-2-8.22.1">A software component of an application's RTP implementation that implements a congestion control algorithm.<a href="#section-2-8.22.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-9.23">Sender:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-9.24">
-          <p id="section-2-9.24.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-9.24.1" class="pilcrow">¶</a></p>
+<dt id="section-2-8.23">Sender:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.24">
+          <p id="section-2-8.24.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.24.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
-<p id="section-2-10">Packet diagrams in this document use the format defined in <span><a href="https://rfc-editor.org/rfc/rfc9000#section-1.3" class="relref">Section 1.3</a> of [<a href="#RFC9000" class="cite xref">RFC9000</a>]</span> to
-illustrate the order and size of fields.<a href="#section-2-10" class="pilcrow">¶</a></p>
+<p id="section-2-9">Packet diagrams in this document use the format defined in <span><a href="https://rfc-editor.org/rfc/rfc9000#section-1.3" class="relref">Section 1.3</a> of [<a href="#RFC9000" class="cite xref">RFC9000</a>]</span> to
+illustrate the order and size of fields.<a href="#section-2-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="protocol-overview">
@@ -2085,7 +2080,7 @@ the string "-" and an experiment name to the identifier.<a href="#section-4.1-5"
 <p id="section-5-1">This section describes the encapsulation of RTP/RTCP packets in QUIC.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">QUIC supports two transport methods: streams <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span> and
 datagrams <span>[<a href="#RFC9221" class="cite xref">RFC9221</a>]</span>. This document specifies mappings of RTP to
-both of the transport modes. Senders MAY combine both modes by sending some
+both of the transport modes. Senders can combine both modes by sending some
 RTP/RTCP packets over the same or different QUIC streams and others in QUIC
 datagrams.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <p id="section-5-3"><a href="#multiplexing" class="auto internal xref">Section 5.1</a> introduces a multiplexing mechanism that supports multiplexing
@@ -2108,24 +2103,24 @@ NOT send any data in a datagram or stream that is not associated with the flow
 identifier which started the datagram or stream.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 <p id="section-5.1-3">RTP and RTCP packets of different RTP sessions MUST use distinct flow
 identifiers. If peers wish to send multiple types of media in a single RTP
-session, they MAY do so by following <span>[<a href="#RFC8860" class="cite xref">RFC8860</a>]</span>.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">A single RTP session MAY be associated with one or two flow identifiers. Thus,
+session, they can do so by following <span>[<a href="#RFC8860" class="cite xref">RFC8860</a>]</span>.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">A single RTP session can be associated with one or two flow identifiers. Thus,
 it is possible to send RTP and RTCP packets belonging to the same session using
-different flow identifiers. RTP and RTCP packets of a single RTP session MAY use
+different flow identifiers. RTP and RTCP packets of a single RTP session can use
 the same flow identifier (following the procedures defined in <span>[<a href="#RFC5761" class="cite xref">RFC5761</a>]</span>), or
-they MAY use different flow identifiers.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+they can use different flow identifiers.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.1-5">The association between flow identifiers and data streams MUST be negotiated
-using appropriate signaling. Applications MAY send data using flow identifiers
+using appropriate signaling. Applications can send data using flow identifiers
 not associated with any RTP or RTCP stream. If a receiver cannot associate a
-flow identifier with any RTP/RTCP or non-RTP flow, it MAY drop the data flow. If
-the data flow was sent on a QUIC stream, the receiver SHOULD send a
+flow identifier with any RTP/RTCP or non-RTP flow, it can drop the data flow. If
+the data flow was sent on a QUIC stream, the receiver can send a
 STOP_SENDING frame with the application error code set to
 ROQ_UNKNOWN_FLOW_ID.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
 <p id="section-5.1-6">There are different use cases for sharing the same QUIC connection between RTP
 and non-RTP data streams. Peers might use the same connection to exchange
 signaling messages or exchange data while sending and receiving media streams.
 The semantics of non-RTP datagrams or streams are not in the scope of this
-document. Peers MAY use any protocol on top of the encapsulation described in
+document. Peers can use any protocol on top of the encapsulation described in
 this document.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 <p id="section-5.1-7">Flow identifiers introduce some overhead in addition to the header overhead of
 RTP/RTCP and QUIC. QUIC variable-length integers require between one and eight
@@ -2140,13 +2135,9 @@ of flows.<a href="#section-5.1-7" class="pilcrow">¶</a></p>
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-quic-streams" class="section-name selfRef">QUIC Streams</a>
         </h3>
 <p id="section-5.2-1">To send RTP/RTCP packets over QUIC streams, a sender MUST open at least one new unidirectional QUIC stream.
-RoQ uses unidirectional streams, because there is no
-synchronous relationship between sent and received RTP/RTCP packets. A peer that
-receives a bidirectional stream with a flow identifier that is associated with
-an RTP or RTCP stream, SHOULD stop reading from the stream and send a
-STOP_SENDING frame with the application protocol error code set to
-ROQ_STREAM_CREATION_ERROR.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2-2">A RoQ sender MAY open new QUIC streams for different packets using the same flow
+RoQ uses unidirectional streams, because there is no synchronous relationship between sent and received RTP/RTCP packets.
+A peer that receives a bidirectional stream with a flow identifier that is associated with an RTP or RTCP stream, MUST stop reading from the stream and send a CONNECTION_CLOSE frame with the frame type set to APPLICATION_ERROR and the error code set to ROQ_STREAM_CREATION_ERROR.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">A RoQ sender can open new QUIC streams for different packets using the same flow
 identifier, for example, to avoid head-of-line blocking.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">Because a sender can continue sending on a lower stream number after starting packet transmission on a higher stream number, a RoQ receiver MUST be prepared to receive RoQ packets on any number of QUIC streams (subject to its limit on parallel open streams) and MUST not make assumptions about which RTP sequence numbers are carried in which streams.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <div id="stream-encapsulation">
@@ -2224,18 +2215,18 @@ length of the following RTP/RTCP packets in bytes.<a href="#section-5.2.1-7.2.1"
 <p id="section-5.2.2-1">QUIC uses RESET_STREAM and STOP_SENDING frames to terminate the sending part
 of a stream and to request termination of an incoming stream by the sending
 peer respectively.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-2">A RoQ sender MAY use RESET_STREAM if it knows that a packet, which was not yet
+<p id="section-5.2.2-2">A RoQ sender can use RESET_STREAM if it knows that a packet, which was not yet
 successfully and completely transmitted, is no longer needed.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-3">A RoQ receiver that is no longer interested in reading a certain partition of
-the media stream MAY signal this to the sending peer using a STOP_SENDING
+the media stream can signal this to the sending peer using a STOP_SENDING
 frame.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-4">In both cases, the error code of the RESET_STREAM frame or the STOP_SENDING
 frame MUST be set to ROQ_FRAME_CANCELLED.<a href="#section-5.2.2-4" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-5">STOP_SENDING is not a request to the sender to stop sending the RTP media
-stream, only an indication that a receiver stopped reading the QUIC stream being
-used. A sender with additional media frames to send SHOULD continue sending them
-on another QUIC stream. Alternatively, new media frames can be sent as QUIC
-datagrams (see <a href="#quic-datagrams" class="auto internal xref">Section 5.3</a>).<a href="#section-5.2.2-5" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-5">STOP_SENDING is not a request to the sender to stop sending RTP media, only an indication that a RoQ receiver stopped reading the QUIC stream being used.
+This can mean that the RoQ receiver is unable to make use of the media frames being received because they are "too old" to be used.
+A sender with additional media frames to send can continue sending them on another QUIC stream.
+Alternatively, new media frames can be sent as QUIC datagrams (see <a href="#quic-datagrams" class="auto internal xref">Section 5.3</a>).
+In either case, a RoQ sender resuming operation after receiving STOP_SENDING can continue starting with the newest media frames available for sending. This allows a RoQ receiver to "fast forward" to media frames that are "new enough" to be used.<a href="#section-5.2.2-5" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-6">Any media frame that has already been sent on the QUIC stream that received the
 STOP_SENDING frame, MUST NOT be sent again on the new QUIC stream(s) or
 datagrams.<a href="#section-5.2.2-6" class="pilcrow">¶</a></p>
@@ -2268,9 +2259,10 @@ retransmitted by QUIC.<a href="#section-5.2.2-10" class="pilcrow">¶</a></p>
           <h4 id="name-flow-control-and-max_stream">
 <a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-flow-control-and-max_stream" class="section-name selfRef">Flow control and MAX_STREAMS</a>
           </h4>
-<p id="section-5.2.3-1">In order to permit QUIC streams to open, a RoQ sender SHOULD configure non-zero minimum values for the number of permitted streams and the initial stream flow-control window, based on the number of parallel, or simultaneously active, RTP/RTCP flows.
+<p id="section-5.2.3-1">In order to permit QUIC streams to open, a RoQ sender MUST configure non-zero minimum values for the number of permitted streams and the initial stream flow-control window.
+These minimum values control the number of parallel, or simultaneously active, RTP/RTCP flows.
 Endpoints that excessively restrict the number of streams or the flow-control window of these streams will increase the chance that the remote peer reaches the limit early and becomes blocked.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.2.3-2">Opening new streams for new packets MAY implicitly limit the number of packets
+<p id="section-5.2.3-2">Opening new streams for new packets can implicitly limit the number of packets
 concurrently in transit because the QUIC receiver provides an upper bound of
 parallel streams, which it can update using QUIC MAX_STREAMS frames. The number
 of packets that have to be transmitted concurrently depends on several factors,
@@ -2303,13 +2295,11 @@ stream credits it will have to provide to the media-sending peer.<a href="#secti
 extension to QUIC described in <span>[<a href="#RFC9221" class="cite xref">RFC9221</a>]</span>. QUIC datagrams can only be used if
 the use of the datagram extension was successfully negotiated during the QUIC handshake.
 If the QUIC extension was signaled using a signaling protocol, but that
-extension was not negotiated during the QUIC handshake, a peer MAY close the
+extension was not negotiated during the QUIC handshake, a peer can close the
 connection with the ROQ_EXPECTATION_UNMET error code.<a href="#section-5.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3-2">QUIC datagrams preserve frame boundaries. Thus, a single RTP packet can be
-mapped to a single QUIC datagram without additional framing. Senders SHOULD
-consider the header overhead associated with QUIC datagrams and ensure that the
-RTP/RTCP packets, including their payloads, flow identifier, QUIC, and IP
-headers, will fit into path MTU.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.3-2">QUIC datagrams preserve frame boundaries.
+Thus, a single RTP packet can be mapped to a single QUIC datagram without additional framing.
+Because QUIC DATAGRAMs cannot be IP-fragmented (<span><a href="https://rfc-editor.org/rfc/rfc9221#section-5" class="relref">Section 5</a> of [<a href="#RFC9221" class="cite xref">RFC9221</a>]</span>), senders need to consider the header overhead associated with QUIC datagrams, and ensure that the RTP/RTCP packets, including their payloads, flow identifier, QUIC, and IP headers, will fit into the path MTU.<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <p id="section-5.3-3"><a href="#fig-dgram-payload" class="auto internal xref">Figure 3</a> shows the encapsulation format for RoQ
 Datagrams.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
 <span id="name-roq-datagram-payload-format"></span><div id="fig-dgram-payload">
@@ -2367,7 +2357,7 @@ flow identifier of the RTP session in which the retransmission happens.<a href="
       <h2 id="name-connection-shutdown">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-connection-shutdown" class="section-name selfRef">Connection Shutdown</a>
       </h2>
-<p id="section-6-1">Either peers MAY close the connection for variety of reasons. If one of the
+<p id="section-6-1">Either peer can close the connection for variety of reasons. If one of the
 peers wants to close the RoQ connection, the peer can use a QUIC
 CONNECTION_CLOSE frame with one of the error codes defined in
 <a href="#error-handling" class="auto internal xref">Section 9</a>.<a href="#section-6-1" class="pilcrow">¶</a></p>
@@ -2404,9 +2394,9 @@ for QUIC in <span>[<a href="#RFC9002" class="cite xref">RFC9002</a>]</span> is s
 free to choose any congestion control algorithm as long as they follow the
 guidelines specified in <span><a href="https://rfc-editor.org/rfc/rfc8085#section-3" class="relref">Section 3</a> of [<a href="#RFC8085" class="cite xref">RFC8085</a>]</span>, and QUIC implementors make
 use of this freedom.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1-2">It is RECOMMENDED that the QUIC implementation use a congestion controller that
-seeks to minimize queueing delays. Further recommendations on the transport of
-RTP and RTCP are contained in <a href="#streams-and-datagrams" class="auto internal xref">Section 3.1</a>.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">For real-time traffic, it is best that the QUIC implementation use a congestion controller that
+seeks to minimize queueing delays.
+Further recommendations on the transport of RTP and RTCP are contained in <a href="#streams-and-datagrams" class="auto internal xref">Section 3.1</a>.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.1-3">A wide variety of congestion control algorithms for real-time media have been developed (for example, "Google Congestion Controller" <span>[<a href="#I-D.draft-ietf-rmcat-gcc" class="cite xref">I-D.draft-ietf-rmcat-gcc</a>]</span>).
 The IETF has defined two such algorithms in Experimental RFCs (SCReAM <span>[<a href="#RFC8298" class="cite xref">RFC8298</a>]</span> and NADA <span>[<a href="#RFC8698" class="cite xref">RFC8698</a>]</span>).
 These algorithms
@@ -2500,13 +2490,8 @@ a separate QUIC connection is created for the non-real-time channels.<a href="#s
 demands of the respective channels and the different QUIC connections will
 compete for the same resources in the network. No local prioritization of data
 across the different (types of) channels would be necessary.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
-<p id="section-7.3-4">Although it is possible to multiplex (all or a subset of) real-time and
-non-real-time channels onto a single, shared QUIC connection, which can be done
-by using the flow identifier described in <a href="#multiplexing" class="auto internal xref">Section 5.1</a>, the underlying QUIC
-implementation will likely use the same congestion controller for all channels
-in the shared QUIC connection. For this reason, applications multiplexing
-multiple streams in one connection SHOULD implement some form of stream
-prioritization or bandwidth allocation.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
+<p id="section-7.3-4">Although it is possible to multiplex (all or a subset of) real-time and non-real-time channels onto a single, shared QUIC connection, which can be done by using the flow identifier described in <a href="#multiplexing" class="auto internal xref">Section 5.1</a>, the underlying QUIC implementation will likely use the same congestion controller for all channels in the shared QUIC connection.
+For this reason, applications multiplexing multiple streams in one connection will need to implement some form of stream prioritization or bandwidth allocation.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2551,11 +2536,8 @@ this section, or in an earlier proposed section on motivations for defining
 and deploying RoQ.<a href="#section-8-5.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-8-6">While RoQ places no restrictions on applications sending RTCP, this document
-assumes that the reason an implementor chooses to support RoQ is to obtain
-benefits beyond what's available when RTP uses UDP as its underlying transport
-layer. It is RECOMMENDED to expose relevant information from the QUIC layer to
-the application instead of exchanging additional RTCP packets, where applicable.<a href="#section-8-6" class="pilcrow">¶</a></p>
+<p id="section-8-6">While RoQ places no restrictions on applications sending RTCP, this document assumes that the reason an implementer chooses to support RoQ is to obtain benefits beyond what's available when RTP uses UDP as its underlying transport layer.
+Exposing relevant information from the QUIC layer to the application instead of exchanging additional RTCP packets, where applicable, will reduce the processing and bandwidth requirements for RoQ senders and receivers.<a href="#section-8-6" class="pilcrow">¶</a></p>
 <p id="section-8-7"><a href="#transport-layer-feedback" class="auto internal xref">Section 8.4</a> discusses what information can be exposed from the
 QUIC connection layer to reduce the RTCP overhead.<a href="#section-8-7" class="pilcrow">¶</a></p>
 <div id="roc-d">
@@ -2618,9 +2600,7 @@ required.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
 reception statistics can be replaced by equivalent statistics that are already
 collected by QUIC. The following list explains how this mapping can be achieved
 for the individual fields of different RTCP packet types.<a href="#section-8.4-1" class="pilcrow">¶</a></p>
-<p id="section-8.4-2">The list of RTCP packets in this section is not exhaustive, and similar
-considerations SHOULD be taken into account before exchanging any other type of
-RTCP control packets using RoQ.<a href="#section-8.4-2" class="pilcrow">¶</a></p>
+<p id="section-8.4-2">The list of RTCP packets in this section is not exhaustive, and similar considerations would apply when exchanging any other type of RTCP control packets using RoQ.<a href="#section-8.4-2" class="pilcrow">¶</a></p>
 <p id="section-8.4-3">A more thorough analysis of RTCP Control Packet Types (in <a href="#control-packets" class="auto internal xref">Appendix B.1</a>),
 Generic RTP Feedback (RTPFB) (in <a href="#generic-feedback" class="auto internal xref">Appendix B.3</a>), Payload-specific RTP
 Feedback (PSFB) (in <a href="#payload-specific-feedback" class="auto internal xref">Appendix B.4</a>), Extended Reports (in
@@ -2644,13 +2624,10 @@ numbers contained in QUIC ACK frames (<span><a href="https://rfc-editor.org/rfc/
           <h4 id="name-ecn-feedback-ecn">
 <a href="#section-8.4.2" class="section-number selfRef">8.4.2. </a><a href="#name-ecn-feedback-ecn" class="section-name selfRef">ECN Feedback ("ECN")</a>
           </h4>
-<p id="section-8.4.2-1"><em>ECN Feedback</em> (<code>PT=205</code>, <code>FMT=8</code>, <code>Name=RTCP-ECN-FB</code>, <span>[<a href="#RFC6679" class="cite xref">RFC6679</a>]</span>) packets
-report the count of observed ECN-CE marks. <span>[<a href="#RFC6679" class="cite xref">RFC6679</a>]</span> defines two RTCP
-reports, one packet type (with <code>PT=205</code> and <code>FMT=8</code>), and a new report block for
-the extended reports, which are listed above. QUIC supports ECN reporting
-through acknowledgments. If the QUIC connection supports ECN, the reporting of
-ECN counts SHOULD be done using QUIC acknowledgments rather than RTCP ECN
-feedback reports.<a href="#section-8.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.4.2-1"><em>ECN Feedback</em> (<code>PT=205</code>, <code>FMT=8</code>, <code>Name=RTCP-ECN-FB</code>, <span>[<a href="#RFC6679" class="cite xref">RFC6679</a>]</span>) packets report the count of observed ECN-CE marks.
+<span>[<a href="#RFC6679" class="cite xref">RFC6679</a>]</span> defines two RTCP reports, one packet type (with <code>PT=205</code> and <code>FMT=8</code>), and a new report block for the extended reports, which are listed above.
+QUIC supports ECN reporting through acknowledgments.
+If the QUIC connection supports ECN, using QUIC acknowledgments to report ECN counts, rather than RTCP ECN feedback reports, reduces bandwidth and processing demands on the RTCP implementation.<a href="#section-8.4.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="BYE-mapping">
@@ -2974,7 +2951,7 @@ registrations in this registry MUST include the following fields:<a href="#secti
           <dd class="break"></dd>
 <dt id="section-13.2-6.3">Description:</dt>
           <dd style="margin-left: 1.5em" id="section-13.2-6.4">
-            <p id="section-13.2-6.4.1">A brief description of the error code semantics, which MAY be a summary if a
+            <p id="section-13.2-6.4.1">A brief description of the error code semantics, which can be a summary if a
 specification reference is provided.<a href="#section-13.2-6.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
@@ -4465,12 +4442,8 @@ jitter calculation, which can be done in QUIC if a timestamp extension is used.<
 <code>Name=RR</code>, <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span>) are:<a href="#appendix-B.6.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B.6.1-2.1">
-              <p id="appendix-B.6.1-2.1.1"><em>Fraction lost</em>: When RTP packets are carried in QUIC datagrams, the
-fraction of lost packets can be directly inferred from QUIC's
-acknowledgments. The calculation SHOULD include all packets up to the
-acknowledged RTP packet with the highest RTP sequence number. Later packets
-SHOULD be ignored since they may still be in flight unless other QUIC
-packets that were sent after the RTP packet were already acknowledged.<a href="#appendix-B.6.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="appendix-B.6.1-2.1.1"><em>Fraction lost</em>: When RTP packets are carried in QUIC datagrams, the fraction of lost packets can be directly inferred from QUIC's acknowledgments.
+The calculation includes all packets up to the acknowledged RTP packet with the highest RTP sequence number.<a href="#appendix-B.6.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="appendix-B.6.1-2.2">
               <p id="appendix-B.6.1-2.2.1"><em>Cumulative lost</em>: Similar to the fraction of lost packets, the cumulative
@@ -4548,10 +4521,7 @@ octets transmitted by the sender. The timestamps can be used by a receiver to
 synchronize streams. QUIC cannot provide similar control information since it
 does not know about RTP timestamps. A QUIC receiver cannot calculate the
 packet or octet counts since it does not know about lost datagrams. Thus,
-sender reports are required in RoQ to synchronize streams at the receiver. The
-sender reports SHOULD not contain any receiver report blocks if the
-information can be inferred from the QUIC transport as explained in
-<a href="#RR-mappings" class="auto internal xref">Appendix B.6.1</a>.<a href="#appendix-B.6.4-2.1.1" class="pilcrow">¶</a></p>
+sender reports are required in RoQ to synchronize streams at the receiver.<a href="#appendix-B.6.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="appendix-B.6.4-3">In addition to carrying transmission statistics, RTCP packets can contain
