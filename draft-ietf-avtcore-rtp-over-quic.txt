@@ -1157,8 +1157,6 @@ Table of Contents
 
    For real-time traffic, it is best that the QUIC implementation use a
    congestion controller that seeks to minimize queueing delays.
-   Further recommendations on the transport of RTP and RTCP are
-   contained in Section 3.1.
 
    A wide variety of congestion control algorithms for real-time media
    have been developed (for example, "Google Congestion Controller"
