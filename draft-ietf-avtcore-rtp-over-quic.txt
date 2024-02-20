@@ -124,12 +124,13 @@ Table of Contents
    Appendix A.  List of optional QUIC Extensions
    Appendix B.  Considered RTCP Packet Types and RTP Header Extensions
      B.1.  RTCP Control Packet Types
-     B.2.  Extended Reports (XR)
-     B.3.  Generic RTP Feedback (RTPFB)
-     B.4.  Payload-specific RTP Feedback (PSFB)
+     B.2.  RTCP XR Block Type
+     B.3.  FMT Values for RTP Feedback (RTPFB) Payload Types
+     B.4.  FMT Values for Payload-Specific Feedback (PSFB) Payload
+           Types
      B.5.  RTP Header extensions
-       B.5.1.  Compact Header Extensions
-       B.5.2.  SDES Compact Header Extensions
+       B.5.1.  RTP Compact Header Extensions
+       B.5.2.  RTP SDES Compact Header Extensions
      B.6.  Examples
        B.6.1.  Mapping QUIC Feedback to RTCP Receiver Reports ("RR")
        B.6.2.  Congestion Control Feedback ("CCFB")
@@ -1908,6 +1909,36 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-thomson-quic-
               enough-00>.
 
+   [IANA-RTCP-FMT-PSFB-PT]
+              "FMT Values for PSFB Payload Types", n.d.,
+              <https://www.iana.org/assignments/rtp-parameters/rtp-
+              parameters.xhtml#rtp-parameters-9>.
+
+   [IANA-RTCP-FMT-RTPFB-PT]
+              "FMT Values for RTPFB Payload Types", n.d.,
+              <https://www.iana.org/assignments/rtp-parameters/rtp-
+              parameters.xhtml#rtp-parameters-8>.
+
+   [IANA-RTCP-PT]
+              "RTCP Control Packet Types (PT)", n.d.,
+              <https://www.iana.org/assignments/rtp-parameters/rtp-
+              parameters.xhtml#rtp-parameters-4>.
+
+   [IANA-RTCP-XR-BT]
+              "RTCP XR Block Type", n.d.,
+              <https://www.iana.org/assignments/rtcp-xr-block-types/
+              rtcp-xr-block-types.xhtml#rtcp-xr-block-types-1>.
+
+   [IANA-RTP-CHE]
+              "RTP Compact Header Extensions", n.d.,
+              <https://www.iana.org/assignments/rtp-parameters/rtp-
+              parameters.xhtml#rtp-parameters-10>.
+
+   [IANA-RTP-SDES-CHE]
+              "RTP SDES Compact Header Extensions", n.d.,
+              <https://www.iana.org/assignments/rtp-parameters/rtp-
+              parameters.xhtml#sdes-compact-header-extensions>.
+
    [RFC1122]  Braden, R., Ed., "Requirements for Internet Hosts -
               Communication Layers", STD 3, RFC 1122,
               DOI 10.17487/RFC1122, October 1989,
@@ -2260,6 +2291,9 @@ Appendix B.  Considered RTCP Packet Types and RTP Header Extensions
    extensions that were considered in the analysis described in
    Section 8.
 
+   Each subsection in Appendix B corresponds to an IANA registry, and
+   includes a reference pointing to that registry.
+
    Several but not all of these control packets and their attributes can
    be mapped from QUIC, as described in Section 8.4. _Mappable from
    QUIC_ has one of four values: _yes_, _partly_, _QUIC extension
@@ -2272,6 +2306,8 @@ Appendix B.  Considered RTCP Packet Types and RTP Header Extensions
    QUIC extensions follow in Appendix B.6.
 
 B.1.  RTCP Control Packet Types
+
+   The IANA registry for this section is [IANA-RTCP-PT].
 
    +==============+========+===+===========+===========+===============+
    | Name         |Shortcut|PT | Defining  | Mappable  | Comments      |
@@ -2341,7 +2377,9 @@ B.1.  RTCP Control Packet Types
 
                                   Table 3
 
-B.2.  Extended Reports (XR)
+B.2.  RTCP XR Block Type
+
+   The IANA registry for this section is [IANA-RTCP-XR-BT].
 
    +===============+==========+=========+==================================+
    |Name           |Document  |Mappable |Comments                          |
@@ -2510,7 +2548,9 @@ B.2.  Extended Reports (XR)
 
                       Table 4: Extended Report Blocks
 
-B.3.  Generic RTP Feedback (RTPFB)
+B.3.  FMT Values for RTP Feedback (RTPFB) Payload Types
+
+   The IANA registry for this section is [IANA-RTCP-FMT-RTPFB-PT].
 
    +=======+=================+=================+=========+================+
    |Name   |Long Name        |Document         |Mappable |Comments        |
@@ -2562,7 +2602,9 @@ B.3.  Generic RTP Feedback (RTPFB)
 
                                   Table 5
 
-B.4.  Payload-specific RTP Feedback (PSFB)
+B.4.  FMT Values for Payload-Specific Feedback (PSFB) Payload Types
+
+   The IANA registry for this section is [IANA-RTCP-FMT-PSFB-PT].
 
    Because QUIC is a generic transport protocol, QUIC feedback cannot
    replace the following Payload-specific RTP Feedback (PSFB) feedback.
@@ -2644,7 +2686,9 @@ B.5.  RTP Header extensions
    are used to improve network jitter calculation, which can be done in
    QUIC if a timestamp extension is used.
 
-B.5.1.  Compact Header Extensions
+B.5.1.  RTP Compact Header Extensions
+
+   The IANA registry for this section is [IANA-RTP-CHE].
 
    +======================+=================+=================+========+
    | Extension URI        |Description      |Reference        |Mappable|
@@ -2725,7 +2769,9 @@ B.5.1.  Compact Header Extensions
 
                                   Table 7
 
-B.5.2.  SDES Compact Header Extensions
+B.5.2.  RTP SDES Compact Header Extensions
+
+   The IANA registry for this section is [IANA-RTP-SDES-CHE].
 
     +=======================+==================+===========+==========+
     | Extension URI         | Description      | Reference | Mappable |
