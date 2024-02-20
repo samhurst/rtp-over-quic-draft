@@ -1386,7 +1386,7 @@ Table of Contents
    Payload-specific RTP Feedback (PSFB) (in Appendix B.4), Extended
    Reports (in Appendix B.2), and RTP Header Extensions (in
    Appendix B.5), including the information that cannot be mapped from
-   QUIC.
+   QUIC, can be found in Appendix B.
 
 8.4.1.  Negative Acknowledgments ("NACK")
 
