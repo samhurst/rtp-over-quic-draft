@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Standards Track             Technical University Munich
-Expires: 21 August 2024                                       S. Dawkins
+Expires: 23 August 2024                                       S. Dawkins
                                                      Tencent America LLC
-                                                        18 February 2024
+                                                        20 February 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 August 2024.
+   This Internet-Draft will expire on 23 August 2024.
 
 Copyright Notice
 
@@ -166,10 +166,9 @@ Table of Contents
    [RFC9000], [RFC9001], and [RFC9002], providing a secure end-to-end
    transport that is also expected to work well through NATs and
    firewalls.  Beyond this baseline, real-time applications can benefit
-   from QUIC extensions such as unreliable QUIC DATAGRAMs [RFC9221],
-   which provides additional desirable properties for real-time traffic
-   (e.g., no unnecessary retransmissions, avoiding head-of-line
-   blocking).
+   from QUIC extensions such as unreliable DATAGRAMs [RFC9221], which
+   provides additional desirable properties for real-time traffic (e.g.,
+   no unnecessary retransmissions, avoiding head-of-line blocking).
 
 1.2.  Motivations
 
@@ -288,8 +287,8 @@ Table of Contents
    all conference participants, but even in point-to-point RTP sessions,
    this also allows senders to piggyback audio media in the same UDP
    packet as video media, for example, and also allows QUIC receivers to
-   piggyback QUIC ACK frames on any QUIC frames being transmitted in the
-   other direction.
+   piggyback QUIC ACK frames on any QUIC packets being transmitted in
+   the other direction.
 
 1.2.5.  Multiplexing RTP, RTCP, and Non-RTP Flows on a Single QUIC
         Connection
@@ -459,9 +458,9 @@ Table of Contents
       guide senders on when to send "the next packet", so that one-way
       delays along the network path remain minimal.
 
-   When RTP runs over QUIC, as described in this specification, QUIC is
-   performing congestion control, and the RTP application is responsible
-   for performing rate adaptation.
+      When RTP runs over QUIC, as described in this specification, QUIC
+      is performing congestion control, and the RTP application is
+      responsible for performing rate adaptation.
 
       In this document, these terms are used with the meanings listed
       below, with the recognition that not all the references in this
@@ -490,10 +489,15 @@ Table of Contents
       protocol stack, but can also be implemented at the application
       layer.
 
-   Datagram:  Datagrams exist in UDP as well as in QUIC's unreliable
-      DATAGRAM extension.  If not explicitly noted differently, the term
-      datagram in this document refers to a QUIC DATAGRAM frame as
-      defined in [RFC9221].
+   Datagram:  The term "datagram" is ambiguous.  Without a qualifier,
+      "datagram" could refer to a UDP packet, or a QUIC DATAGRAM frame,
+      as defined in QUIC's unreliable DATAGRAM extension [RFC9221], or
+      an RTP packet encapsulated in UDP, or an RTP packet capsulated in
+      QUIC DATAGRAM frame.  If not explicitly qualified, the term
+      "datagram" in this document refers to an RTP packet, and the
+      uppercase "DATAGRAM" refers to a QUIC DATAGRAM frame.  This
+      document also uses the term "RoQ datagram" as a short form of "RTP
+      packet encapsulated in a QUIC DATAGRAM frame".
 
    Delay-based or Low-latency congestion control algorithm:  A
       congestion control algorithm that aims at keeping queues, and thus
@@ -535,6 +539,17 @@ Table of Contents
    Sender:  An endpoint that sends media in RTP packets and may send or
       receive RTCP packets.
 
+   Stream:  The term "stream" is ambiguous.  Without a qualifier,
+      "stream" could refer to a QUIC STREAM frame, as defined in
+      [RFC9000], or a series of QUIC STREAM frames in a single stream,
+      or a series of RTP packets encapsulated in QUIC STREAM frames.  If
+      not explicitly qualified, the term "STREAM" in this document
+      refers to a QUIC STREAM frame, and "stream" in this document
+      refers to one or more RTP packets encapsulated in QUIC STREAM
+      frames.  This document also uses the term "RoQ stream" as a short
+      form of "one or more RTP packets encapsulated in QUIC STREAM
+      frames".
+
    Packet diagrams in this document use the format defined in
    Section 1.3 of [RFC9000] to illustrate the order and size of fields.
 
@@ -543,17 +558,17 @@ Table of Contents
    This document introduces a mapping of the Real-time Transport
    Protocol (RTP) to the QUIC transport protocol.  RoQ allows the use of
    QUIC streams and QUIC DATAGRAMs to transport real-time data, and
-   thus, the QUIC implementation MUST support QUIC's QUIC DATAGRAM
-   extension, if RTP packets should be sent over QUIC DATAGRAMs.
+   thus, the QUIC implementation MUST support QUIC's DATAGRAM extension,
+   if RTP packets are to be sent over QUIC DATAGRAMs.
 
    [RFC3550] specifies that RTP sessions need to be transmitted on
    different transport addresses to allow multiplexing between them.
    RoQ uses a different approach to leverage the advantages of QUIC
    connections without managing a separate QUIC connection per RTP
    session.  [RFC9221] does not provide demultiplexing between different
-   flows on QUIC DATAGRAMs but suggests that an application implement a
+   flows on DATAGRAMs but suggests that an application implement a
    demultiplexing mechanism if required.  An example of such a mechanism
-   would be flow identifiers prepended to each QUIC DATAGRAM frame as
+   would be flow identifiers prepended to each DATAGRAM frame as
    described in Section 2.1 of [I-D.draft-ietf-masque-h3-datagram].  RoQ
    uses a flow identifier to replace the network address and port number
    to multiplex many RTP sessions over the same QUIC connection.
@@ -586,24 +601,25 @@ Table of Contents
 
 3.1.  RTP with QUIC Streams, QUIC Datagrams, and a Mixture of Both
 
-   This document describes the use of both QUIC streams and QUIC
-   DATAGRAMs as RTP encapsulations, but does not take a position on
-   which encapsulation an application should use.  Indeed, an
-   application can use both QUIC streams and QUIC DATAGRAM
-   encapsulations.  The choice of which encapsulation is used is up to
-   the application developer, but it is worth noting the differences.
+   This document describes the use of QUIC streams and DATAGRAMs as RTP
+   encapsulations, but does not take a position on which encapsulation
+   an application should use.  Indeed, an application can use both QUIC
+   streams and DATAGRAM encapsulations.  The choice of encapsulation is
+   left to the application developer, but it is worth noting the
+   differences.
 
    QUIC [RFC9000] was initially designed to carry HTTP [RFC9114] in QUIC
-   streams, and QUIC streams provide what HTTP application developers
-   require - for example, QUIC streams provide a stateful, connection-
-   oriented, flow-controlled, reliable, ordered stream of bytes to an
-   application.  QUIC streams can be multiplexed over a single QUIC
-   connection, using stream IDs to demultiplex incoming messages.
+   STREAM frames, and QUIC STREAM frames provide what HTTP application
+   developers require - for example, QUIC STREAM frames provide a
+   stateful, connection-oriented, flow-controlled, reliable, ordered
+   stream of bytes to an application.  QUIC STREAM frames can be
+   multiplexed over a single QUIC connection, using stream IDs to
+   demultiplex incoming messages.
 
    QUIC Datagrams [RFC9221] were developed as a QUIC extension, intended
    to support applications that do not require reliable delivery of
-   application data.  This extension defines two QUIC DATAGRAM frame
-   types (one including a length field, the other not including a length
+   application data.  This extension defines two DATAGRAM frame types
+   (one including a length field, the other not including a length
    field), and these DATAGRAM frames can co-exist with QUIC STREAM
    frames within a single QUIC connection, sharing the connection's
    cryptographic and authentication context, and congestion controller
@@ -611,15 +627,15 @@ Table of Contents
 
    There is no default relative priority between DATAGRAM frames with
    respect to each other, and there is no default priority between
-   DATAGRAM frames and QUIC streams.  The implementation likely presents
-   an API to allow appplications to assign relative priorities, but this
-   is not mandated by the standard and may not be present in all
-   implementations.
+   DATAGRAM frames and QUIC STREAM frames.  The implementation likely
+   presents an API to allow appplications to assign relative priorities,
+   but this is not mandated by the standard and may not be present in
+   all implementations.
 
-   Because QUIC DATAGRAMs are an extension to QUIC, they inherit a great
-   deal of functionality from QUIC (much of which is described in
-   Section 1.2); so much so that it is easier to explain what QUIC
-   DATAGRAMs do NOT inherit.
+   Because DATAGRAMs are an extension to QUIC, they inherit a great deal
+   of functionality from QUIC (much of which is described in
+   Section 1.2); so much so that it is easier to explain what DATAGRAMs
+   do NOT inherit.
 
    *  DATAGRAM frames do not provide any explicit flow control
       signaling.  This means that a QUIC receiver may not be able to
@@ -649,21 +665,20 @@ Table of Contents
       added, interpreted, and removed by an application, and they will
       be sent as part of the payload of the DATAGRAM frame itself.
 
-   Because QUIC DATAGRAMs are an extension to QUIC, a RoQ endpoint
-   cannot count on a RoQ peer supporting that extension.  The RoQ
-   endpoint may discover that its peer does not support QUIC DATAGRAMs
-   while using signaling to set up QUIC connections, but may also
-   discover that its peer has not negotiated the use of this extension
-   during the QUIC handshake.  When this happens, the RoQ endpoint needs
-   to make a decision about what to do next.
+   Because DATAGRAMs are an extension to QUIC, a RoQ endpoint cannot
+   count on a RoQ peer supporting that extension.  The RoQ endpoint may
+   discover that its peer does not support DATAGRAMs while using
+   signaling to set up QUIC connections, but may also discover that its
+   peer has not negotiated the use of this extension during the QUIC
+   handshake.  When this happens, the RoQ endpoint needs to make a
+   decision about what to do next.
 
-   *  If the use of QUIC DATAGRAMs was critical for the application, the
+   *  If the use of DATAGRAMs was critical for the application, the
       endpoint can simply close the QUIC connection, allowing someone or
-      something to correct this mismatch, so that QUIC DATAGRAMs can be
-      used.
+      something to correct this mismatch, so that DATAGRAMs can be used.
 
-   *  If the use of QUIC DATAGRAMs was not critical for the application,
-      the endpoint can negotiate the use of QUIC streams instead.
+   *  If the use of DATAGRAMs was not critical for the application, the
+      endpoint can negotiate the use of QUIC STREAM frames instead.
 
 3.2.  Supported RTP Topologies
 
@@ -686,13 +701,13 @@ Table of Contents
    sizes than other transport protocols such as UDP can, which can lead
    to problems with transport translators which translate from RoQ to
    RTP over a different transport protocol.  A similar problem can occur
-   if a translator needs to translate from RTP over UDP to RoQ over QUIC
-   DATAGRAMs, where the MTU of a QUIC DATAGRAM may be smaller than the
-   MTU of a UDP datagram.  In both cases, the translator may need to
-   rewrite the RTP packets to fit into the smaller MTU of the other
-   protocol.  Such a translator may need codec-specific knowledge to
-   packetize the payload of the incoming RTP packets in smaller RTP
-   packets.
+   if a translator needs to translate from RTP over UDP to RoQ over
+   DATAGRAMs, where the max_datagram_frame_size of a QUIC DATAGRAM may
+   be smaller than the MTU of a UDP datagram.  In both cases, the
+   translator may need to rewrite the RTP packets to fit into the
+   smaller MTU of the other protocol.  Such a translator may need codec-
+   specific knowledge to packetize the payload of the incoming RTP
+   packets in smaller RTP packets.
 
    Additional details are provided in the following table.
 
@@ -858,16 +873,16 @@ Table of Contents
 
    This section describes the encapsulation of RTP/RTCP packets in QUIC.
 
-   QUIC supports two transport methods: streams [RFC9000] and QUIC
+   QUIC supports two transport methods: STREAM frames [RFC9000] and
    DATAGRAMs [RFC9221].  This document specifies mappings of RTP to both
    transport modes.  Senders MAY combine both modes by sending some RTP/
    RTCP packets over the same or different QUIC streams and others in
-   QUIC DATAGRAMs.
+   DATAGRAMs.
 
    Section 5.1 introduces a multiplexing mechanism that supports
    multiplexing RTP, RTCP, and, with some constraints, other non-RTP
    protocols.  Section 5.2 and Section 5.3 explain the specifics of
-   mapping RTP to QUIC streams and QUIC DATAGRAMs, respectively.
+   mapping RTP to QUIC STREAM frames and DATAGRAMs, respectively.
 
 5.1.  Multiplexing
 
@@ -878,10 +893,10 @@ Table of Contents
    packets, or a data stream of a non-RTP protocol.
 
    In a QUIC connection using the ALPN token defined in Section 4, every
-   QUIC DATAGRAM and every QUIC stream MUST start with a flow
-   identifier.  A peer MUST NOT send any data in a QUIC DATAGRAM or
-   stream that is not associated with the flow identifier which started
-   the QUIC DATAGRAM or stream.
+   DATAGRAM and every QUIC stream MUST start with a flow identifier.  A
+   peer MUST NOT send any data in a DATAGRAM or STREAM frame that is not
+   associated with the flow identifier which started the DATAGRAM or
+   stream.
 
    RTP and RTCP packets of different RTP sessions MUST use distinct flow
    identifiers.  If peers wish to send multiple types of media in a
@@ -918,13 +933,13 @@ Table of Contents
 
 5.2.  QUIC Streams
 
-   To send RTP/RTCP packets over QUIC streams, a sender MUST open at
-   least one new unidirectional QUIC stream.  RoQ uses unidirectional
+   To send RTP/RTCP packets over QUIC STREAM frames, a sender MUST open
+   at least one new unidirectional QUIC stream.  RoQ uses unidirectional
    streams, because there is no synchronous relationship between sent
    and received RTP/RTCP packets.  A peer that receives a bidirectional
-   stream with a flow identifier that is associated with an RTP or RTCP
-   stream, SHOULD stop reading from the stream and send a STOP_SENDING
-   frame with the application protocol error code set to
+   STREAM frame with a flow identifier that is associated with an RTP or
+   RTCP stream, SHOULD stop reading from the stream and send a
+   STOP_SENDING frame with the application protocol error code set to
    ROQ_STREAM_CREATION_ERROR.
 
    A RoQ sender MAY open new QUIC streams for different packets using
@@ -954,9 +969,10 @@ Table of Contents
 
    RTP/RTCP Payload:  Contains the RTP/RTCP payload; see Figure 2
 
-   The payload in a QUIC stream starts with the flow identifier followed
-   by one or more RTP/RTCP payloads.  All RTP/RTCP payloads sent on a
-   stream MUST belong to the RTP session with the same flow identifier.
+   The payload in a QUIC STREAM frame starts with the flow identifier
+   followed by one or more RTP/RTCP payloads.  All RTP/RTCP payloads
+   sent on a STREAM frame MUST belong to the RTP session with the same
+   flow identifier.
 
    Each payload begins with a length field indicating the length of the
    RTP/RTCP packet, followed by the packet itself, see Figure 2.
@@ -966,7 +982,7 @@ Table of Contents
      RTP/RTCP Packet(..),
    }
 
-                Figure 2: RTP/RTCP payload for QUIC streams
+             Figure 2: RTP/RTCP payload for QUIC STREAM frames
 
    Length:  A QUIC variable length integer (see Section 16 of [RFC9000])
       describing the length of the following RTP/RTCP packets in bytes.
@@ -994,12 +1010,12 @@ Table of Contents
    media stream, only an indication that a receiver stopped reading the
    QUIC stream being used.  A sender with additional media frames to
    send SHOULD continue sending them on another QUIC stream.
-   Alternatively, new media frames can be sent as QUIC DATAGRAMs (see
+   Alternatively, new media frames can be sent as DATAGRAMs (see
    Section 5.3).
 
    Any media frame that has already been sent on the QUIC stream that
    received the STOP_SENDING frame, MUST NOT be sent again on the new
-   QUIC stream(s) or QUIC DATAGRAMs.
+   QUIC stream(s) or DATAGRAMs.
 
    Note that an RTP receiver cannot request a reset of only a particular
    media frame because the sending QUIC implementation might already
@@ -1016,14 +1032,16 @@ Table of Contents
 
    A translator that translates between two endpoints, both connected
    via QUIC, MUST forward RESET_STREAM frames received from one end to
-   the other unless it forwards the RTP packets on QUIC DATAGRAMs.
+   the other unless it forwards the RTP packets on encapsulated in
+   DATAGRAMs.
 
    Large RTP packets sent on a stream will be fragmented into smaller
-   QUIC frames.  The QUIC frames are transmitted reliably and in order
-   such that a receiving application can read a complete RTP packet from
-   the stream as long as the stream is not closed with a RESET_STREAM
-   frame.  No retransmission has to be implemented by the application
-   since QUIC frames lost in transit are retransmitted by QUIC.
+   QUIC STREAM frames.  The QUIC frames are transmitted reliably and in
+   order such that a receiving application can read a complete RTP
+   packet from the stream as long as the stream is not closed with a
+   RESET_STREAM frame.  No retransmission has to be implemented by the
+   application since QUIC frames lost in transit are retransmitted by
+   QUIC.
 
 5.2.3.  Flow control and MAX_STREAMS
 
@@ -1062,20 +1080,19 @@ Table of Contents
 
 5.3.  QUIC DATAGRAMs
 
-   Senders can also transmit RTP packets in QUIC DATAGRAMs.  QUIC
-   DATAGRAMs are an extension to QUIC described in [RFC9221].  QUIC
-   DATAGRAMs can only be used if the use of the QUIC DATAGRAM extension
-   was successfully negotiated during the QUIC handshake.  If the QUIC
-   extension was signaled using a signaling protocol, but that extension
-   was not negotiated during the QUIC handshake, a peer MAY close the
-   connection with the ROQ_EXPECTATION_UNMET error code.
+   Senders can also transmit RTP packets in QUIC DATAGRAMs.  DATAGRAMs
+   are an extension to QUIC described in [RFC9221].  DATAGRAMs can only
+   be used if the use of the DATAGRAM extension was successfully
+   negotiated during the QUIC handshake.  If the QUIC extension was
+   signaled using a signaling protocol, but that extension was not
+   negotiated during the QUIC handshake, a peer MAY close the connection
+   with the ROQ_EXPECTATION_UNMET error code.
 
-   QUIC DATAGRAMs preserve RTP frame boundaries.  Thus, a single RTP
-   packet can be mapped to a single QUIC DATAGRAM without additional
-   framing.  Senders SHOULD consider the header overhead associated with
-   QUIC DATAGRAMs and ensure that the RTP/RTCP packets, including their
-   payloads, flow identifier, QUIC, and IP headers, will fit into path
-   MTU.
+   DATAGRAMs preserve RTP frame boundaries.  Thus, a single RTP packet
+   can be mapped to a single DATAGRAM without additional framing.
+   Senders SHOULD consider the header overhead associated with DATAGRAMs
+   and ensure that the RTP/RTCP packets, including their payloads, flow
+   identifier, QUIC, and IP headers, will fit into path MTU.
 
    Figure 3 shows the encapsulation format for RoQ Datagrams.
 
@@ -1094,27 +1111,25 @@ Table of Contents
    RoQ senders need to be aware that QUIC uses the concept of QUIC
    frames.  Different kinds of QUIC frames are used for different
    application and control data types.  A single QUIC packet can contain
-   more than one QUIC frame, including, for example, QUIC stream or QUIC
-   DATAGRAM frames carrying application data and acknowledgement frames
-   carrying QUIC acknowledgements, as long as the overall size fits into
-   the MTU.  One implication is that the number of packets a QUIC stack
-   transmits depends on whether it can fit acknowledgement and QUIC
-   DATAGRAM frames in the same QUIC packet.  Suppose the application
-   creates many QUIC DATAGRAM frames that fill up the QUIC packet.  In
-   that case, the QUIC stack might have to create additional packets for
-   acknowledgement- (and possibly other control-) frames.  The
-   additional overhead could, in some cases, be reduced if the
-   application creates smaller RTP packets, such that the resulting QUIC
-   DATAGRAM frame can fit into a QUIC packet that can also carry
-   acknowledgement frames.
+   more than one QUIC frame, including, for example, QUIC STREAM frames
+   or DATAGRAM frames carrying application data and ACK frames carrying
+   QUIC acknowledgements, as long as the overall size fits into the MTU.
+   One implication is that the number of packets a QUIC stack transmits
+   depends on whether it can fit ACK and DATAGRAM frames in the same
+   QUIC packet.  Suppose the application creates many DATAGRAM frames
+   that fill up the QUIC packet.  In that case, the QUIC stack might
+   have to create additional packets for ACK- (and possibly other
+   control-) frames.  The additional overhead could, in some cases, be
+   reduced if the application creates smaller RTP packets, such that the
+   resulting DATAGRAM frame can fit into a QUIC packet that can also
+   carry ACK frames.
 
-   Since QUIC DATAGRAMs are not retransmitted on loss (see also
-   Section 8.4 for loss signaling), if an application wishes to
-   retransmit lost RTP packets, the retransmission has to be implemented
-   by the application.  RTP retransmissions can be done in the same RTP
-   session or a separate RTP session [RFC4588] and the flow identifier
-   MUST be set to the flow identifier of the RTP session in which the
-   retransmission happens.
+   Since DATAGRAMs are not retransmitted on loss (see also Section 8.4
+   for loss signaling), if an application wishes to retransmit lost RTP
+   packets, the retransmission has to be implemented by the application.
+   RTP retransmissions can be done in the same RTP session or a separate
+   RTP session [RFC4588] and the flow identifier MUST be set to the flow
+   identifier of the RTP session in which the retransmission happens.
 
 6.  Connection Shutdown
 
@@ -1306,7 +1321,7 @@ Table of Contents
    profiles in use.
 
    Most statements about "QUIC" in Section 8 are applicable to both RTP
-   encapsulated in QUIC streams and RTP encapsulated in QUIC DATAGRAMs.
+   encapsulated in QUIC STREAM frames and RTP encapsulated in DATAGRAMs.
    The differences are described in Section 8.1 and Section 8.2.
 
       *Editor's Note:* Additional discussion of bandwidth minimization
@@ -1325,13 +1340,13 @@ Table of Contents
 
 8.1.  RoQ Datagrams
 
-   QUIC Datagrams are ack-eliciting packets, which means that an
-   acknowledgment is triggered when a QUIC DATAGRAM frame is received.
-   Thus, a sender can assume that an RTP packet arrived at the receiver
-   or was lost in transit, using the QUIC acknowledgments of QUIC
-   Datagram frames.  In the following, an RTP packet is regarded as
-   acknowledged when the QUIC Datagram frame that carried the RTP packet
-   was acknowledged.
+   QUIC DATAGRAMs are ack-eliciting packets, which means that an
+   acknowledgment is triggered when a DATAGRAM frame is received.  Thus,
+   a sender can assume that an RTP packet arrived at the receiver or was
+   lost in transit, using the QUIC acknowledgments of QUIC Datagram
+   frames.  In the following, an RTP packet is regarded as acknowledged
+   when the QUIC Datagram frame that carried the RTP packet was
+   acknowledged.
 
 8.2.  RoQ Streams
 
@@ -1417,13 +1432,13 @@ Table of Contents
    to use this QUIC connection for any other multiplexed traffic, the
    participant has to use the BYE packet because the QUIC
    CONNECTION_CLOSE would close the entire QUIC connection for all other
-   QUIC streams and QUIC DATAGRAMs.
+   QUIC STREAM frames and DATAGRAMs.
 
 9.  Error Handling
 
    The following error codes are defined for use when abruptly
-   terminating streams, aborting reading of streams, or immediately
-   closing RoQ connections.
+   terminating RoQ streams, aborting reading of RoQ streams, or
+   immediately closing RoQ connections.
 
    ROQ_NO_ERROR (0x00):  No error.  This is used when the connection or
       stream needs to be closed, but there is no error to signal.
@@ -1471,21 +1486,20 @@ Table of Contents
    different optimizations depending on the functionality exposed by the
    QUIC implementation.
 
-   *  _Maximum Datagram Size_: The maximum QUIC DATAGRAM size that the
-      QUIC connection can transmit on the network path to the QUIC
-      receiver.  If a RoQ sender using QUIC DATAGRAMs does not know the
-      maximum QUIC DATAGRAM size for the path to the RoQ receiver, there
-      are only two choices - either use heuristics to limit the size of
-      RoQ messages, or be prepared to lose RoQ messages that were too
-      large to be carried through the network path and delivered to the
-      RoQ receiver.
+   *  _Maximum Datagram Size_: The maximum DATAGRAM size that the QUIC
+      connection can transmit on the network path to the QUIC receiver.
+      If a RoQ sender using DATAGRAMs does not know the maximum DATAGRAM
+      size for the path to the RoQ receiver, there are only two choices
+      - either use heuristics to limit the size of RoQ messages, or be
+      prepared to lose RoQ messages that were too large to be carried
+      through the network path and delivered to the RoQ receiver.
 
    *  _Datagram Acknowledgment and Loss_: Section 5.2 of [RFC9221]
-      allows QUIC implementations to notify the application that a QUIC
-      Datagram was acknowledged or that it believes a QUIC DATAGRAM was
-      lost.  Given the QUIC DATAGRAM acknowledgments and losses, the
-      application can deduce which RTP packets arrived at the receiver
-      and which were lost (see also Section 8.1).
+      allows QUIC implementations to notify the application that a
+      DATAGRAM was acknowledged or that it believes a DATAGRAM was lost.
+      Given the DATAGRAM acknowledgments and losses, the application can
+      deduce which RTP packets arrived at the receiver and which were
+      lost (see also Section 8.1).
 
    *  _Stream States_: The stream states include which parts of the data
       sent on a stream were successfully delivered and which are still
@@ -1536,7 +1550,7 @@ Table of Contents
 11.2.  0-RTT considerations
 
    For repeated connections between peers, the initiator of a QUIC
-   connection can use 0-RTT data for both QUIC streams and QUIC
+   connection can use 0-RTT data for both QUIC STREAM frames and
    DATAGRAMs.  As such packets are subject to replay attacks,
    applications shall carefully specify which data types and operations
    are allowed.  0-RTT data may be beneficial for use with RoQ to reduce
@@ -1569,8 +1583,8 @@ Table of Contents
       STREAM frames, with no effort to match application data
       boundaries.
 
-   *  When RTP payloads are carried over QUIC DATAGRAMs, each RTP
-      payload data unit is mapped into a QUIC DATAGRAM frame, but
+   *  When RTP payloads are carried over DATAGRAMs, each RTP payload
+      data unit is mapped into a DATAGRAM frame, but
 
    *  QUIC implementations can include multiple STREAM frames from
       different streams and one or more DATAGRAM frames into a single
@@ -1586,12 +1600,12 @@ Table of Contents
    for how long to wait.
 
    When there are a lot of small DATAGRAM frames (e.g., an audio stream)
-   and a lot of large DATAGRAM (e.g., a video stream), it may be a good
-   idea to make sure the audio frames can be included in a QUIC packet
-   that also carries video frames (i.e., the video frames don't fill the
-   whole QUIC packet).  Otherwise, the QUIC stack may have to send
-   additional small packets only carrying single audio frames, which
-   would waste some bandwidth.
+   and a lot of large DATAGRAM frames (e.g., a video stream), it may be
+   a good idea to make sure the audio frames can be included in a QUIC
+   packet that also carries video frames (i.e., the video frames don't
+   fill the whole QUIC packet).  Otherwise, the QUIC stack may have to
+   send additional small packets only carrying single audio frames,
+   which would waste some bandwidth.
 
    Application designers are advised to take these considerations into
    account when selecting and configuring a QUIC stack for use with RoQ.
@@ -1602,7 +1616,7 @@ Table of Contents
    Section 9 of [RFC3550] and the security considerations of any RTP
    profile in use.
 
-   The security considerations for the QUIC protocol and QUIC DATAGRAM
+   The security considerations for the QUIC protocol and DATAGRAM
    extension described in Section 21 of [RFC9000], Section 9 of
    [RFC9001], Section 8 of [RFC9002] and Section 6 of [RFC9221] also
    apply to RoQ.
@@ -2221,9 +2235,9 @@ Appendix A.  List of optional QUIC Extensions
    beneficial for RoQ, but are not required by RoQ.
 
    *  _An Unreliable Datagram Extension to QUIC_ [RFC9221].  Without
-      support for unreliable QUIC DATAGRAMs, RoQ cannot use the
-      encapsulation specified in Section 5.3, but can still use QUIC
-      streams as specified in Section 5.2.
+      support for unreliable DATAGRAMs, RoQ cannot use the encapsulation
+      specified in Section 5.3, but can still use QUIC streams as
+      specified in Section 5.2.
 
    *  A version of QUIC receive timestamps can be helpful for improved
       jitter calculations and congestion control.  If the QUIC
@@ -2760,8 +2774,8 @@ B.6.1.  Mapping QUIC Feedback to RTCP Receiver Reports ("RR")
    Considerations for mapping QUIC feedback into _Receiver Reports_
    (PT=201, Name=RR, [RFC3550]) are:
 
-   *  _Fraction lost_: When RTP packets are carried in QUIC DATAGRAMs,
-      the fraction of lost packets can be directly inferred from QUIC's
+   *  _Fraction lost_: When RTP packets are carried in DATAGRAMs, the
+      fraction of lost packets can be directly inferred from QUIC's
       acknowledgments.  The calculation SHOULD include all packets up to
       the acknowledged RTP packet with the highest RTP sequence number.
       Later packets SHOULD be ignored since they may still be in flight
@@ -2829,7 +2843,7 @@ B.6.4.  Application Layer Repair and other Control Messages
       streams.  QUIC cannot provide similar control information since it
       does not know about RTP timestamps.  A QUIC receiver cannot
       calculate the packet or octet counts since it does not know about
-      lost QUIC DATAGRAMs.  Thus, sender reports are required in RoQ to
+      lost DATAGRAMs.  Thus, sender reports are required in RoQ to
       synchronize streams at the receiver.  The sender reports SHOULD
       not contain any receiver report blocks if the information can be
       inferred from the QUIC transport as explained in Appendix B.6.1.
