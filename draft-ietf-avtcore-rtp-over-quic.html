@@ -2619,7 +2619,7 @@ numbers contained in QUIC ACK frames (<span><a href="https://rfc-editor.org/rfc/
 <a href="#section-8.4.2" class="section-number selfRef">8.4.2. </a><a href="#name-ecn-feedback-ecn" class="section-name selfRef">ECN Feedback ("ECN")</a>
           </h4>
 <p id="section-8.4.2-1"><em>ECN Feedback</em> (<code>PT=205</code>, <code>FMT=8</code>, <code>Name=RTCP-ECN-FB</code>, <span>[<a href="#RFC6679" class="cite xref">RFC6679</a>]</span>) packets report the count of observed ECN-CE marks.
-<span>[<a href="#RFC6679" class="cite xref">RFC6679</a>]</span> defines two RTCP reports, one packet type (with <code>PT=205</code> and <code>FMT=8</code>), and a new report block for the extended reports, which are listed above.
+<span>[<a href="#RFC6679" class="cite xref">RFC6679</a>]</span> defines two RTCP reports, one packet type (with <code>PT=205</code> and <code>FMT=8</code>), and a new report block for the extended reports.
 QUIC supports ECN reporting through acknowledgments.
 If the QUIC connection supports ECN, using QUIC acknowledgments to report ECN counts, rather than RTCP ECN feedback reports, reduces bandwidth and processing demands on the RTCP implementation.<a href="#section-8.4.2-1" class="pilcrow">¶</a></p>
 </section>
