@@ -1136,7 +1136,7 @@ Table of Contents
    For real-time traffic, it is best that the QUIC implementation use a
    congestion controller that aims at keeping queues, and thus the
    latency, at intermediary network elements as short as possible.
-   Delay-based congestion control algorithms use, for example, an
+   Delay-based congestion control algorithms might use, for example, an
    increasing one-way delay as a signal of impending congestion, and
    adjust the sending rate to prevent continued increases in one-way
    delay.
