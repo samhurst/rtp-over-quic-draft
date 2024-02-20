@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Standards Track             Technical University Munich
-Expires: 22 August 2024                                       S. Dawkins
+Expires: 23 August 2024                                       S. Dawkins
                                                      Tencent America LLC
-                                                        19 February 2024
+                                                        20 February 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 August 2024.
+   This Internet-Draft will expire on 23 August 2024.
 
 Copyright Notice
 
@@ -1275,13 +1275,13 @@ Table of Contents
    As noted in Section 3.1, this specification does not take a position
    on using QUIC streams, QUIC DATAGRAMs, or some mixture of both, for
    any particular RoQ use case or application.  It does seem useful to
-   include observations that might guide implemeters who will need to
+   include observations that might guide implementers who will need to
    make choices about that.
 
    One implementation goal might be to minimize processing overhead, for
    applications that are migrating from RTP over UDP to RoQ.  These
    applications don't rely on any transport protocol behaviors beyond
-   UDP, which can be described as "nothing beyond IP, except but
+   UDP, which can be described as "nothing beyond IP, except
    multiplexing".  They might be motivated by one or more of the
    advantages of encapsulating RTP in QUIC that are described in
    Section 1.2, but they do not need any of the advantages that would
@@ -1311,7 +1311,7 @@ Table of Contents
    DATAGRAMs while encapsulating RTP video packets in QUIC streams.
 
    As noted in Section 5.1, all RoQ streams and datagrams begin with a
-   flow identifier.  This allows a RoQ sender to begin by encapulating
+   flow identifier.  This allows a RoQ sender to begin by encapsulating
    related RTP packets in a stream and then switch to carrying them in
    QUIC DATAGRAMs, or vice versa.  RoQ receivers need to be prepared to
    accept any valid RTP packet with a given flow identifier, whether it
