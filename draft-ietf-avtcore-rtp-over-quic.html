@@ -1674,54 +1674,34 @@ This prevents a sender from overwhelming the capacity of a path between a sender
           <p id="section-2-8.6.1">The term "datagram" is ambiguous. Without a qualifier, "datagram" could refer to a UDP packet, or a QUIC DATAGRAM frame, as defined in QUIC's unreliable DATAGRAM extension <span>[<a href="#RFC9221" class="cite xref">RFC9221</a>]</span>, or an RTP packet encapsulated in UDP, or an RTP packet capsulated in QUIC DATAGRAM frame. If not explicitly qualified, the term "datagram" in this document refers to an RTP packet, and the uppercase "DATAGRAM" refers to a QUIC DATAGRAM frame. This document also uses the term "RoQ datagram" as a short form of "RTP packet encapsulated in a QUIC DATAGRAM frame".<a href="#section-2-8.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.7">Delay-based or Low-latency congestion control algorithm:</dt>
+<dt id="section-2-8.7">Endpoint:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.8">
-          <p id="section-2-8.8.1">A congestion control algorithm that aims at keeping queues, and thus the latency, at intermediary network elements as short as possible. Delay-based congestion control algorithms use, for example, an increasing one-way delay as a signal of impending congestion, and adjust the sending rate to prevent continued increases in one-way delay.<a href="#section-2-8.8.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.8.1">A QUIC server or client that participates in an RoQ session.<a href="#section-2-8.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.9">Endpoint:</dt>
+<dt id="section-2-8.9">Frame:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.10">
-          <p id="section-2-8.10.1">A QUIC server or client that participates in an RoQ session.<a href="#section-2-8.10.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.10.1">A QUIC frame as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>.<a href="#section-2-8.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.11">Frame:</dt>
+<dt id="section-2-8.11">Rate Adaptation:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.12">
-          <p id="section-2-8.12.1">A QUIC frame as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>.<a href="#section-2-8.12.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.12.1">An application-level mechanism that adjusts the sending rate of an application in order to respond to changing path conditions. For example, an application sending video might respond to indications of congestion by adjusting the resolution of the video it is sending.<a href="#section-2-8.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.13">Loss-based congestion control algorithm:</dt>
+<dt id="section-2-8.13">Receiver:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.14">
-          <p id="section-2-8.14.1">A congestion control algorithm that uses packet loss, or an Explicit Congestion Notification (ECN) that is interpreted as loss (as in <span>[<a href="#RFC3168" class="cite xref">RFC3168</a>]</span>), as a signal for congestion. Loss-based congestion control algorithms allow senders to send data on a path until packets are dropped by intermediary network elements, which the algorithm treats as a signal of congestion.<a href="#section-2-8.14.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.14.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.15">QUIC congestion controller:</dt>
+<dt id="section-2-8.15">Sender:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.16">
-          <p id="section-2-8.16.1">A software component of an application's QUIC implementation that implements a congestion control algorithm.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.16.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.17">Rate Adaptation:</dt>
+<dt id="section-2-8.17">Stream:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.18">
-          <p id="section-2-8.18.1">An application-level mechanism that adjusts the sending rate of an application in order to respond to changing path conditions. For example, an application sending video might respond to indications of congestion by adjusting the resolution of the video it is sending.<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-8.19">Receiver:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-8.20">
-          <p id="section-2-8.20.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.20.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-8.21">RTP congestion controller:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-8.22">
-          <p id="section-2-8.22.1">A software component of an application's RTP implementation that implements a congestion control algorithm.<a href="#section-2-8.22.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-8.23">Sender:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-8.24">
-          <p id="section-2-8.24.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.24.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-<dt id="section-2-8.25">Stream:</dt>
-        <dd style="margin-left: 1.5em" id="section-2-8.26">
-          <p id="section-2-8.26.1">The term "stream" is ambiguous. Without a qualifier, "stream" could refer to a QUIC STREAM frame, as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>, or a series of QUIC STREAM frames in a single stream, or a series of RTP packets encapsulated in QUIC STREAM frames. If not explicitly qualified, the term "STREAM" in this document refers to a QUIC STREAM frame, and "stream" in this document refers to one or more RTP packets encapsulated in QUIC STREAM frames. This document also uses the term "RoQ stream" as a short form of "one or more RTP packets encapsulated in QUIC STREAM frames".<a href="#section-2-8.26.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.18.1">The term "stream" is ambiguous. Without a qualifier, "stream" could refer to a QUIC STREAM frame, as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>, or a series of QUIC STREAM frames in a single stream, or a series of RTP packets encapsulated in QUIC STREAM frames. If not explicitly qualified, the term "STREAM" in this document refers to a QUIC STREAM frame, and "stream" in this document refers to one or more RTP packets encapsulated in QUIC STREAM frames. This document also uses the term "RoQ stream" as a short form of "one or more RTP packets encapsulated in QUIC STREAM frames".<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -2361,8 +2341,12 @@ guidelines specified in <span><a href="https://rfc-editor.org/rfc/rfc8085#sectio
 use of this freedom.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">Congestion control mechanisms are often implemented at the transport layer of the protocol stack, but can also be implemented at the application layer.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.1-3">A congestion control mechanism could respond to actual packet loss (detected by timeouts), or to impending packet loss (signaled by mechanisms such as Explicit Congestion Notification <span>[<a href="#RFC3168" class="cite xref">RFC3168</a>]</span>).<a href="#section-7.1-3" class="pilcrow">¶</a></p>
-<p id="section-7.1-4">For real-time traffic, it is best that the QUIC implementation use a congestion controller that
-seeks to minimize queueing delays.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">For real-time traffic, it is best that the QUIC implementation use a congestion
+controller that aims at keeping queues, and thus the latency, at intermediary
+network elements as short as possible. Delay-based congestion control algorithms
+might use, for example, an increasing one-way delay as a signal of impending
+congestion, and adjust the sending rate to prevent continued increases in
+one-way delay.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
 <p id="section-7.1-5">A wide variety of congestion control algorithms for real-time media have been developed (for example, "Google Congestion Controller" <span>[<a href="#I-D.draft-ietf-rmcat-gcc" class="cite xref">I-D.draft-ietf-rmcat-gcc</a>]</span>).
 The IETF has defined two such algorithms in Experimental RFCs (SCReAM <span>[<a href="#RFC8298" class="cite xref">RFC8298</a>]</span> and NADA <span>[<a href="#RFC8698" class="cite xref">RFC8698</a>]</span>).
 These algorithms
