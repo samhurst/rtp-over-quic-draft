@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Standards Track             Technical University Munich
-Expires: 24 August 2024                                       S. Dawkins
+Expires: 25 August 2024                                       S. Dawkins
                                                      Tencent America LLC
-                                                        21 February 2024
+                                                        22 February 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 August 2024.
+   This Internet-Draft will expire on 25 August 2024.
 
 Copyright Notice
 
@@ -1157,10 +1157,11 @@ Table of Contents
    use an extension to add this information to QUIC as described in
    Appendix A.  An alternative to these dedicated real-time media
    congestion-control algorithms that QUIC implementations could support
-   without the need for a protocol extension is the Low Latency, Low
-   Loss, and Scalable Throughput (L4S) Internet Service [RFC9330], which
-   can be used to limit growth in round-trip delays, due to increasing
-   queuing delays.
+   is the Low Latency, Low Loss, and Scalable Throughput (L4S) Internet
+   Service [RFC9330], which can be used to limit growth in round-trip
+   delays, due to increasing queuing delays.  While L4S does not rely on
+   a QUIC protocol extension, L4S does rely on support from network
+   devices along the path from sender to receiver.
 
    The application needs a mechanism to query the available bandwidth to
    adapt media codec configurations.  If the employed congestion
