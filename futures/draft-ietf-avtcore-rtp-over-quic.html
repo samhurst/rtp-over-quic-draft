@@ -2843,35 +2843,35 @@ selecting and configuring a QUIC stack for use with RoQ.<a href="#section-12.3-5
 <p id="section-13-1">This specification represents considerable work and discussion within the IETF, and describes RoQ in sufficient detail that an implementer can build a RoQ application, but we recognize that additional work is likely, after we have sufficient experience with RoQ to guide that work. Possible directions would include<a href="#section-13-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13-2.1">
-          <p id="section-13-2.1.1">Better guidance on transport for RTCP (for example, when to use QUIC streams vs. QUIC datagrams for RTCP transport).<a href="#section-13-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-13-2.1.1">Better guidance on transport for RTCP (for example, when to use QUIC streams vs. QUIC datagrams).<a href="#section-13-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-13-2.2">
           <p id="section-13-2.2.1">Better guidance on the use of realtime-friendly congestion control algorithms (for example, Copa <span>[<a href="#Copa" class="cite xref">Copa</a>]</span>, L4S <span>[<a href="#RFC9330" class="cite xref">RFC9330</a>]</span>, etc.).<a href="#section-13-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-13-2.3">
-          <p id="section-13-2.3.1">Better guidelines and recommendations for congestion control and rate adaptation for multiple RoQ flows (whether streams or datagrams).<a href="#section-13-2.3.1" class="pilcrow">¶</a></p>
+          <p id="section-13-2.3.1">Better guidance for congestion control and rate adaptation for multiple RoQ flows (whether streams or datagrams).<a href="#section-13-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-13-2.4">
-          <p id="section-13-2.4.1">Possible guidelines for connection sharing between RoQ and non-RoQ flows.<a href="#section-13-2.4.1" class="pilcrow">¶</a></p>
+          <p id="section-13-2.4.1">Possible guidance for connection sharing between RoQ and non-RoQ flows, including considerations for congestion control and rate adaptation, scheduling, prioritization, and which ALPNs to use.<a href="#section-13-2.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-13-3">For these reasons, publication of this specification as a stable reference for implementers to test with, and report results, seems useful.<a href="#section-13-3" class="pilcrow">¶</a></p>
-<p id="section-13-4">In addition, as noted in <a href="#new-quic" class="auto internal xref">Section 3.1.7</a>, one of the motivations for using QUIC as a transport for RTP is to exploit new QUIC extensions as they become available. We can anticipate additional work if these proposed QUIC extensions become available:<a href="#section-13-4" class="pilcrow">¶</a></p>
+<p id="section-13-4">In addition, as noted in <a href="#new-quic" class="auto internal xref">Section 3.1.7</a>, one of the motivations for using QUIC as a transport for RTP is to exploit new QUIC extensions as they become available. We noted several proposed QUIC extensions in <a href="#optional-extensions" class="auto internal xref">Appendix A</a>, but these proposals are all solving relevant problems, and those problems are worthy of attention, no matter how they are solved for the QUIC protocol.<a href="#section-13-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13-5.1">
-          <p id="section-13-5.1.1">Guidance for using RoQ over the Multipath Extension for QUIC <span>[<a href="#I-D.draft-ietf-quic-multipath" class="cite xref">I-D.draft-ietf-quic-multipath</a>]</span>.<a href="#section-13-5.1.1" class="pilcrow">¶</a></p>
+          <p id="section-13-5.1.1">Guidance for using RoQ with QUIC connection migration and over multiple paths. We note that the Multipath Extension for QUIC <span>[<a href="#I-D.draft-ietf-quic-multipath" class="cite xref">I-D.draft-ietf-quic-multipath</a>]</span> has been adopted and is relatively mature.<a href="#section-13-5.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-13-5.2">
-          <p id="section-13-5.2.1">Guidance for using RoQ with QUIC extensions mentioned in <a href="#optional-extensions" class="auto internal xref">Appendix A</a> for using Interactive Connectivity Establishment (ICE) <span>[<a href="#RFC8445" class="cite xref">RFC8445</a>]</span> with QUIC, including guidance for coexistence between QUIC connections established using ALPNs and QUIC connections established using ICE.<a href="#section-13-5.2.1" class="pilcrow">¶</a></p>
+          <p id="section-13-5.2.1">Guidance for using RoQ with QUIC NAT traversal solutions. This could use Interactive Connectivity Establishment (ICE) <span>[<a href="#RFC8445" class="cite xref">RFC8445</a>]</span> or other NAT traversal solutions.<a href="#section-13-5.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-13-5.3">
-          <p id="section-13-5.3.1">Guidance for using QUIC extensions mentoned in <a href="#optional-extensions" class="auto internal xref">Appendix A</a> to measure one-way delays, or to report packet receive timestamps, in jitter calculations and congestion control.<a href="#section-13-5.3.1" class="pilcrow">¶</a></p>
+          <p id="section-13-5.3.1">Guidance for improved jitter calculations to use with congestion control and rate adaptation.<a href="#section-13-5.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-13-5.4">
-          <p id="section-13-5.4.1">Guidance for QUIC extensions mentioned in <a href="#optional-extensions" class="auto internal xref">Appendix A</a> to optimize QUIC Acknowledgement frequency.<a href="#section-13-5.4.1" class="pilcrow">¶</a></p>
+          <p id="section-13-5.4.1">Guidance for other aspects of QUIC performance optimization relying on extensions.<a href="#section-13-5.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-13-6">Other QUIC extensions, not proposed yet, may also be useful with RoQ.<a href="#section-13-6" class="pilcrow">¶</a></p>
+<p id="section-13-6">Other QUIC extensions, not yet proposed, may also be useful with RoQ.<a href="#section-13-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-considerations">
