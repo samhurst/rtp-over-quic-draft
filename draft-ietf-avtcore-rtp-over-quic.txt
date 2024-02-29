@@ -4,7 +4,7 @@
 
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
-Intended status: Standards Track             Technical University Munich
+Intended status: Experimental                Technical University Munich
 Expires: 1 September 2024                                     S. Dawkins
                                                      Tencent America LLC
                                                         29 February 2024
@@ -115,13 +115,14 @@ Table of Contents
      12.1.  Impact of Connection Migration
      12.2.  0-RTT considerations
      12.3.  Coalescing RTP packets in single QUIC packet
-   13. Security Considerations
-   14. IANA Considerations
-     14.1.  Registration of a RoQ Identification String
-     14.2.  RoQ Error Codes Registry
-   15. References
-     15.1.  Normative References
-     15.2.  Informative References
+   13. Directions for Future work
+   14. Security Considerations
+   15. IANA Considerations
+     15.1.  Registration of a RoQ Identification String
+     15.2.  RoQ Error Codes Registry
+   16. References
+     16.1.  Normative References
+     16.2.  Informative References
    Appendix A.  List of optional QUIC Extensions
    Appendix B.  Considered RTCP Packet Types and RTP Header Extensions
      B.1.  RTCP Control Packet Types
@@ -772,7 +773,7 @@ Table of Contents
    Note-MTU:  Supported, but may require MTU adaptation.
 
    Note-Sec:  Note that RoQ provides mandatory security, and other RTP
-      transports do not.  Section 13 describes strategies to prevent the
+      transports do not.  Section 14 describes strategies to prevent the
       inadvertent disclosure of RTP sessions to unintended third
       parties.
 
@@ -803,7 +804,7 @@ Table of Contents
 
    QUIC requires the use of ALPN [RFC7301] tokens during connection
    setup.  RoQ uses "roq" as ALPN token in the TLS handshake (see also
-   Section 14).
+   Section 15).
 
    Note that the use of a given RTP profile is not reflected in the ALPN
    token even though it could be considered part of the application
@@ -1637,7 +1638,56 @@ Table of Contents
    Application designers are advised to take these considerations into
    account when selecting and configuring a QUIC stack for use with RoQ.
 
-13.  Security Considerations
+13.  Directions for Future work
+
+   This specification represents considerable work and discussion within
+   the IETF, and describes RoQ in sufficient detail that an implementer
+   can build a RoQ application, but we recognize that additional work is
+   likely, after we have sufficient experience with RoQ to guide that
+   work.  Possible directions would include
+
+   *  Better guidance on transport for RTCP (for example, when to use
+      QUIC streams vs. QUIC datagrams).
+
+   *  Better guidance on the use of realtime-friendly congestion control
+      algorithms (for example, Copa [Copa], L4S [RFC9330], etc.).
+
+   *  Better guidance for congestion control and rate adaptation for
+      multiple RoQ flows (whether streams or datagrams).
+
+   *  Possible guidance for connection sharing between RoQ and non-RoQ
+      flows, including considerations for congestion control and rate
+      adaptation, scheduling, prioritization, and which ALPNs to use.
+
+   For these reasons, publication of this specification as a stable
+   reference for implementers to test with, and report results, seems
+   useful.
+
+   In addition, as noted in Section 3.1.7, one of the motivations for
+   using QUIC as a transport for RTP is to exploit new QUIC extensions
+   as they become available.  We noted several proposed QUIC extensions
+   in Appendix A, but these proposals are all solving relevant problems,
+   and those problems are worthy of attention, no matter how they are
+   solved for the QUIC protocol.
+
+   *  Guidance for using RoQ with QUIC connection migration and over
+      multiple paths.  We note that the Multipath Extension for QUIC
+      [I-D.draft-ietf-quic-multipath] has been adopted and is relatively
+      mature.
+
+   *  Guidance for using RoQ with QUIC NAT traversal solutions.  This
+      could use Interactive Connectivity Establishment (ICE) [RFC8445]
+      or other NAT traversal solutions.
+
+   *  Guidance for improved jitter calculations to use with congestion
+      control and rate adaptation.
+
+   *  Guidance for other aspects of QUIC performance optimization
+      relying on extensions.
+
+   Other QUIC extensions, not yet proposed, may also be useful with RoQ.
+
+14.  Security Considerations
 
    RoQ is subject to the security considerations of RTP described in
    Section 9 of [RFC3550] and the security considerations of any RTP
@@ -1657,13 +1707,13 @@ Table of Contents
    equivalent RTP-level security), whether or not RoQ senders are using
    a secure AVP profile for those RTP packets.
 
-14.  IANA Considerations
+15.  IANA Considerations
 
-   This document registers a new ALPN protocol ID (in Section 14.1) and
+   This document registers a new ALPN protocol ID (in Section 15.1) and
    creates a new registry that manages the assignment of error code
-   points in RoQ (in Section 14.2).
+   points in RoQ (in Section 15.2).
 
-14.1.  Registration of a RoQ Identification String
+15.1.  Registration of a RoQ Identification String
 
    This document creates a new registration for the identification of
    RoQ in the "TLS Application-Layer Protocol Negotiation (ALPN)
@@ -1677,7 +1727,7 @@ Table of Contents
 
    Specification:  This document
 
-14.2.  RoQ Error Codes Registry
+15.2.  RoQ Error Codes Registry
 
    This document establishes a registry for RoQ error codes.  The "RTP
    over QUIC (RoQ) Error Codes" registry manages a 62-bit space and is
@@ -1747,9 +1797,9 @@ Table of Contents
 
                       Table 2: Initial RoQ Error Codes
 
-15.  References
+16.  References
 
-15.1.  Normative References
+16.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1856,7 +1906,10 @@ Table of Contents
               DOI 10.17487/RFC9221, March 2022,
               <https://www.rfc-editor.org/rfc/rfc9221>.
 
-15.2.  Informative References
+16.2.  Informative References
+
+   [Copa]     "Copa: Practical Delay-Based Congestion Control for the
+              Internet", 2018, <https://web.mit.edu/copa/>.
 
    [I-D.draft-dawkins-avtcore-sdp-rtp-quic]
               Dawkins, S., "SDP Offer/Answer for RTP using QUIC as
@@ -2225,6 +2278,12 @@ Table of Contents
               Extension for RTP Splicing Notification", RFC 8286,
               DOI 10.17487/RFC8286, October 2017,
               <https://www.rfc-editor.org/rfc/rfc8286>.
+
+   [RFC8445]  Keranen, A., Holmberg, C., and J. Rosenberg, "Interactive
+              Connectivity Establishment (ICE): A Protocol for Network
+              Address Translator (NAT) Traversal", RFC 8445,
+              DOI 10.17487/RFC8445, July 2018,
+              <https://www.rfc-editor.org/rfc/rfc8445>.
 
    [RFC8825]  Alvestrand, H., "Overview: Real-Time Protocols for
               Browser-Based Applications", RFC 8825,
