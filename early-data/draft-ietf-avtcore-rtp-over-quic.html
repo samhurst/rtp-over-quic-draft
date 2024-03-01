@@ -2754,17 +2754,20 @@ are allowed.<a href="#section-12.2-1" class="pilcrow">¶</a></p>
 <p id="section-12.2-4">While including "early data" in the packet payload in any QUIC 0-RTT Initial packet may reduce the risk of media clipping, e.g., at the beginning of a conversation, this option also exposes the application to an additional risk, of accepting "early data" from a 0-RTT packet that has been replayed.
 It is the responsibility of the RoQ application to determine if 0-RTT data is permissible.<a href="#section-12.2-4" class="pilcrow">¶</a></p>
 <p id="section-12.2-5">A risk-averse RoQ implementer can simply ignore any RTP packets carried in the 0-RTT Initial packet payload in their RoQ implementation, reasoning that RTP applications are resilient to RTP packet loss.<a href="#section-12.2-5" class="pilcrow">¶</a></p>
-<p id="section-12.2-6">A risk-taking RoQ implementer can simply accept any RTP packets carried in the 0-RTT Initial packet payload in their RoQ implementation,
-reasoning that<a href="#section-12.2-6" class="pilcrow">¶</a></p>
+<p id="section-12.2-6">Since the QUIC connection will often be created in the context
+of an existing signaling relationship (e.g., using WebRTC or SIP), a careful RoQ implementer can exchange specific 0-RTT
+keying material to prevent replays across sessions.<a href="#section-12.2-6" class="pilcrow">¶</a></p>
+<p id="section-12.2-7">A risk-taking RoQ implementer can simply accept any RTP packets carried in the 0-RTT Initial packet payload in their RoQ implementation,
+reasoning that<a href="#section-12.2-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-12.2-7.1">
-            <p id="section-12.2-7.1.1">RTP typically carries ephemeral media contents that is rendered and possibly recorded but otherwise causes no side effects,<a href="#section-12.2-7.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-12.2-8.1">
+            <p id="section-12.2-8.1.1">RTP typically carries ephemeral media contents that is rendered and possibly recorded but otherwise causes no side effects,<a href="#section-12.2-8.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-12.2-7.2">
-            <p id="section-12.2-7.2.1">the amount of data that can be carried as packet payload in an 0-RTT Initial packet is rather limited, and<a href="#section-12.2-7.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-12.2-8.2">
+            <p id="section-12.2-8.2.1">the amount of data that can be carried as packet payload in an 0-RTT Initial packet is rather limited, and<a href="#section-12.2-8.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-12.2-7.3">
-            <p id="section-12.2-7.3.1">RTP implementations are likely to discard any replayed media packets as duplicates.<a href="#section-12.2-7.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-12.2-8.3">
+            <p id="section-12.2-8.3.1">RTP implementations are likely to discard any replayed media packets as duplicates.<a href="#section-12.2-8.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
