@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 1 September 2024                                     S. Dawkins
+Expires: 5 September 2024                                     S. Dawkins
                                                      Tencent America LLC
-                                                        29 February 2024
+                                                            4 March 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2024.
+   This Internet-Draft will expire on 5 September 2024.
 
 Copyright Notice
 
@@ -110,7 +110,7 @@ Table of Contents
        9.4.2.  ECN Feedback ("ECN")
        9.4.3.  Goodbye Packets ("BYE")
    10. Error Handling
-   11. API Considerations
+   11. RoQ-QUIC and RoQ-RTP API Considerations
    12. Discussion
      12.1.  Impact of Connection Migration
      12.2.  0-RTT considerations
@@ -240,13 +240,9 @@ Table of Contents
    RoQ does not define congestion control and rate adaptation algorithms
    for use with media.  However, Section 7 discusses options for how
    congestion control and rate adaptation could be performed at the QUIC
-   and/or at the RTP layer, and how information available at the QUIC
-   layer could be exposed via an API for the benefit of RTP layer
-   implementation.
-
-      *Editor's note:* Need to check whether Section 7 will also
-      describe the QUIC interface that's being exposed, or if that ends
-      up somewhere else in the document.
+   and/or at the RTP layer, and Section 11 describes the information
+   available at the QUIC layer that could be exposed via an API for the
+   benefit of RTP layer implementation.
 
    RoQ does not define prioritization mechanisms when handling different
    media as those would be dependent on the media themselves and their
@@ -979,12 +975,6 @@ Table of Contents
    following media frame and thus lead to unintentionally skipping one
    or more frames.
 
-      *Editor's note:* A receiver cannot cancel a certain frame but
-      still receive retransmissions for a frame the was following on the
-      same stream using STOP_SENDING, because STOP_SENDING does not
-      include an offset which would allow signaling where
-      retransmissions should continue.
-
    A translator that translates between two endpoints, both connected
    via QUIC, MUST forward RESET_STREAM frames received from one end to
    the other unless it forwards the RTP packets on encapsulated in
@@ -1350,10 +1340,6 @@ Table of Contents
    encapsulated in QUIC STREAM frames and RTP encapsulated in DATAGRAMs.
    The differences are described in Section 9.1 and Section 9.2.
 
-      *Editor's Note:* Additional discussion of bandwidth minimization
-      could go in this section, or in an earlier proposed section on
-      motivations for defining and deploying RoQ.
-
    While RoQ places no restrictions on applications sending RTCP, this
    document assumes that the reason an implementer chooses to support
    RoQ is to obtain benefits beyond what's available when RTP uses UDP
@@ -1499,13 +1485,13 @@ Table of Contents
       set by RoQ out-of-band signalling were not met by the QUIC
       connection.
 
-11.  API Considerations
+11.  RoQ-QUIC and RoQ-RTP API Considerations
 
-   The mapping described in the previous sections poses some interface
-   requirements for the QUIC implementation.  Although RoQ works without
-   these requirements, some optimizations regarding rate adaptation and
-   RTCP mapping require certain functionalities to be exposed to the
-   application.
+   The mapping described in the previous sections relies on the QUIC
+   implementation passing some information to the RoQ implementation.
+   Although RoQ will function without this information, some
+   optimizations regarding rate adaptation and RTCP mapping require
+   certain functionalities to be exposed to the application.
 
    Each item in the following list can be considered individually.  Any
    exposed information or function can be used by RoQ regardless of
@@ -1550,6 +1536,12 @@ Table of Contents
    *  _ECN_: If ECN marks are available, they can support the bandwidth
       estimation of the application if necessary.
 
+   One goal for the RoQ protocol is to shield RTP applications from the
+   details of QUIC encapsulation, so the RTP application doesn't need
+   much information about QUIC from RoQ.  One exception is that it may
+   be desirable that the RoQ implementation provides an indication of
+   connection migration to the RTP application.
+
 12.  Discussion
 
 12.1.  Impact of Connection Migration
@@ -1561,10 +1553,10 @@ Table of Contents
    delivery in the order of RTT and, if RTCP is used for RTT
    measurements, may cause spikes in observed delays.  Application layer
    congestion control mechanisms (and also packet repair schemes such as
-   retransmissions) need to be prepared to cope with such spikes.
-
-      *Editor's Note:* It may be desirable that the API provides an
-      indication of connection migration event for either case.
+   retransmissions) need to be prepared to cope with such spikes.  As
+   noted in Section 11, it may be desirable that the RoQ implementation
+   provides an indication of connection migration to the RTP
+   application, to assist in coping.
 
 12.2.  0-RTT considerations
 
