@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 2 September 2024                                     S. Dawkins
+Expires: 8 September 2024                                     S. Dawkins
                                                      Tencent America LLC
-                                                            1 March 2024
+                                                            7 March 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2024.
+   This Internet-Draft will expire on 8 September 2024.
 
 Copyright Notice
 
@@ -114,6 +114,9 @@ Table of Contents
    12. Discussion
      12.1.  Impact of Connection Migration
      12.2.  0-RTT and Early Data considerations
+       12.2.1.  Effect of 0-RTT Rejection for RoQ using Early Data
+       12.2.2.  Effect of 0-RTT Replay Attacks for RoQ using Early
+               Data
      12.3.  Coalescing RTP packets in single QUIC packet
    13. Directions for Future work
    14. Security Considerations
@@ -321,6 +324,10 @@ Table of Contents
 
    Endpoint:  A QUIC server or client that participates in an RoQ
       session.
+
+   Early data:  Application data carried in a 0-RTT packet payload, as
+      defined in [RFC9000].  In this specification, the early data would
+      be an RTP packet.
 
    Frame:  A QUIC frame as defined in [RFC9000].
 
@@ -1514,6 +1521,11 @@ Table of Contents
    different optimizations depending on the functionality exposed by the
    QUIC implementation.
 
+   *  _initial_max_data transport_: if the QUIC receiver has indicated a
+      willingness to accept 0-RTT packets with early data, this is the
+      maximum size that the QUIC sender can use, as described in
+      Section 12.2.
+
    *  _Maximum Datagram Size_: The maximum DATAGRAM size that the QUIC
       connection can transmit on the network path to the QUIC receiver.
       If a RoQ sender using DATAGRAMs does not know the maximum DATAGRAM
@@ -1569,10 +1581,10 @@ Table of Contents
 12.2.  0-RTT and Early Data considerations
 
    For repeated connections between peers, the initiator of a QUIC
-   connection can use 0-RTT initial packets to establish a connection
-   that will be used for QUIC STREAM frames, DATAGRAMs, or both.  As
-   such packets are subject to replay attacks, RoQ applications MUST
-   carefully specify which data types and operations are allowed.
+   connection can use 0-RTT packets to establish a connection that will
+   be used for QUIC STREAM frames, DATAGRAMs, or both.  As such packets
+   are subject to replay attacks, RoQ applications MUST carefully
+   specify which data types and operations are allowed.
 
    Section 9.2 of [RFC9001] says
 
@@ -1580,35 +1592,67 @@ Table of Contents
       that carry application semantics in 0-RTT or provide replay
       mitigation strategies.
 
-   While including "early data" in the packet payload in any QUIC 0-RTT
-   Initial packet may reduce the risk of media clipping, e.g., at the
-   beginning of a conversation, this option also exposes the application
-   to an additional risk, of accepting "early data" from a 0-RTT packet
-   that has been replayed.  It is the responsibility of the RoQ
-   application to determine if 0-RTT data is permissible.
+   For the purposes of this discussion, RoQ is an application protocol
+   that allows the use of 0-RTT.  RoQ applications, like any other RTP
+   applications, are likely to use 0-RTT with "early data" in the 0-RTT
+   packet payload, in order to establish a media path quickly and reduce
+   clipping at the beginning of a conversation.
 
-   A risk-averse RoQ implementer can simply ignore any RTP packets
-   carried in the 0-RTT Initial packet payload in their RoQ
-   implementation, reasoning that RTP applications are resilient to RTP
-   packet loss.
+   While RTP implementations are robust in the presence of media loss
+   and duplication, media delay and jitter are more serious concerns.
+
+   RoQ application developers ought to take the considerations described
+   in Section 12.2.1 and Section 12.2.2 into account when deciding
+   whether to use 0-RTT with early data for an application.
+
+12.2.1.  Effect of 0-RTT Rejection for RoQ using Early Data
+
+   If the goal for using early data is to reduce clipping, a QUIC
+   endpoint is relying on the other QUIC endpoint to accept the 0-RTT
+   packet carrying early data containing media.
+
+   A QUIC endpoint indicates its willingness to accept a 0-RTT packet
+   containing early data by sending the TLS early_data extension in the
+   NewSessionTicket message eith the max_early_data_size parameter set
+   to the sentinel value 0xffffffff.  The amount of data that the client
+   can send in QUIC 0-RTT is controlled by the initial_max_data
+   transport parameter supplied by the server.  This is described in
+   more detail in Section 4.6.1 of [RFC9001].
+
+   If a QUIC endpoint is not prepared to accept a 0-RTT packet
+   containing early data, but receives one anyway, the QUIC endpoint
+   rejects the 0-RTT packet by sending EncryptedExtensions without an
+   early_data extension.  This is described in more detail, in
+   Section 4.6.2 of [RFC9001].  This necessarily means that a QUIC
+   endpoint attempting to convey RoQ media is now subject to at least
+   one additional RTT delay, as it must send a QUIC Initial packet and
+   perform a full QUIC handshake before it can send RoQ media.
+
+12.2.2.  Effect of 0-RTT Replay Attacks for RoQ using Early Data
+
+   Including "early data" in the packet payload in any QUIC 0-RTT packet
+   also exposes the application to an additional risk, of accepting
+   "early data" from a 0-RTT packet that has been replayed.
+
+   While it is true that
+
+   *  RTP typically carries ephemeral media contents that is rendered
+      and possibly recorded but otherwise causes no side effects,
+
+   *  the amount of data that can be carried as packet payload in a
+      0-RTT packet is rather limited, and
+
+   *  RTP implementations are likely to discard any replayed media
+      packets as duplicates,
+
+   it is still the responsibility of the RoQ application to determine
+   whether the benefits of using 0-RTT with early data outweigh the
+   risks.
 
    Since the QUIC connection will often be created in the context of an
    existing signaling relationship (e.g., using WebRTC or SIP), a
    careful RoQ implementer can exchange specific 0-RTT keying material
    to prevent replays across sessions.
-
-   A risk-taking RoQ implementer can simply accept any RTP packets
-   carried in the 0-RTT Initial packet payload in their RoQ
-   implementation, reasoning that
-
-   *  RTP typically carries ephemeral media contents that is rendered
-      and possibly recorded but otherwise causes no side effects,
-
-   *  the amount of data that can be carried as packet payload in an
-      0-RTT Initial packet is rather limited, and
-
-   *  RTP implementations are likely to discard any replayed media
-      packets as duplicates.
 
 12.3.  Coalescing RTP packets in single QUIC packet
 
@@ -1967,10 +2011,10 @@ Table of Contents
 
    [I-D.draft-ietf-quic-ack-frequency]
               Iyengar, J., Swett, I., and M. Kühlewind, "QUIC
-              Acknowledgement Frequency", Work in Progress, Internet-
-              Draft, draft-ietf-quic-ack-frequency-07, 27 October 2023,
+              Acknowledgment Frequency", Work in Progress, Internet-
+              Draft, draft-ietf-quic-ack-frequency-08, 4 March 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-quic-
-              ack-frequency-07>.
+              ack-frequency-08>.
 
    [I-D.draft-ietf-quic-multipath]
               Liu, Y., Ma, Y., De Coninck, Q., Bonaventure, O., Huitema,
