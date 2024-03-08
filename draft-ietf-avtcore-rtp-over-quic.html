@@ -1037,7 +1037,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ott, et al.</td>
-<td class="center">Expires 5 September 2024</td>
+<td class="center">Expires 9 September 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1050,12 +1050,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-avtcore-rtp-over-quic-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-03-04" class="published">4 March 2024</time>
+<time datetime="2024-03-08" class="published">8 March 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Experimental</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-09-05">5 September 2024</time></dd>
+<dd class="expires"><time datetime="2024-09-09">9 September 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1114,7 +1114,7 @@ feedback.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1291,7 +1291,15 @@ feedback.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-impact-of-connection-migrat" class="internal xref">Impact of Connection Migration</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
-                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-0-rtt-considerations" class="internal xref">0-RTT considerations</a></p>
+                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-0-rtt-and-early-data-consid" class="internal xref">0-RTT and Early Data considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2.2.1">
+                    <p id="section-toc.1-1.12.2.2.2.1.1"><a href="#section-12.2.1" class="auto internal xref">12.2.1</a>.  <a href="#name-effect-of-0-rtt-rejection-f" class="internal xref">Effect of 0-RTT Rejection for RoQ using Early Data</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2.2.2">
+                    <p id="section-toc.1-1.12.2.2.2.2.1"><a href="#section-12.2.2" class="auto internal xref">12.2.2</a>.  <a href="#name-effect-of-0-rtt-replay-atta" class="internal xref">Effect of 0-RTT Replay Attacks for RoQ using Early Data</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.3">
                 <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-coalescing-rtp-packets-in-s" class="internal xref">Coalescing RTP packets in single QUIC packet</a></p>
@@ -1555,29 +1563,34 @@ This prevents a sender from overwhelming the capacity of a path between a sender
           <p id="section-2-8.8.1">A QUIC server or client that participates in an RoQ session.<a href="#section-2-8.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.9">Frame:</dt>
+<dt id="section-2-8.9">Early data:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.10">
-          <p id="section-2-8.10.1">A QUIC frame as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>.<a href="#section-2-8.10.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.10.1">Application data carried in a 0-RTT packet payload, as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>. In this specification, the early data would be an RTP packet.<a href="#section-2-8.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.11">Rate Adaptation:</dt>
+<dt id="section-2-8.11">Frame:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.12">
-          <p id="section-2-8.12.1">An application-level mechanism that adjusts the sending rate of an application in order to respond to changing path conditions. For example, an application sending video might respond to indications of congestion by adjusting the resolution of the video it is sending.<a href="#section-2-8.12.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.12.1">A QUIC frame as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>.<a href="#section-2-8.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.13">Receiver:</dt>
+<dt id="section-2-8.13">Rate Adaptation:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.14">
-          <p id="section-2-8.14.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.14.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.14.1">An application-level mechanism that adjusts the sending rate of an application in order to respond to changing path conditions. For example, an application sending video might respond to indications of congestion by adjusting the resolution of the video it is sending.<a href="#section-2-8.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.15">Sender:</dt>
+<dt id="section-2-8.15">Receiver:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.16">
-          <p id="section-2-8.16.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.16.1">An endpoint that receives media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-2-8.17">Stream:</dt>
+<dt id="section-2-8.17">Sender:</dt>
         <dd style="margin-left: 1.5em" id="section-2-8.18">
-          <p id="section-2-8.18.1">The term "stream" is ambiguous. Without a qualifier, "stream" could refer to a QUIC STREAM frame, as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>, or a series of QUIC STREAM frames in a single stream, or a series of RTP packets encapsulated in QUIC STREAM frames. If not explicitly qualified, the term "STREAM" in this document refers to a QUIC STREAM frame, and "stream" in this document refers to one or more RTP packets encapsulated in QUIC STREAM frames. This document also uses the term "RoQ stream" as a short form of "one or more RTP packets encapsulated in QUIC STREAM frames".<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
+          <p id="section-2-8.18.1">An endpoint that sends media in RTP packets and may send or receive RTCP packets.<a href="#section-2-8.18.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-2-8.19">Stream:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-8.20">
+          <p id="section-2-8.20.1">The term "stream" is ambiguous. Without a qualifier, "stream" could refer to a QUIC STREAM frame, as defined in <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>, or a series of QUIC STREAM frames in a single stream, or a series of RTP packets encapsulated in QUIC STREAM frames. If not explicitly qualified, the term "STREAM" in this document refers to a QUIC STREAM frame, and "stream" in this document refers to one or more RTP packets encapsulated in QUIC STREAM frames. This document also uses the term "RoQ stream" as a short form of "one or more RTP packets encapsulated in QUIC STREAM frames".<a href="#section-2-8.20.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1730,7 +1743,9 @@ real-time media.<a href="#section-3.1.5-1" class="pilcrow">¶</a></p>
             <p id="section-3.2-6.4.1">DATAGRAM frames belong to a QUIC connection as a whole. There is no QUIC-level way to multiplex/demultiplex DATAGRAM frames within a single QUIC connection. Any multiplexing identifiers must be added, interpreted, and removed by an application, and they will be sent as part of the payload of the DATAGRAM frame itself.<a href="#section-3.2-6.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.2-7">Because DATAGRAMs are an extension to QUIC, a RoQ endpoint cannot count on a RoQ peer supporting that extension. The RoQ endpoint may discover that its peer does not support DATAGRAMs while using signaling to set up QUIC connections, but may also discover that its peer has not negotiated the use of this extension during the QUIC handshake. When this happens, the RoQ endpoint needs to make a decision about what to do next.<a href="#section-3.2-7" class="pilcrow">¶</a></p>
+<p id="section-3.2-7">Because DATAGRAMs are an extension to QUIC, a RoQ endpoint cannot count on a RoQ peer supporting that extension.
+The RoQ endpoint may discover that its peer does not support DATAGRAMs while using signaling to set up QUIC connections, but may also discover that its peer has not negotiated the use of this extension during the QUIC handshake.
+When this happens, the RoQ endpoint needs to make a decision about what to do next.<a href="#section-3.2-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.2-8.1">
             <p id="section-3.2-8.1.1">If the use of DATAGRAMs was critical for the application, the endpoint can simply close the QUIC connection, allowing someone or something to correct this mismatch, so that DATAGRAMs can be used.<a href="#section-3.2-8.1.1" class="pilcrow">¶</a></p>
@@ -2649,42 +2664,47 @@ listed features but can apply different optimizations depending on the
 functionality exposed by the QUIC implementation.<a href="#section-11-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11-3.1">
-          <p id="section-11-3.1.1"><em>Maximum Datagram Size</em>: The maximum DATAGRAM size that the QUIC connection
+          <p id="section-11-3.1.1"><em>initial_max_data transport</em>: if the QUIC receiver has indicated a willingness to accept
+0-RTT packets with early data, this is the maximum size that the QUIC sender can use,
+as described in <a href="#ed-considerations" class="auto internal xref">Section 12.2</a>.<a href="#section-11-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-11-3.2">
+          <p id="section-11-3.2.1"><em>Maximum Datagram Size</em>: The maximum DATAGRAM size that the QUIC connection
 can transmit on the network path to the QUIC receiver. If a RoQ sender using
 DATAGRAMs does not know the maximum DATAGRAM size for the path to the RoQ
 receiver, there are only two choices - either use heuristics to limit the size
 of RoQ messages, or be prepared to lose RoQ messages that were too large to be
-carried through the network path and delivered to the RoQ receiver.<a href="#section-11-3.1.1" class="pilcrow">¶</a></p>
+carried through the network path and delivered to the RoQ receiver.<a href="#section-11-3.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-11-3.2">
-          <p id="section-11-3.2.1"><em>Datagram Acknowledgment and Loss</em>: <span><a href="https://rfc-editor.org/rfc/rfc9221#section-5.2" class="relref">Section 5.2</a> of [<a href="#RFC9221" class="cite xref">RFC9221</a>]</span> allows QUIC
+        <li class="normal" id="section-11-3.3">
+          <p id="section-11-3.3.1"><em>Datagram Acknowledgment and Loss</em>: <span><a href="https://rfc-editor.org/rfc/rfc9221#section-5.2" class="relref">Section 5.2</a> of [<a href="#RFC9221" class="cite xref">RFC9221</a>]</span> allows QUIC
 implementations to notify the application that a DATAGRAM was
 acknowledged or that it believes a DATAGRAM was lost. Given the DATAGRAM
 acknowledgments and losses, the application can deduce which RTP packets
-arrived at the receiver and which were lost (see also <a href="#roc-d" class="auto internal xref">Section 9.1</a>).<a href="#section-11-3.2.1" class="pilcrow">¶</a></p>
+arrived at the receiver and which were lost (see also <a href="#roc-d" class="auto internal xref">Section 9.1</a>).<a href="#section-11-3.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-11-3.3">
-          <p id="section-11-3.3.1"><em>Stream States</em>: The stream states include which parts of the data sent on a
+        <li class="normal" id="section-11-3.4">
+          <p id="section-11-3.4.1"><em>Stream States</em>: The stream states include which parts of the data sent on a
 stream were successfully delivered and which are still outstanding to be sent
 or retransmitted. If an application keeps track of the RTP packets sent on a
 stream, their respective sizes, and in which order they were transmitted, it
 can infer which RTP packets were acknowledged according to the definition in
-<a href="#roc-s" class="auto internal xref">Section 9.2</a>.<a href="#section-11-3.3.1" class="pilcrow">¶</a></p>
-</li>
-        <li class="normal" id="section-11-3.4">
-          <p id="section-11-3.4.1"><em>Arrival timestamps</em>: If the QUIC connection uses a timestamp extension like
-<span>[<a href="#I-D.draft-smith-quic-receive-ts" class="cite xref">I-D.draft-smith-quic-receive-ts</a>]</span> or <span>[<a href="#I-D.draft-huitema-quic-ts" class="cite xref">I-D.draft-huitema-quic-ts</a>]</span>, the
-arrival timestamps or one-way delays can support the application as described
-in <a href="#rtcp-mapping" class="auto internal xref">Section 9</a> and <a href="#congestion-control" class="auto internal xref">Section 7</a>.<a href="#section-11-3.4.1" class="pilcrow">¶</a></p>
+<a href="#roc-s" class="auto internal xref">Section 9.2</a>.<a href="#section-11-3.4.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-11-3.5">
-          <p id="section-11-3.5.1"><em>Bandwidth Estimation</em>: If a bandwidth estimation is available in the QUIC
-implementation, exposing it avoids the implementation of an additional
-bandwidth estimation algorithm in the application.<a href="#section-11-3.5.1" class="pilcrow">¶</a></p>
+          <p id="section-11-3.5.1"><em>Arrival timestamps</em>: If the QUIC connection uses a timestamp extension like
+<span>[<a href="#I-D.draft-smith-quic-receive-ts" class="cite xref">I-D.draft-smith-quic-receive-ts</a>]</span> or <span>[<a href="#I-D.draft-huitema-quic-ts" class="cite xref">I-D.draft-huitema-quic-ts</a>]</span>, the
+arrival timestamps or one-way delays can support the application as described
+in <a href="#rtcp-mapping" class="auto internal xref">Section 9</a> and <a href="#congestion-control" class="auto internal xref">Section 7</a>.<a href="#section-11-3.5.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-11-3.6">
-          <p id="section-11-3.6.1"><em>ECN</em>: If ECN marks are available, they can support the bandwidth estimation
-of the application if necessary.<a href="#section-11-3.6.1" class="pilcrow">¶</a></p>
+          <p id="section-11-3.6.1"><em>Bandwidth Estimation</em>: If a bandwidth estimation is available in the QUIC
+implementation, exposing it avoids the implementation of an additional
+bandwidth estimation algorithm in the application.<a href="#section-11-3.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-11-3.7">
+          <p id="section-11-3.7.1"><em>ECN</em>: If ECN marks are available, they can support the bandwidth estimation
+of the application if necessary.<a href="#section-11-3.7.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-11-4">One goal for the RoQ protocol is to shield RTP applications from the details of QUIC encapsulation, so the RTP application doesn't need much information about QUIC from RoQ. One exception is that it may be desirable that the RoQ implementation provides an indication of connection migration to the RTP application.<a href="#section-11-4" class="pilcrow">¶</a></p>
@@ -2709,31 +2729,61 @@ Application layer congestion control mechanisms (and also packet repair schemes
 such as retransmissions) need to be prepared to cope with such spikes. As noted in <a href="#api-considerations" class="auto internal xref">Section 11</a>, it may be desirable that the RoQ implementation provides an indication of connection migration to the RTP application, to assist in coping.<a href="#section-12.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="rtt-considerations">
+<div id="ed-considerations">
 <section id="section-12.2">
-        <h3 id="name-0-rtt-considerations">
-<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-0-rtt-considerations" class="section-name selfRef">0-RTT considerations</a>
+        <h3 id="name-0-rtt-and-early-data-consid">
+<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-0-rtt-and-early-data-consid" class="section-name selfRef">0-RTT and Early Data considerations</a>
         </h3>
 <p id="section-12.2-1">For repeated connections between peers, the initiator of a QUIC connection can
-use 0-RTT data for both QUIC STREAM frames and DATAGRAMs. As such packets are subject to
-replay attacks, applications shall carefully specify which data types and operations
-are allowed.  0-RTT data may be beneficial for use with RoQ to reduce the
-risk of media clipping, e.g., at the beginning of a conversation.<a href="#section-12.2-1" class="pilcrow">¶</a></p>
-<p id="section-12.2-2">This specification defines carrying RTP on top of QUIC and thus does not finally
-define what the actual application data are going to be.  RTP typically carries
-ephemeral media contents that is rendered and possibly recorded but otherwise
-causes no side effects. Moreover, the amount of data that can be carried as 0-RTT
-data is rather limited.  But it is the responsibility of the respective application
-to determine if 0-RTT data is permissible.<a href="#section-12.2-2" class="pilcrow">¶</a></p>
+use 0-RTT packets to establish a connection that will be used for QUIC STREAM frames, DATAGRAMs, or both.
+As such packets are subject to replay attacks, RoQ applications MUST carefully specify which data types and operations
+are allowed.<a href="#section-12.2-1" class="pilcrow">¶</a></p>
+<p id="section-12.2-2"><span><a href="https://rfc-editor.org/rfc/rfc9001#section-9.2" class="relref">Section 9.2</a> of [<a href="#RFC9001" class="cite xref">RFC9001</a>]</span> says<a href="#section-12.2-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-12.2-3.1">
-            <p id="section-12.2-3.1.1"><strong>Editor's Note:</strong> Since the QUIC connection will often be created in the context
-of an existing signaling relationship (e.g., using WebRTC or SIP), specific 0-RTT
-keying material could be exchanged to prevent replays across sessions.  Within
-the same connection, replayed media packets would be discarded as duplicates by
-the receiver.<a href="#section-12.2-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-12.2-3.1.1">Application protocols MUST either prohibit the use of extensions that carry application semantics in 0-RTT or provide replay mitigation strategies.<a href="#section-12.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+<p id="section-12.2-4">For the purposes of this discussion, RoQ is an application protocol that allows the use of 0-RTT. RoQ applications, like any other RTP applications, are likely to use 0-RTT with "early data" in the 0-RTT packet payload, in order to establish a media path quickly and reduce clipping at the beginning of a conversation.<a href="#section-12.2-4" class="pilcrow">¶</a></p>
+<p id="section-12.2-5">While RTP implementations are robust in the presence of media loss and duplication, media delay and jitter are more serious concerns.<a href="#section-12.2-5" class="pilcrow">¶</a></p>
+<p id="section-12.2-6">RoQ application developers ought to take the considerations described in <a href="#rej-ed" class="auto internal xref">Section 12.2.1</a> and <a href="#replay-ed" class="auto internal xref">Section 12.2.2</a> into account when deciding whether to use 0-RTT with early data for an application.<a href="#section-12.2-6" class="pilcrow">¶</a></p>
+<div id="rej-ed">
+<section id="section-12.2.1">
+          <h4 id="name-effect-of-0-rtt-rejection-f">
+<a href="#section-12.2.1" class="section-number selfRef">12.2.1. </a><a href="#name-effect-of-0-rtt-rejection-f" class="section-name selfRef">Effect of 0-RTT Rejection for RoQ using Early Data</a>
+          </h4>
+<p id="section-12.2.1-1">If the goal for using early data is to reduce clipping, a QUIC endpoint is relying on the other QUIC endpoint to accept the 0-RTT packet carrying early data containing media.<a href="#section-12.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-12.2.1-2">A QUIC endpoint indicates its willingness to accept a 0-RTT packet containing early data by sending the TLS early_data extension in the NewSessionTicket message eith the max_early_data_size parameter set to the sentinel value 0xffffffff.
+The amount of data that the client can send in QUIC 0-RTT is controlled by the initial_max_data transport parameter supplied by the server.
+This is described in more detail in <span><a href="https://rfc-editor.org/rfc/rfc9001#section-4.6.1" class="relref">Section 4.6.1</a> of [<a href="#RFC9001" class="cite xref">RFC9001</a>]</span>.<a href="#section-12.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-12.2.1-3">If a QUIC endpoint is not prepared to accept a 0-RTT packet containing early data, but receives one anyway, the QUIC endpoint rejects the 0-RTT packet by sending EncryptedExtensions without an early_data extension. This is described in more detail, in <span><a href="https://rfc-editor.org/rfc/rfc9001#section-4.6.2" class="relref">Section 4.6.2</a> of [<a href="#RFC9001" class="cite xref">RFC9001</a>]</span>.
+This necessarily means that a QUIC endpoint attempting to convey RoQ media is now subject to at least one additional RTT delay, as it must send a QUIC Initial packet and perform a full QUIC handshake before it can send RoQ media.<a href="#section-12.2.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="replay-ed">
+<section id="section-12.2.2">
+          <h4 id="name-effect-of-0-rtt-replay-atta">
+<a href="#section-12.2.2" class="section-number selfRef">12.2.2. </a><a href="#name-effect-of-0-rtt-replay-atta" class="section-name selfRef">Effect of 0-RTT Replay Attacks for RoQ using Early Data</a>
+          </h4>
+<p id="section-12.2.2-1">Including "early data" in the packet payload in any QUIC 0-RTT packet also exposes the application to an additional risk, of accepting "early data" from a 0-RTT packet that has been replayed.<a href="#section-12.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-12.2.2-2">While it is true that<a href="#section-12.2.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-12.2.2-3.1">
+              <p id="section-12.2.2-3.1.1">RTP typically carries ephemeral media contents that is rendered and possibly recorded but otherwise causes no side effects,<a href="#section-12.2.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-12.2.2-3.2">
+              <p id="section-12.2.2-3.2.1">the amount of data that can be carried as packet payload in a 0-RTT packet is rather limited, and<a href="#section-12.2.2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-12.2.2-3.3">
+              <p id="section-12.2.2-3.3.1">RTP implementations are likely to discard any replayed media packets as duplicates,<a href="#section-12.2.2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-12.2.2-4">it is still the responsibility of the RoQ application to determine whether the benefits of using 0-RTT with early data outweigh the risks.<a href="#section-12.2.2-4" class="pilcrow">¶</a></p>
+<p id="section-12.2.2-5">Since the QUIC connection will often be created in the context
+of an existing signaling relationship (e.g., using WebRTC or SIP), a careful RoQ implementer can exchange specific 0-RTT
+keying material to prevent replays across sessions.<a href="#section-12.2.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="coalescing-rtp-packets-in-single-quic-packet">
@@ -3134,7 +3184,7 @@ list a change controller of the IETF and a contact of the AVTCORE working group
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-quic-ack-frequency">[I-D.draft-ietf-quic-ack-frequency]</dt>
         <dd>
-<span class="refAuthor">Iyengar, J.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">M. Kühlewind</span>, <span class="refTitle">"QUIC Acknowledgement Frequency"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-ack-frequency-07</span>, <time datetime="2023-10-27" class="refDate">27 October 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-ack-frequency-07">https://datatracker.ietf.org/doc/html/draft-ietf-quic-ack-frequency-07</a>&gt;</span>. </dd>
+<span class="refAuthor">Iyengar, J.</span>, <span class="refAuthor">Swett, I.</span>, and <span class="refAuthor">M. Kühlewind</span>, <span class="refTitle">"QUIC Acknowledgment Frequency"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-quic-ack-frequency-08</span>, <time datetime="2024-03-04" class="refDate">4 March 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-quic-ack-frequency-08">https://datatracker.ietf.org/doc/html/draft-ietf-quic-ack-frequency-08</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-quic-multipath">[I-D.draft-ietf-quic-multipath]</dt>
         <dd>
