@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 9 September 2024                                     S. Dawkins
+Expires: 19 September 2024                                    S. Dawkins
                                                      Tencent America LLC
-                                                            8 March 2024
+                                                           18 March 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 September 2024.
+   This Internet-Draft will expire on 19 September 2024.
 
 Copyright Notice
 
@@ -386,12 +386,13 @@ Table of Contents
    video that includes text, maintaining readability is important.
 
    As of this writing, the IETF has produced two Experimental-track
-   congestion control specifications, Network-Assisted Dynamic
-   Adaptation (NADA) [RFC8698] and Self-Clocked Rate Adaptation for
-   Multimedia (SCReAM) [RFC8298].  These congestion control algorithms
-   require some feedback about the network's performance to calculate
-   target bitrates.  Traditionally this feedback is generated at the
-   receiver and sent back to the sender via RTCP.
+   congestion control specifications for real-time media, Network-
+   Assisted Dynamic Adaptation (NADA) [RFC8698] and Self-Clocked Rate
+   Adaptation for Multimedia (SCReAM) [RFC8298].  These congestion
+   control algorithms require some feedback about the network's
+   performance to calculate target bitrates.  Traditionally this
+   feedback is generated at the receiver and sent back to the sender via
+   RTCP.
 
    Since QUIC also collects some metrics about the network's
    performance, these metrics can be used to generate the required
