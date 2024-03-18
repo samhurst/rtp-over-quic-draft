@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 13 September 2024                                    S. Dawkins
+Expires: 19 September 2024                                    S. Dawkins
                                                      Tencent America LLC
-                                                           12 March 2024
+                                                           18 March 2024
 
 
                           RTP over QUIC (RoQ)
@@ -49,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 September 2024.
+   This Internet-Draft will expire on 19 September 2024.
 
 Copyright Notice
 
@@ -2706,7 +2706,7 @@ B.3.  FMT Values for RTP Feedback (RTPFB) Payload Types
    |       |                 |                 |from QUIC|                |
    +=======+=================+=================+=========+================+
    |Generic|Generic negative |[RFC4585]        |partly   |see             |
-   |NACK   |acknowledgment   |                 |         |Section 9.4.1   |
+   |NACK   |acknowledgement  |                 |         |Section 9.4.1   |
    +-------+-----------------+-----------------+---------+----------------+
    |TMMBR  |Temporary Maximum|[RFC5104]        |no       |                |
    |       |Media Stream Bit |                 |         |                |
@@ -2897,8 +2897,8 @@ B.5.1.  RTP Compact Header Extensions
    |                      |(CVO) feature,   |                 |        |
    |                      |see clause 6.2.3 |                 |        |
    +----------------------+-----------------+-----------------+--------+
-   | urn:3gpp:roi-sent    |Signaling of the |[_3GPP-TS-26.114]|probably|
-   |                      |arbitrary        |                 |not(?)  |
+   | urn:3gpp:roi-sent    |Signalling of    |[_3GPP-TS-26.114]|probably|
+   |                      |the arbitrary    |                 |not(?)  |
    |                      |region-of-       |                 |        |
    |                      |interest (ROI)   |                 |        |
    |                      |information for  |                 |        |
@@ -2906,8 +2906,8 @@ B.5.1.  RTP Compact Header Extensions
    |                      |see clause       |                 |        |
    |                      |6.2.3.4          |                 |        |
    +----------------------+-----------------+-----------------+--------+
-   | urn:3gpp:predefined- |Signaling of the |[_3GPP-TS-26.114]|probably|
-   | roi-sent             |predefined       |                 |not(?)  |
+   | urn:3gpp:predefined- |Signalling of    |[_3GPP-TS-26.114]|probably|
+   | roi-sent             |the predefined   |                 |not(?)  |
    |                      |region-of-       |                 |        |
    |                      |interest (ROI)   |                 |        |
    |                      |information for  |                 |        |
