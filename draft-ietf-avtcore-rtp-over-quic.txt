@@ -117,7 +117,7 @@ Table of Contents
        12.2.1.  Effect of 0-RTT Rejection for RoQ using Early Data
        12.2.2.  Effect of 0-RTT Replay Attacks for RoQ using Early
                Data
-     12.3.  Coalescing RTP packets in single QUIC packet
+     12.3.  Coalescing RTP packets in a single QUIC packet
    13. Directions for Future work
    14. Security Considerations
    15. IANA Considerations
@@ -210,7 +210,7 @@ Table of Contents
 
    RoQ does not impact the usage of RTP Audio Video Profiles (AVP)
    ([RFC3551]), or any RTP-based mechanisms, even though it may render
-   some of them unnecessary, e.g., Secure Real-Time Transport Prococol
+   some of them unnecessary, e.g., Secure Real-Time Transport Protocol
    (SRTP) ([RFC3711]) might not be needed, because end-to-end security
    is already provided by QUIC, and double encryption by QUIC and by
    SRTP might have more costs than benefits.  Nor does RoQ limit the use
@@ -985,7 +985,7 @@ Table of Contents
 
    A translator that translates between two endpoints, both connected
    via QUIC, MUST forward RESET_STREAM frames received from one end to
-   the other unless it forwards the RTP packets on encapsulated in
+   the other unless it forwards the RTP packets encapsulated in
    DATAGRAMs.
 
    Large RTP packets sent on a stream will be fragmented into smaller
@@ -1067,7 +1067,7 @@ Table of Contents
    application and control data types.  A single QUIC packet can contain
    more than one QUIC frame, including, for example, QUIC STREAM frames
    or DATAGRAM frames carrying application data and ACK frames carrying
-   QUIC acknowledgements, as long as the overall size fits into the MTU.
+   QUIC acknowledgments, as long as the overall size fits into the MTU.
    One implication is that the number of packets a QUIC stack transmits
    depends on whether it can fit ACK and DATAGRAM frames in the same
    QUIC packet.  Suppose the application creates many DATAGRAM frames
@@ -1087,9 +1087,9 @@ Table of Contents
 
 6.  Connection Shutdown
 
-   Either peer can close the connection for variety of reasons.  If one
-   of the peers wants to close the RoQ connection, the peer can use a
-   QUIC CONNECTION_CLOSE frame with one of the error codes defined in
+   Either peer can close the connection for a variety of reasons.  If
+   one of the peers wants to close the RoQ connection, the peer can use
+   a QUIC CONNECTION_CLOSE frame with one of the error codes defined in
    Section 10.
 
 7.  Congestion Control and Rate Adaptation
@@ -1307,7 +1307,7 @@ Table of Contents
    [RFC9000]), a RoQ sender has the opportunity to revisit decisions
    about which RTP packets are encapsulated in QUIC streams, and which
    RTP packets are encapsulated in QUIC DATAGRAMs, when a QUIC
-   connection migrates.  Again, RoQ receivers need to be prepated for
+   connection migrates.  Again, RoQ receivers need to be prepared for
    this eventuality.
 
 9.  Replacing RTCP and RTP Header Extensions with QUIC Feedback
@@ -1400,7 +1400,7 @@ Table of Contents
    packets for the participants not using RoQ by using the statistics
    the middlebox gets from QUIC and the mappings described in the
    following sections.  If the middlebox does not provide Back-to-Back
-   RTP sessions, participants may use additional signalling to let the
+   RTP sessions, participants may use additional signaling to let the
    RoQ participants know what RTCP is required.
 
 9.4.  Feedback Mappings
@@ -1466,9 +1466,9 @@ Table of Contents
       stream needs to be closed, but there is no error to signal.
 
    ROQ_GENERAL_ERROR (0x01):  An error that does not match a more
-      specific error code occured.
+      specific error code occurred.
 
-   ROQ_INTERNAL_ERROR (0x02):  An internal error has occured in the RoQ
+   ROQ_INTERNAL_ERROR (0x02):  An internal error has occurred in the RoQ
       stack.
 
    ROQ_PACKET_ERROR (0x03):  Invalid payload format, e.g., length does
@@ -1485,12 +1485,12 @@ Table of Contents
       frames will be sent on new streams.
 
    ROQ_UNKNOWN_FLOW_ID (0x06):  An endpoint was unable to handle a flow
-      identifier, e.g., because it was not signalled or because the
+      identifier, e.g., because it was not signaled or because the
       endpoint does not support multiplexing using arbitrary flow
       identifiers.
 
    ROQ_EXPECTATION_UNMET (0x07):  Expectiations of the QUIC transport
-      set by RoQ out-of-band signalling were not met by the QUIC
+      set by RoQ out-of-band signaling were not met by the QUIC
       connection.
 
 11.  RoQ-QUIC and RoQ-RTP API Considerations
@@ -1559,7 +1559,7 @@ Table of Contents
 
 12.1.  Impact of Connection Migration
 
-   RTP sessions are characterized by a continuous flow of packets into
+   RTP sessions are characterized by a continuous flow of packets in
    either or both directions.  A connection migration may lead to
    pausing media transmission until reachability of the peer under the
    new address is validated.  This may lead to short breaks in media
@@ -1647,7 +1647,7 @@ Table of Contents
    careful RoQ implementer can exchange specific 0-RTT keying material
    to prevent replays across sessions.
 
-12.3.  Coalescing RTP packets in single QUIC packet
+12.3.  Coalescing RTP packets in a single QUIC packet
 
    Applications have some control over how the QUIC stack maps
    application data to QUIC frames, but applications cannot control how
@@ -1697,8 +1697,9 @@ Table of Contents
    *  Better guidance on transport for RTCP (for example, when to use
       QUIC streams vs. QUIC datagrams).
 
-   *  Better guidance on the use of realtime-friendly congestion control
-      algorithms (for example, Copa [Copa], L4S [RFC9330], etc.).
+   *  Better guidance on the use of real-time-friendly congestion
+      control algorithms (for example, Copa [Copa], L4S [RFC9330],
+      etc.).
 
    *  Better guidance for congestion control and rate adaptation for
       multiple RoQ flows (whether streams or datagrams).
@@ -1838,7 +1839,7 @@ Table of Contents
     |       |                           | Flow ID     |               |
     +-------+---------------------------+-------------+---------------+
     | 0x07  | ROQ_EXPECTATION_UNMET     | Externally  | Section 10    |
-    |       |                           | signalled   |               |
+    |       |                           | signaled    |               |
     |       |                           | requirement |               |
     |       |                           | unmet       |               |
     +-------+---------------------------+-------------+---------------+
@@ -2420,9 +2421,9 @@ Appendix A.  List of optional QUIC Extensions
       -  _QUIC Extension for Reporting Packet Receive Timestamps_
          [I-D.draft-smith-quic-receive-ts]
 
-   *  _QUIC Acknowledgement Frequency_
+   *  _QUIC Acknowledgment Frequency_
       [I-D.draft-ietf-quic-ack-frequency] can be used by a sender to
-      optimize the acknowledgement behaviour of the receiver, e.g., to
+      optimize the acknowledgment behavior of the receiver, e.g., to
       optimize congestion control.
 
    *  _Signaling That a QUIC Receiver Has Enough Stream Data_

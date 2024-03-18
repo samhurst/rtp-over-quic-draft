@@ -1302,7 +1302,7 @@ feedback.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.3">
-                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-coalescing-rtp-packets-in-s" class="internal xref">Coalescing RTP packets in single QUIC packet</a></p>
+                <p id="section-toc.1-1.12.2.3.1"><a href="#section-12.3" class="auto internal xref">12.3</a>.  <a href="#name-coalescing-rtp-packets-in-a" class="internal xref">Coalescing RTP packets in a single QUIC packet</a></p>
 </li>
             </ul>
 </li>
@@ -1456,7 +1456,7 @@ This document does not mandate any specific rate adaptation mechanism, so the ap
 extended to improve efficiency of the RoQ protocol operation.<a href="#section-1.2-5" class="pilcrow">¶</a></p>
 <p id="section-1.2-6">RoQ does not impact the usage of RTP Audio Video Profiles (AVP)
 (<span>[<a href="#RFC3551" class="cite xref">RFC3551</a>]</span>), or any RTP-based mechanisms, even though it may render some of
-them unnecessary, e.g., Secure Real-Time Transport Prococol (SRTP)
+them unnecessary, e.g., Secure Real-Time Transport Protocol (SRTP)
 (<span>[<a href="#RFC3711" class="cite xref">RFC3711</a>]</span>) might not be needed, because end-to-end security is already
 provided by QUIC, and double encryption by QUIC and by SRTP might have more
 costs than benefits.  Nor does RoQ limit the use of RTCP-based
@@ -2180,7 +2180,7 @@ following RESET_STREAM would also drop the following media frame and thus lead
 to unintentionally skipping one or more frames.<a href="#section-5.2.2-7" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-8">A translator that translates between two endpoints, both connected via QUIC,
 MUST forward RESET_STREAM frames received from one end to the other unless it
-forwards the RTP packets on encapsulated in DATAGRAMs.<a href="#section-5.2.2-8" class="pilcrow">¶</a></p>
+forwards the RTP packets encapsulated in DATAGRAMs.<a href="#section-5.2.2-8" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-9">Large RTP packets sent on a stream will be fragmented into smaller QUIC STREAM frames.
 The QUIC frames are transmitted reliably and in order such that a receiving
 application can read a complete RTP packet from the stream as long as the stream
@@ -2263,7 +2263,7 @@ connection.<a href="#section-5.3-5.2.1" class="pilcrow">¶</a></p>
 </dl>
 <p id="section-5.3-6">RoQ senders need to be aware that QUIC uses the concept of QUIC frames.
 Different kinds of QUIC frames are used for different application and control data types.
-A single QUIC packet can contain more than one QUIC frame, including, for example, QUIC STREAM frames or DATAGRAM frames carrying application data and ACK frames carrying QUIC acknowledgements, as long as the overall size fits into the MTU.
+A single QUIC packet can contain more than one QUIC frame, including, for example, QUIC STREAM frames or DATAGRAM frames carrying application data and ACK frames carrying QUIC acknowledgments, as long as the overall size fits into the MTU.
 One implication is that the number of packets a QUIC stack transmits depends on whether it can fit ACK and DATAGRAM frames in the same QUIC packet.
 Suppose the application creates many DATAGRAM frames that fill up the QUIC packet.
 In that case, the QUIC stack might have to create additional packets for ACK- (and possibly other control-) frames.
@@ -2283,7 +2283,7 @@ flow identifier of the RTP session in which the retransmission happens.<a href="
       <h2 id="name-connection-shutdown">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-connection-shutdown" class="section-name selfRef">Connection Shutdown</a>
       </h2>
-<p id="section-6-1">Either peer can close the connection for variety of reasons. If one of the
+<p id="section-6-1">Either peer can close the connection for a variety of reasons. If one of the
 peers wants to close the RoQ connection, the peer can use a QUIC
 CONNECTION_CLOSE frame with one of the error codes defined in
 <a href="#error-handling" class="auto internal xref">Section 10</a>.<a href="#section-6-1" class="pilcrow">¶</a></p>
@@ -2438,7 +2438,7 @@ implement some form of stream prioritization or bandwidth allocation.<a href="#s
 <p id="section-8-3">Another implementation goal might be to prioritize specific types of video frames over other types. For these applications, placing each type of video frame in a separate QUIC stream would allow the RoQ receiver to focus on the most important video frames more easily. This also allows the implementer to rely on QUIC's "byte stream" abstraction, freeing the application from problems with MTU size restrictions that are present with QUIC DATAGRAMs. The application might use QUIC streams for all of the RTP packets carried over this specific QUIC connection, with no QUIC DATAGRAMs at all.<a href="#section-8-3" class="pilcrow">¶</a></p>
 <p id="section-8-4">Some applications might have implementation goals that don't fit easily into "QUIC streams only" or "QUIC DATAGRAMs only" categories. For example, another implementation goal might be to use QUIC streams to carry RTP video frames, but to use QUIC DATAGRAMs to carry RTP audio frames, which are typically much smaller. Because humans tend to tolerate inconsistent behavior in video better than inconsistent behavior in audio, the application might add Forward Error Correction <span>[<a href="#RFC6363" class="cite xref">RFC6363</a>]</span> to audio samples and encapsulate the result in QUIC DATAGRAMs while encapsulating RTP video packets in QUIC streams.<a href="#section-8-4" class="pilcrow">¶</a></p>
 <p id="section-8-5">As noted in <a href="#multiplexing" class="auto internal xref">Section 5.1</a>, all RoQ streams and datagrams begin with a flow identifier. This allows a RoQ sender to begin by encapsulating related RTP packets in a stream and then switch to carrying them in QUIC DATAGRAMs, or vice versa. RoQ receivers need to be prepared to accept any valid RTP packet with a given flow identifier, whether it started by being encapsulated in QUIC streams or in QUIC DATAGRAMs, and RoQ receivers need to be prepared to accept RTP flows that switch from QUIC stream encapsulation to QUIC DATAGRAMs, or vice versa.<a href="#section-8-5" class="pilcrow">¶</a></p>
-<p id="section-8-6">Because QUIC provides a capability to migrate connections for various reasons, including recovering from a path failure (<span><a href="https://rfc-editor.org/rfc/rfc9000#section-9" class="relref">Section 9</a> of [<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>), a RoQ sender has the opportunity to revisit decisions about which RTP packets are encapsulated in QUIC streams, and which RTP packets are encapsulated in QUIC DATAGRAMs, when a QUIC connection migrates. Again, RoQ receivers need to be prepated for this eventuality.<a href="#section-8-6" class="pilcrow">¶</a></p>
+<p id="section-8-6">Because QUIC provides a capability to migrate connections for various reasons, including recovering from a path failure (<span><a href="https://rfc-editor.org/rfc/rfc9000#section-9" class="relref">Section 9</a> of [<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>), a RoQ sender has the opportunity to revisit decisions about which RTP packets are encapsulated in QUIC streams, and which RTP packets are encapsulated in QUIC DATAGRAMs, when a QUIC connection migrates. Again, RoQ receivers need to be prepared for this eventuality.<a href="#section-8-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="rtcp-mapping">
@@ -2525,7 +2525,7 @@ sessions as described in <span><a href="https://rfc-editor.org/rfc/rfc7667#secti
 RTCP packets for the participants not using RoQ by using the statistics the
 middlebox gets from QUIC and the mappings described in the following sections.
 If the middlebox does not provide Back-to-Back RTP sessions, participants may
-use additional signalling to let the RoQ participants know what RTCP is
+use additional signaling to let the RoQ participants know what RTCP is
 required.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2605,12 +2605,12 @@ there is no error to signal.<a href="#section-10-2.2.1" class="pilcrow">¶</a></
         <dd class="break"></dd>
 <dt id="section-10-2.3">ROQ_GENERAL_ERROR (0x01):</dt>
         <dd style="margin-left: 1.5em" id="section-10-2.4">
-          <p id="section-10-2.4.1">An error that does not match a more specific error code occured.<a href="#section-10-2.4.1" class="pilcrow">¶</a></p>
+          <p id="section-10-2.4.1">An error that does not match a more specific error code occurred.<a href="#section-10-2.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-10-2.5">ROQ_INTERNAL_ERROR (0x02):</dt>
         <dd style="margin-left: 1.5em" id="section-10-2.6">
-          <p id="section-10-2.6.1">An internal error has occured in the RoQ stack.<a href="#section-10-2.6.1" class="pilcrow">¶</a></p>
+          <p id="section-10-2.6.1">An internal error has occurred in the RoQ stack.<a href="#section-10-2.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-10-2.7">ROQ_PACKET_ERROR (0x03):</dt>
@@ -2635,13 +2635,13 @@ be sent on new streams.<a href="#section-10-2.12.1" class="pilcrow">¶</a></p>
 <dt id="section-10-2.13">ROQ_UNKNOWN_FLOW_ID (0x06):</dt>
         <dd style="margin-left: 1.5em" id="section-10-2.14">
           <p id="section-10-2.14.1">An endpoint was unable to handle a flow identifier, e.g., because it was not
-signalled or because the endpoint does not support multiplexing using arbitrary
+signaled or because the endpoint does not support multiplexing using arbitrary
 flow identifiers.<a href="#section-10-2.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-10-2.15">ROQ_EXPECTATION_UNMET (0x07):</dt>
         <dd style="margin-left: 1.5em" id="section-10-2.16">
-          <p id="section-10-2.16.1">Expectiations of the QUIC transport set by RoQ out-of-band signalling were not
+          <p id="section-10-2.16.1">Expectiations of the QUIC transport set by RoQ out-of-band signaling were not
 met by the QUIC connection.<a href="#section-10-2.16.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
@@ -2720,7 +2720,7 @@ of the application if necessary.<a href="#section-11-3.7.1" class="pilcrow">¶</
         <h3 id="name-impact-of-connection-migrat">
 <a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-impact-of-connection-migrat" class="section-name selfRef">Impact of Connection Migration</a>
         </h3>
-<p id="section-12.1-1">RTP sessions are characterized by a continuous flow of packets into either or
+<p id="section-12.1-1">RTP sessions are characterized by a continuous flow of packets in either or
 both directions.  A connection migration may lead to pausing media
 transmission until reachability of the peer under the new address is validated.
 This may lead to short breaks in media delivery in the order of RTT and, if
@@ -2786,10 +2786,10 @@ keying material to prevent replays across sessions.<a href="#section-12.2.2-5" c
 </div>
 </section>
 </div>
-<div id="coalescing-rtp-packets-in-single-quic-packet">
+<div id="coalescing-rtp-packets-in-a-single-quic-packet">
 <section id="section-12.3">
-        <h3 id="name-coalescing-rtp-packets-in-s">
-<a href="#section-12.3" class="section-number selfRef">12.3. </a><a href="#name-coalescing-rtp-packets-in-s" class="section-name selfRef">Coalescing RTP packets in single QUIC packet</a>
+        <h3 id="name-coalescing-rtp-packets-in-a">
+<a href="#section-12.3" class="section-number selfRef">12.3. </a><a href="#name-coalescing-rtp-packets-in-a" class="section-name selfRef">Coalescing RTP packets in a single QUIC packet</a>
         </h3>
 <p id="section-12.3-1">Applications have some control over how the QUIC stack maps application data to
 QUIC frames, but applications cannot control how the QUIC stack maps STREAM and
@@ -2840,7 +2840,7 @@ selecting and configuring a QUIC stack for use with RoQ.<a href="#section-12.3-5
           <p id="section-13-2.1.1">Better guidance on transport for RTCP (for example, when to use QUIC streams vs. QUIC datagrams).<a href="#section-13-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-13-2.2">
-          <p id="section-13-2.2.1">Better guidance on the use of realtime-friendly congestion control algorithms (for example, Copa <span>[<a href="#Copa" class="cite xref">Copa</a>]</span>, L4S <span>[<a href="#RFC9330" class="cite xref">RFC9330</a>]</span>, etc.).<a href="#section-13-2.2.1" class="pilcrow">¶</a></p>
+          <p id="section-13-2.2.1">Better guidance on the use of real-time-friendly congestion control algorithms (for example, Copa <span>[<a href="#Copa" class="cite xref">Copa</a>]</span>, L4S <span>[<a href="#RFC9330" class="cite xref">RFC9330</a>]</span>, etc.).<a href="#section-13-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-13-2.3">
           <p id="section-13-2.3.1">Better guidance for congestion control and rate adaptation for multiple RoQ flows (whether streams or datagrams).<a href="#section-13-2.3.1" class="pilcrow">¶</a></p>
@@ -3035,7 +3035,7 @@ list a change controller of the IETF and a contact of the AVTCORE working group
             <tr>
               <td class="text-left" rowspan="1" colspan="1">0x07</td>
               <td class="text-left" rowspan="1" colspan="1">ROQ_EXPECTATION_UNMET</td>
-              <td class="text-left" rowspan="1" colspan="1">Externally signalled requirement unmet</td>
+              <td class="text-left" rowspan="1" colspan="1">Externally signaled requirement unmet</td>
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#error-handling" class="auto internal xref">Section 10</a>
 </td>
@@ -3514,8 +3514,8 @@ described in <a href="#rtcp-mapping" class="auto internal xref">Section 9</a> an
           </ul>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1"><em>QUIC Acknowledgement Frequency</em> <span>[<a href="#I-D.draft-ietf-quic-ack-frequency" class="cite xref">I-D.draft-ietf-quic-ack-frequency</a>]</span> can
-be used by a sender to optimize the acknowledgement behaviour of the receiver,
+          <p id="appendix-A-2.3.1"><em>QUIC Acknowledgment Frequency</em> <span>[<a href="#I-D.draft-ietf-quic-ack-frequency" class="cite xref">I-D.draft-ietf-quic-ack-frequency</a>]</span> can
+be used by a sender to optimize the acknowledgment behavior of the receiver,
 e.g., to optimize congestion control.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.4">
