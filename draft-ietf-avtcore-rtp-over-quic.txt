@@ -72,7 +72,7 @@ Table of Contents
 
    1.  Introduction
      1.1.  Background
-     1.2.  What's in Scope for this document
+     1.2.  What's in Scope for this Document
      1.3.  What's Out of Scope for this Document
    2.  Terminology and Notation
    3.  Protocol Overview
@@ -184,7 +184,7 @@ Table of Contents
    desirable properties for real-time traffic (e.g., no unnecessary
    retransmissions, avoiding head-of-line blocking).
 
-1.2.  What's in Scope for this document
+1.2.  What's in Scope for this Document
 
    This document focuses on providing a secure encapsulation of RTP and
    RTCP packets for transmission over QUIC.  The expected usage is
