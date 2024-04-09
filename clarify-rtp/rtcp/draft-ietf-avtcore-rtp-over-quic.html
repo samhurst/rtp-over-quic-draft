@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>RTP and RTCP over QUIC (RoQ)</title>
+<title>RTP over QUIC (RoQ)</title>
 <meta content="Jörg Ott" name="author">
 <meta content="Mathis Engelbart" name="author">
 <meta content="Spencer Dawkins" name="author">
@@ -1032,12 +1032,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <table class="ears">
 <thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="center">RTP and RTCP over QUIC (RoQ)</td>
+<td class="center">RTP over QUIC (RoQ)</td>
 <td class="right">April 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ott, et al.</td>
-<td class="center">Expires 4 October 2024</td>
+<td class="center">Expires 11 October 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1050,12 +1050,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-avtcore-rtp-over-quic-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-04-02" class="published">2 April 2024</time>
+<time datetime="2024-04-09" class="published">9 April 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Experimental</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-10-04">4 October 2024</time></dd>
+<dd class="expires"><time datetime="2024-10-11">11 October 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1073,7 +1073,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </dd>
 </dl>
 </div>
-<h1 id="title">RTP and RTCP over QUIC (RoQ)</h1>
+<h1 id="title">RTP over QUIC (RoQ)</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document specifies a minimal mapping for encapsulating Real-time Transport
@@ -1114,7 +1114,7 @@ adaptation for RTP without relying on RTCP feedback.<a href="#section-abstract-2
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1420,7 +1420,7 @@ packet losses, the default underlying transport protocol has been UDP, recently
 with DTLS on top to secure the media exchange and occasionally TCP (and possibly
 TLS) as a fallback.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <p id="section-1.1-2">This document describes an application usage of QUIC (<span>[<a href="#RFC9308" class="cite xref">RFC9308</a>]</span>).
-As a baseline, the Document does not expect more than a standard QUIC implementation
+As a baseline, the document does not expect more than a standard QUIC implementation
 as defined in <span>[<a href="#RFC8999" class="cite xref">RFC8999</a>]</span>, <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>, <span>[<a href="#RFC9001" class="cite xref">RFC9001</a>]</span>, and <span>[<a href="#RFC9002" class="cite xref">RFC9002</a>]</span>,
 providing a secure end-to-end transport that is also expected to work well through NATs and firewalls.
 Beyond this baseline, real-time applications can benefit from QUIC extensions such as unreliable DATAGRAMs
@@ -1511,7 +1511,7 @@ document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" 
 when, and only when, they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-2-2.1">
-          <p id="section-2-2.1.1"><strong>Note to the Reader:</strong> <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> actually describes two closely-related protocols - the RTP Data Transfer Protocol <span><a href="https://rfc-editor.org/rfc/rfc3550#section-5" class="relref">Section 5</a> of [<a href="#RFC3550" class="cite xref">RFC3550</a>]</span>, and the RTP Control Protocol <span><a href="https://rfc-editor.org/rfc/rfc3550#section-6" class="relref">Section 6</a> of [<a href="#RFC3550" class="cite xref">RFC3550</a>]</span>. In this document, the term "RTP" refers to the combination of RTP Data Transfer Protocol and RTP Control Protocol, because the distinction isn't relevant for encapsulation. The term "RTCP" always refers to the RTP Control Protocol.<a href="#section-2-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.1.1"><strong>Note to the Reader:</strong> <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> actually describes two closely-related protocols - the RTP Data Transfer Protocol <span><a href="https://rfc-editor.org/rfc/rfc3550#section-5" class="relref">Section 5</a> of [<a href="#RFC3550" class="cite xref">RFC3550</a>]</span>, and the RTP Control Protocol <span><a href="https://rfc-editor.org/rfc/rfc3550#section-6" class="relref">Section 6</a> of [<a href="#RFC3550" class="cite xref">RFC3550</a>]</span>. In this document, the term "RTP" refers to the combination of RTP Data Transfer Protocol and RTP Control Protocol, because the distinction isn't relevant for encapsulation, and the term "RTCP" always refers to the RTP Control Protocol.<a href="#section-2-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <ul class="normal ulEmpty">
@@ -3173,7 +3173,7 @@ list a change controller of the IETF and a contact of the AVTCORE working group
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-avtcore-rtcp-green-metadata">[I-D.draft-ietf-avtcore-rtcp-green-metadata]</dt>
         <dd>
-<span class="refAuthor">He, Y.</span>, <span class="refAuthor">Herglotz, C.</span>, and <span class="refAuthor">E. Francois</span>, <span class="refTitle">"RTP Control Protocol (RTCP) Messages for Temporal-Spatial Resolution"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-avtcore-rtcp-green-metadata-02</span>, <time datetime="2023-10-12" class="refDate">12 October 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-rtcp-green-metadata-02">https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-rtcp-green-metadata-02</a>&gt;</span>. </dd>
+<span class="refAuthor">He, Y.</span>, <span class="refAuthor">Herglotz, C.</span>, and <span class="refAuthor">E. Francois</span>, <span class="refTitle">"RTP Control Protocol (RTCP) Messages for Temporal-Spatial Resolution"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-avtcore-rtcp-green-metadata-03</span>, <time datetime="2024-04-08" class="refDate">8 April 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-rtcp-green-metadata-03">https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-rtcp-green-metadata-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.draft-ietf-avtext-lrr-07">[I-D.draft-ietf-avtext-lrr-07]</dt>
         <dd>

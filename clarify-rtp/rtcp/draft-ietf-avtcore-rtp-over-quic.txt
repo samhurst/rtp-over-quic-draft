@@ -5,12 +5,12 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 4 October 2024                                       S. Dawkins
+Expires: 11 October 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                            2 April 2024
+                                                            9 April 2024
 
 
-                      RTP and RTCP over QUIC (RoQ)
+                          RTP over QUIC (RoQ)
                 draft-ietf-avtcore-rtp-over-quic-latest
 
 Abstract
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 October 2024.
+   This Internet-Draft will expire on 11 October 2024.
 
 Copyright Notice
 
@@ -172,7 +172,7 @@ Table of Contents
    fallback.
 
    This document describes an application usage of QUIC ([RFC9308]).  As
-   a baseline, the Document does not expect more than a standard QUIC
+   a baseline, the document does not expect more than a standard QUIC
    implementation as defined in [RFC8999], [RFC9000], [RFC9001], and
    [RFC9002], providing a secure end-to-end transport that is also
    expected to work well through NATs and firewalls.  Beyond this
@@ -271,7 +271,7 @@ Table of Contents
       [RFC3550], and the RTP Control Protocol Section 6 of [RFC3550].
       In this document, the term "RTP" refers to the combination of RTP
       Data Transfer Protocol and RTP Control Protocol, because the
-      distinction isn't relevant for encapsulation.  The term "RTCP"
+      distinction isn't relevant for encapsulation, and the term "RTCP"
       always refers to the RTP Control Protocol.
 
       *Note to the Reader:* the meaning of the terms "congestion
@@ -1988,9 +1988,9 @@ Table of Contents
               He, Y., Herglotz, C., and E. Francois, "RTP Control
               Protocol (RTCP) Messages for Temporal-Spatial Resolution",
               Work in Progress, Internet-Draft, draft-ietf-avtcore-rtcp-
-              green-metadata-02, 12 October 2023,
+              green-metadata-03, 8 April 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-
-              rtcp-green-metadata-02>.
+              rtcp-green-metadata-03>.
 
    [I-D.draft-ietf-avtext-lrr-07]
               Lennox, J., Hong, D., Uberti, J., Holmer, S., and M.
