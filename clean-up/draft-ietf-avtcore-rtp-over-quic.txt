@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 14 October 2024                                      S. Dawkins
+Expires: 17 October 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                           12 April 2024
+                                                           15 April 2024
 
 
                           RTP over QUIC (RoQ)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 October 2024.
+   This Internet-Draft will expire on 17 October 2024.
 
 Copyright Notice
 
@@ -836,8 +836,8 @@ Table of Contents
 
    QUIC requires the use of Application-Layer Protocol Negotiation
    (ALPN) [RFC7301] tokens during connection setup.  RoQ uses "roq" as
-   the ALPN token, included as part of the TLS ClientHello message (see
-   also Section 15).
+   the ALPN token, included as part of the TLS handshake (see also
+   Section 15).
 
    Note that the "roq" ALPN token is not tied to a specific RTP profile,
    even though the RTP profile could be considered part of the
@@ -985,7 +985,7 @@ Table of Contents
    using a STOP_SENDING frame.
 
    If a RoQ sender discovers that a packet is no longer needed and knows
-   that the packet that has not yet been successfully and completely
+   that the packet has not yet been successfully and completely
    transmitted, it can use RESET_STREAM to tell the RoQ receiver that
    the RoQ sender is discarding the packet.
 
