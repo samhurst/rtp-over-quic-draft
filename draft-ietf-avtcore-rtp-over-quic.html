@@ -1450,8 +1450,10 @@ We expect RoQ to be used in contexts where a signaling protocol is used to annou
 encapsulation for RTP and the associated transport parameters (such as IP address, port
 number). RoQ does not provide a stand-alone media transport capability, because at a minimum, media
 transport parameters would need to be statically configured.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
-<p id="section-1.2-2">The above implies that RoQ is targeted at peer-to-peer RTP operation; but
-it can also be used in RTP client-server-style settings, e.g., when talking to a
+<p id="section-1.2-2">RoQ can be used in many of the point-to-point and multi-endpoint RTP topologies described in <span>[<a href="#RFC7667" class="cite xref">RFC7667</a>]</span>, and can be used with both decentralized and centralized control topologies.
+When RoQ is used in a decentralized topology, RTP is exchanged directly between ultimate RTP endpoints.
+When RoQ is used in a centralized topology, RTP transits one or more middleboxes which might function as mixers or translators between ultimate RTP endpoints.
+RoQ can also be used in RTP client-server-style settings, e.g., when talking to a
 conference server as described in RFC 7667 (<span>[<a href="#RFC7667" class="cite xref">RFC7667</a>]</span>), or, if RoQ
 is used to replace RTSP (<span>[<a href="#RFC7826" class="cite xref">RFC7826</a>]</span>), to a media server.<a href="#section-1.2-2" class="pilcrow">¶</a></p>
 <p id="section-1.2-3">An appropriate rate adaptation algorithm can be plugged in to adapt the media bitrate to the available bandwidth.
