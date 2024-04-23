@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 24 October 2024                                      S. Dawkins
+Expires: 25 October 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                           22 April 2024
+                                                           23 April 2024
 
 
                           RTP over QUIC (RoQ)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 October 2024.
+   This Internet-Draft will expire on 25 October 2024.
 
 Copyright Notice
 
@@ -1756,8 +1756,7 @@ Table of Contents
    This document describes RoQ in sufficient detail that an implementer
    can build a RoQ application, but we recognize that additional work is
    likely, after we have sufficient experience with RoQ to guide that
-   work.  Possible directions would include future work resulting from
-   experience (Section 13.1) and work resulting from new QUIC extensions
+   work (Section 13.1) and and as new QUIC extensions become available
    (Section 13.2).
 
 13.1.  Future Work Resulting from Implementation and Deployment
