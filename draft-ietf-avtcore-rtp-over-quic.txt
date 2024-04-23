@@ -1755,7 +1755,8 @@ Table of Contents
    This document describes RoQ in sufficient detail that an implementer
    can build a RoQ application, but we recognize that additional work is
    likely, after we have sufficient experience with RoQ to guide that
-   work.  Possible directions would include
+   work (Section 13.1) and and as new QUIC extensions become available
+   (Section 13.2).
 
 13.1.  Future Work Resulting from Implementation and Deployment
        Experience
