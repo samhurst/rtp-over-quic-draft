@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 21 October 2024                                      S. Dawkins
+Expires: 25 October 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                           19 April 2024
+                                                           23 April 2024
 
 
                           RTP over QUIC (RoQ)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 October 2024.
+   This Internet-Draft will expire on 25 October 2024.
 
 Copyright Notice
 
@@ -232,10 +232,9 @@ Table of Contents
    single QUIC connection and thus using a single (destination IP
    address, destination port number, source IP address, source port
    number, protocol) 5-tuple.  We note that multiple independent QUIC
-   connections can be established in parallel using the same destination
-   IP address, destination port number, source IP address, source port
-   number, protocol) 5-tuple., e.g. to carry different media channels.
-   These connections would be logically independent of one another.
+   connections can be established in parallel using the same 5-tuple.,
+   e.g. to carry different media channels.  These connections would be
+   logically independent of one another.
 
 1.3.  What's Out of Scope for this Document
 
