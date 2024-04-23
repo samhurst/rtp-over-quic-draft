@@ -1424,10 +1424,13 @@ adaptation for RTP without relying on RTCP feedback.<a href="#section-1-2" class
 <p id="section-1.1-1">The Real-time Transport Protocol (RTP) <span>[<a href="#RFC3550" class="cite xref">RFC3550</a>]</span> is generally used to carry
 real-time media for conversational media sessions, such as video conferences,
 across the Internet.  Since RTP requires real-time delivery and is tolerant to
-packet losses, the default underlying transport protocol has historically been UDP <span>[<a href="#RFC0768" class="cite xref">RFC0768</a>]</span>. More recently,
-DTLS <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> has been used as an underlying transport in order to secure the media exchange,
-and other transport protocols such as TCP <span>[<a href="#RFC9293" class="cite xref">RFC9293</a>]</span> and TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>
-have been used as fallbacks, when UDP is blocked for some reason.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+packet losses, the default underlying transport protocol has historically been
+UDP <span>[<a href="#RFC0768" class="cite xref">RFC0768</a>]</span>, but a large variety of other underlying transport protocols
+have been defined for various reasons (e.g., securing media exchange, or
+providing a fallback when UDP is blocked along a network path). This document
+describes RTP over QUIC, providing one more underlying transport protocol. The
+reasons for using QUIC as an underlying transport protocol are given in
+<a href="#motivations" class="auto internal xref">Section 3.1</a>}.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <p id="section-1.1-2">This document describes an application usage of QUIC (<span>[<a href="#RFC9308" class="cite xref">RFC9308</a>]</span>).
 As a baseline, the document does not expect more than a standard QUIC implementation
 as defined in <span>[<a href="#RFC8999" class="cite xref">RFC8999</a>]</span>, <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>, <span>[<a href="#RFC9001" class="cite xref">RFC9001</a>]</span>, and <span>[<a href="#RFC9002" class="cite xref">RFC9002</a>]</span>,
@@ -3471,10 +3474,6 @@ list a change controller of the IETF and a contact of the AVTCORE working group
         <dd>
 <span class="refAuthor">Keranen, A.</span>, <span class="refAuthor">Holmberg, C.</span>, and <span class="refAuthor">J. Rosenberg</span>, <span class="refTitle">"Interactive Connectivity Establishment (ICE): A Protocol for Network Address Translator (NAT) Traversal"</span>, <span class="seriesInfo">RFC 8445</span>, <span class="seriesInfo">DOI 10.17487/RFC8445</span>, <time datetime="2018-07" class="refDate">July 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8445">https://www.rfc-editor.org/rfc/rfc8445</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC8446">[RFC8446]</dt>
-        <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC8825">[RFC8825]</dt>
         <dd>
 <span class="refAuthor">Alvestrand, H.</span>, <span class="refTitle">"Overview: Real-Time Protocols for Browser-Based Applications"</span>, <span class="seriesInfo">RFC 8825</span>, <span class="seriesInfo">DOI 10.17487/RFC8825</span>, <time datetime="2021-01" class="refDate">January 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8825">https://www.rfc-editor.org/rfc/rfc8825</a>&gt;</span>. </dd>
@@ -3506,14 +3505,6 @@ list a change controller of the IETF and a contact of the AVTCORE working group
 <dt id="RFC9143">[RFC9143]</dt>
         <dd>
 <span class="refAuthor">Holmberg, C.</span>, <span class="refAuthor">Alvestrand, H.</span>, and <span class="refAuthor">C. Jennings</span>, <span class="refTitle">"Negotiating Media Multiplexing Using the Session Description Protocol (SDP)"</span>, <span class="seriesInfo">RFC 9143</span>, <span class="seriesInfo">DOI 10.17487/RFC9143</span>, <time datetime="2022-02" class="refDate">February 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9143">https://www.rfc-editor.org/rfc/rfc9143</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9147">[RFC9147]</dt>
-        <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">N. Modadugu</span>, <span class="refTitle">"The Datagram Transport Layer Security (DTLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 9147</span>, <span class="seriesInfo">DOI 10.17487/RFC9147</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9147">https://www.rfc-editor.org/rfc/rfc9147</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC9293">[RFC9293]</dt>
-        <dd>
-<span class="refAuthor">Eddy, W., Ed.</span>, <span class="refTitle">"Transmission Control Protocol (TCP)"</span>, <span class="seriesInfo">STD 7</span>, <span class="seriesInfo">RFC 9293</span>, <span class="seriesInfo">DOI 10.17487/RFC9293</span>, <time datetime="2022-08" class="refDate">August 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9293">https://www.rfc-editor.org/rfc/rfc9293</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9308">[RFC9308]</dt>
         <dd>
