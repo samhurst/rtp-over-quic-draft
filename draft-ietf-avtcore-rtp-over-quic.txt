@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 25 October 2024                                      S. Dawkins
+Expires: 27 October 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                           23 April 2024
+                                                           25 April 2024
 
 
                           RTP over QUIC (RoQ)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 October 2024.
+   This Internet-Draft will expire on 27 October 2024.
 
 Copyright Notice
 
@@ -2160,6 +2160,11 @@ Table of Contents
               <https://www.iana.org/assignments/rtp-parameters/rtp-
               parameters.xhtml#sdes-compact-header-extensions>.
 
+   [IEEE-1733-2011]
+              "IEEE 1733-2011 Standard for Layer 3 Transport Protocol
+              for Time-Sensitive Applications in Local Area Networks",
+              n.d., <https://standards.ieee.org/ieee/1733/4748/>.
+
    [RFC0768]  Postel, J., "User Datagram Protocol", STD 6, RFC 768,
               DOI 10.17487/RFC0768, August 1980,
               <https://www.rfc-editor.org/rfc/rfc768>.
@@ -2537,71 +2542,76 @@ B.1.  RTCP Control Packet Types
 
    The IANA registry for this section is [IANA-RTCP-PT].
 
-   +==============+========+===+===========+===========+===============+
-   | Name         |Shortcut|PT | Defining  | Mappable  | Comments      |
-   |              |        |   | Document  | from QUIC |               |
-   +==============+========+===+===========+===========+===============+
-   | SMPTE time-  |SMPTETC |194| [RFC5484] | no        |               |
-   | code mapping |        |   |           |           |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Extended     |IJ      |195| [RFC5450] | no        | Would         |
-   | inter-       |        |   |           |           | require       |
-   | arrival      |        |   |           |           | send-         |
-   | jitter       |        |   |           |           | timestamps,   |
-   | report       |        |   |           |           | which are     |
-   |              |        |   |           |           | not provided  |
-   |              |        |   |           |           | by any QUIC   |
-   |              |        |   |           |           | extension     |
-   |              |        |   |           |           | today         |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Sender       |SR      |200| [RFC3550] | QUIC      | see Appendix  |
-   | Reports      |        |   |           | extension | B.6.4 and     |
-   |              |        |   |           | needed /  | Appendix      |
-   |              |        |   |           | partly    | B.6.1         |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Receiver     |RR      |201| [RFC3550] | QUIC      | see Appendix  |
-   | Reports      |        |   |           | extension | B.6.1         |
-   |              |        |   |           | needed    |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Source       |SDES    |202| [RFC3550] | no        |               |
-   | description  |        |   |           |           |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Goodbye      |BYE     |203| [RFC3550] | partly    | see Section   |
-   |              |        |   |           |           | 9.4.3         |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Application- |APP     |204| [RFC3550] | no        |               |
-   | defined      |        |   |           |           |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Generic RTP  |RTPFB   |205| [RFC4585] | partly    | see           |
-   | Feedback     |        |   |           |           | Appendix B.3  |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Payload-     |PSFB    |205| [RFC4585] | partly    | see           |
-   | specific     |        |   |           |           | Appendix B.4  |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | extended     |XR      |207| [RFC3611] | partly    | see           |
-   | report       |        |   |           |           | Appendix B.2  |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | AVB RTCP     |AVB     |   |           |           |               |
-   | packet       |        |   |           |           |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Receiver     |RSI     |209| [RFC5760] | no        |               |
-   | Summary      |        |   |           |           |               |
-   | Information  |        |   |           |           |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Port Mapping |TOKEN   |210| [RFC6284] | no        |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | IDMS         |IDMS    |211| [RFC7272] | no        |               |
-   | Settings     |        |   |           |           |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Reporting    |RGRS    |212| [RFC8861] | no        |               |
-   | Group        |        |   |           |           |               |
-   | Reporting    |        |   |           |           |               |
-   | Sources      |        |   |           |           |               |
-   +--------------+--------+---+-----------+-----------+---------------+
-   | Splicing     |SNM     |213| [RFC8286] | no        |               |
-   | Notification |        |   |           |           |               |
-   | Message      |        |   |           |           |               |
-   +--------------+--------+---+-----------+-----------+---------------+
+   +============+========+===+==================+=========+============+
+   |Name        |Shortcut|PT | Defining         |Mappable |Comments    |
+   |            |        |   | Document         |from QUIC|            |
+   +============+========+===+==================+=========+============+
+   |SMPTE time- |SMPTETC |194| [RFC5484]        |no       |            |
+   |code mapping|        |   |                  |         |            |
+   +------------+--------+---+------------------+---------+------------+
+   |Extended    |IJ      |195| [RFC5450]        |no       |Would       |
+   |inter-      |        |   |                  |         |require     |
+   |arrival     |        |   |                  |         |send-       |
+   |jitter      |        |   |                  |         |timestamps, |
+   |report      |        |   |                  |         |which are   |
+   |            |        |   |                  |         |not         |
+   |            |        |   |                  |         |provided by |
+   |            |        |   |                  |         |any QUIC    |
+   |            |        |   |                  |         |extension   |
+   |            |        |   |                  |         |today       |
+   +------------+--------+---+------------------+---------+------------+
+   |Sender      |SR      |200| [RFC3550]        |QUIC     |see         |
+   |Reports     |        |   |                  |extension|Appendix    |
+   |            |        |   |                  |needed / |B.6.4 and   |
+   |            |        |   |                  |partly   |Appendix    |
+   |            |        |   |                  |         |B.6.1       |
+   +------------+--------+---+------------------+---------+------------+
+   |Receiver    |RR      |201| [RFC3550]        |QUIC     |see         |
+   |Reports     |        |   |                  |extension|Appendix    |
+   |            |        |   |                  |needed   |B.6.1       |
+   +------------+--------+---+------------------+---------+------------+
+   |Source      |SDES    |202| [RFC3550]        |no       |            |
+   |description |        |   |                  |         |            |
+   +------------+--------+---+------------------+---------+------------+
+   |Goodbye     |BYE     |203| [RFC3550]        |partly   |see Section |
+   |            |        |   |                  |         |9.4.3       |
+   +------------+--------+---+------------------+---------+------------+
+   |Application-|APP     |204| [RFC3550]        |no       |            |
+   |defined     |        |   |                  |         |            |
+   +------------+--------+---+------------------+---------+------------+
+   |Generic RTP |RTPFB   |205| [RFC4585]        |partly   |see         |
+   |Feedback    |        |   |                  |         |Appendix    |
+   |            |        |   |                  |         |B.3         |
+   +------------+--------+---+------------------+---------+------------+
+   |Payload-    |PSFB    |206| [RFC4585]        |partly   |see         |
+   |specific    |        |   |                  |         |Appendix    |
+   |            |        |   |                  |         |B.4         |
+   +------------+--------+---+------------------+---------+------------+
+   |extended    |XR      |207| [RFC3611]        |partly   |see         |
+   |report      |        |   |                  |         |Appendix    |
+   |            |        |   |                  |         |B.2         |
+   +------------+--------+---+------------------+---------+------------+
+   |AVB RTCP    |AVB     |208| [IEEE-1733-2011] |no       |            |
+   |packet      |        |   |                  |         |            |
+   +------------+--------+---+------------------+---------+------------+
+   |Receiver    |RSI     |209| [RFC5760]        |no       |            |
+   |Summary     |        |   |                  |         |            |
+   |Information |        |   |                  |         |            |
+   +------------+--------+---+------------------+---------+------------+
+   |Port Mapping|TOKEN   |210| [RFC6284]        |no       |            |
+   +------------+--------+---+------------------+---------+------------+
+   |IDMS        |IDMS    |211| [RFC7272]        |no       |            |
+   |Settings    |        |   |                  |         |            |
+   +------------+--------+---+------------------+---------+------------+
+   |Reporting   |RGRS    |212| [RFC8861]        |no       |            |
+   |Group       |        |   |                  |         |            |
+   |Reporting   |        |   |                  |         |            |
+   |Sources     |        |   |                  |         |            |
+   +------------+--------+---+------------------+---------+------------+
+   |Splicing    |SNM     |213| [RFC8286]        |no       |            |
+   |Notification|        |   |                  |         |            |
+   |Message     |        |   |                  |         |            |
+   +------------+--------+---+------------------+---------+------------+
 
                                   Table 3
 
