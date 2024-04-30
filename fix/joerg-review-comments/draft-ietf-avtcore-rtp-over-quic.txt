@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 31 October 2024                                      S. Dawkins
+Expires: 1 November 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                           29 April 2024
+                                                           30 April 2024
 
 
                           RTP over QUIC (RoQ)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 October 2024.
+   This Internet-Draft will expire on 1 November 2024.
 
 Copyright Notice
 
@@ -1430,15 +1430,15 @@ Table of Contents
 9.2.  RoQ Streams
 
    For RTP packets that are sent over QUIC streams, an RTP packet is
-   considered acknowledged after all frames that carried fragments of
-   the RTP packet were acknowledged.
+   considered acknowledged after all frames that carried parts of the
+   RTP packet were acknowledged.
 
    When QUIC streams are used, the implementer needs to be aware that
    the direct mapping proposed below might not reflect the real
    characteristics of the network.  RTP packet loss can seem lower than
    actual packet loss due to QUIC's automatic retransmissions.
-   Similarly, timing information can be incorrect due to
-   retransmissions.
+   Similarly, timing information can be incorrect due to retransmissions
+   or transmission delays introduced by the QUIC stack.
 
 9.3.  Multihop Topologies
 
@@ -1477,12 +1477,12 @@ Table of Contents
    similar considerations would apply when exchanging any other type of
    RTCP control packets using RoQ.
 
-   A more thorough analysis of RTCP Control Packet Types (in
-   Appendix B.1), Generic RTP Feedback (RTPFB) (in Appendix B.3),
-   Payload-specific RTP Feedback (PSFB) (in Appendix B.4), Extended
-   Reports (in Appendix B.2), and RTP Header Extensions (in
-   Appendix B.5), including the information that cannot be mapped from
-   QUIC, can be found in Appendix B.
+   A more thorough analysis including the information that cannot be
+   mapped from QUIC can be found in Appendix B: RTCP Control Packet
+   Types (in Appendix B.1), Generic RTP Feedback (RTPFB) (in
+   Appendix B.3), Payload-specific RTP Feedback (PSFB) (in
+   Appendix B.4), Extended Reports (in Appendix B.2), and RTP Header
+   Extensions (in Appendix B.5).
 
 9.4.1.  Negative Acknowledgments ("NACK")
 
@@ -1571,7 +1571,7 @@ Table of Contents
    different optimizations depending on the functionality exposed by the
    QUIC implementation.
 
-   *  _initial_max_data transport_: if the QUIC receiver has indicated a
+   *  _initial_max_data transport_: If the QUIC receiver has indicated a
       willingness to accept 0-RTT packets with early data, this is the
       maximum size that the QUIC sender can use, as described in
       Section 12.2.
@@ -1612,6 +1612,8 @@ Table of Contents
 
    *  _ECN_: If ECN marks are available, they can support the bandwidth
       estimation of the application.
+
+   *  _RTT_: The RTT estimations as described in Section 5 of [RFC9002].
 
    One goal for the RoQ protocol is to shield RTP applications from the
    details of QUIC encapsulation, so the RTP application doesn't need
@@ -1766,14 +1768,14 @@ Table of Contents
 
    Possible directions would include
 
-   *  Guidance on transport for RTCP (for example, when to use QUIC
+   *  More guidance on transport for RTCP (for example, when to use QUIC
       streams vs. DATAGRAMs).
 
-   *  Guidance on the use of real-time-friendly congestion control
+   *  More guidance on the use of real-time-friendly congestion control
       algorithms (for example, Copa [Copa], L4S [RFC9330], etc.).
 
-   *  Guidance for congestion control and rate adaptation for multiple
-      RoQ flows (whether streams or datagrams).
+   *  More guidance for congestion control and rate adaptation for
+      multiple RoQ flows (whether streams or datagrams).
 
    *  Possible guidance for connection sharing between real-time and
       non-real-time flows, including considerations for congestion
@@ -2813,10 +2815,7 @@ B.3.  FMT Values for RTP Feedback (RTPFB) Payload Types
    |       |Third-Party Loss |                 |         |to tell a QUIC  |
    |       |Early Indication |                 |         |implementation  |
    |       |                 |                 |         |"don't ask for  |
-   |       |                 |                 |         |retransmission",|
-   |       |                 |                 |         |but QUIC would  |
-   |       |                 |                 |         |not ask that    |
-   |       |                 |                 |         |anyway.         |
+   |       |                 |                 |         |retransmission".|
    +-------+-----------------+-----------------+---------+----------------+
    |RTCP-  |RTCP ECN Feedback|[RFC6679]        |partly   |see             |
    |ECN-FB |                 |                 |         |Section 9.4.2   |

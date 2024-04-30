@@ -1037,7 +1037,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ott, et al.</td>
-<td class="center">Expires 31 October 2024</td>
+<td class="center">Expires 1 November 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1050,12 +1050,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-avtcore-rtp-over-quic-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-04-29" class="published">29 April 2024</time>
+<time datetime="2024-04-30" class="published">30 April 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Experimental</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-10-31">31 October 2024</time></dd>
+<dd class="expires"><time datetime="2024-11-01">1 November 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1114,7 +1114,7 @@ adaptation for RTP without relying on RTCP feedback.<a href="#section-abstract-2
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 31 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 November 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2516,13 +2516,13 @@ packet was acknowledged.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-roq-streams" class="section-name selfRef">RoQ Streams</a>
         </h3>
 <p id="section-9.2-1">For RTP packets that are sent over QUIC streams, an RTP packet is considered
-acknowledged after all frames that carried fragments of the RTP packet were
+acknowledged after all frames that carried parts of the RTP packet were
 acknowledged.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <p id="section-9.2-2">When QUIC streams are used, the implementer needs to be aware that the direct
 mapping proposed below might not reflect the real characteristics of the network.
 RTP packet loss can seem lower than actual packet loss due to QUIC's automatic
 retransmissions. Similarly, timing information can be incorrect due to
-retransmissions.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
+retransmissions or transmission delays introduced by the QUIC stack.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="multi-hop">
@@ -2565,12 +2565,12 @@ reception statistics can be replaced by equivalent statistics that are already
 collected by QUIC. The following list explains how this mapping can be achieved
 for the individual fields of different RTCP packet types.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
 <p id="section-9.4-2">The list of RTCP packets in this section is not exhaustive, and similar considerations would apply when exchanging any other type of RTCP control packets using RoQ.<a href="#section-9.4-2" class="pilcrow">¶</a></p>
-<p id="section-9.4-3">A more thorough analysis of RTCP Control Packet Types (in <a href="#control-packets" class="auto internal xref">Appendix B.1</a>),
-Generic RTP Feedback (RTPFB) (in <a href="#generic-feedback" class="auto internal xref">Appendix B.3</a>), Payload-specific RTP
-Feedback (PSFB) (in <a href="#payload-specific-feedback" class="auto internal xref">Appendix B.4</a>), Extended Reports (in
-<a href="#extended-reports" class="auto internal xref">Appendix B.2</a>), and RTP Header Extensions (in <a href="#rtp-header-extensions" class="auto internal xref">Appendix B.5</a>),
-including the information that cannot be mapped from QUIC, can be found in
-<a href="#rtcp-analysis" class="auto internal xref">Appendix B</a>.<a href="#section-9.4-3" class="pilcrow">¶</a></p>
+<p id="section-9.4-3">A more thorough analysis including the information that cannot be mapped from
+QUIC can be found in <a href="#rtcp-analysis" class="auto internal xref">Appendix B</a>: RTCP Control Packet Types (in
+<a href="#control-packets" class="auto internal xref">Appendix B.1</a>), Generic RTP Feedback (RTPFB) (in <a href="#generic-feedback" class="auto internal xref">Appendix B.3</a>),
+Payload-specific RTP Feedback (PSFB) (in <a href="#payload-specific-feedback" class="auto internal xref">Appendix B.4</a>),
+Extended Reports (in <a href="#extended-reports" class="auto internal xref">Appendix B.2</a>), and RTP Header Extensions (in
+<a href="#rtp-header-extensions" class="auto internal xref">Appendix B.5</a>).<a href="#section-9.4-3" class="pilcrow">¶</a></p>
 <div id="NACK-mappings">
 <section id="section-9.4.1">
           <h4 id="name-negative-acknowledgments-na">
@@ -2689,7 +2689,7 @@ listed features but can apply different optimizations depending on the
 functionality exposed by the QUIC implementation.<a href="#section-11-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11-3.1">
-          <p id="section-11-3.1.1"><em>initial_max_data transport</em>: if the QUIC receiver has indicated a willingness to accept
+          <p id="section-11-3.1.1"><em>initial_max_data transport</em>: If the QUIC receiver has indicated a willingness to accept
 0-RTT packets with early data, this is the maximum size that the QUIC sender can use,
 as described in <a href="#ed-considerations" class="auto internal xref">Section 12.2</a>.<a href="#section-11-3.1.1" class="pilcrow">¶</a></p>
 </li>
@@ -2730,6 +2730,9 @@ bandwidth estimation algorithm in the application.<a href="#section-11-3.6.1" cl
         <li class="normal" id="section-11-3.7">
           <p id="section-11-3.7.1"><em>ECN</em>: If ECN marks are available, they can support the bandwidth estimation
 of the application.<a href="#section-11-3.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-11-3.8">
+          <p id="section-11-3.8.1"><em>RTT</em>: The RTT estimations as described in <span><a href="https://rfc-editor.org/rfc/rfc9002#section-5" class="relref">Section 5</a> of [<a href="#RFC9002" class="cite xref">RFC9002</a>]</span>.<a href="#section-11-3.8.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-11-4">One goal for the RoQ protocol is to shield RTP applications from the details of QUIC encapsulation, so the RTP application doesn't need much information about QUIC from RoQ, but some information will be valuable. For example, it could be desirable that the RoQ implementation provides an indication of connection migration to the RTP application.<a href="#section-11-4" class="pilcrow">¶</a></p>
@@ -2868,13 +2871,13 @@ selecting and configuring a QUIC stack for use with RoQ.<a href="#section-12.3-5
 <p id="section-13.1-1">Possible directions would include<a href="#section-13.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13.1-2.1">
-            <p id="section-13.1-2.1.1">Guidance on transport for RTCP (for example, when to use QUIC streams vs. DATAGRAMs).<a href="#section-13.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-13.1-2.1.1">More guidance on transport for RTCP (for example, when to use QUIC streams vs. DATAGRAMs).<a href="#section-13.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.1-2.2">
-            <p id="section-13.1-2.2.1">Guidance on the use of real-time-friendly congestion control algorithms (for example, Copa <span>[<a href="#Copa" class="cite xref">Copa</a>]</span>, L4S <span>[<a href="#RFC9330" class="cite xref">RFC9330</a>]</span>, etc.).<a href="#section-13.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-13.1-2.2.1">More guidance on the use of real-time-friendly congestion control algorithms (for example, Copa <span>[<a href="#Copa" class="cite xref">Copa</a>]</span>, L4S <span>[<a href="#RFC9330" class="cite xref">RFC9330</a>]</span>, etc.).<a href="#section-13.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.1-2.3">
-            <p id="section-13.1-2.3.1">Guidance for congestion control and rate adaptation for multiple RoQ flows (whether streams or datagrams).<a href="#section-13.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-13.1-2.3.1">More guidance for congestion control and rate adaptation for multiple RoQ flows (whether streams or datagrams).<a href="#section-13.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.1-2.4">
             <p id="section-13.1-2.4.1">Possible guidance for connection sharing between real-time and non-real-time flows, including considerations for congestion control and rate adaptation, scheduling, prioritization, and which ALPNs to use.<a href="#section-13.1-2.4.1" class="pilcrow">¶</a></p>
@@ -4148,7 +4151,7 @@ extensions follow in <a href="#rtcp-quic-ext-examples" class="auto internal xref
                 <span>[<a href="#RFC6642" class="cite xref">RFC6642</a>]</span>
 </td>
               <td class="text-left" rowspan="1" colspan="1">no</td>
-              <td class="text-left" rowspan="1" colspan="1">There is no way to tell a QUIC implementation "don't ask for retransmission", but QUIC would not ask that anyway.</td>
+              <td class="text-left" rowspan="1" colspan="1">There is no way to tell a QUIC implementation "don't ask for retransmission".</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">RTCP-ECN-FB</td>
