@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 4 November 2024                                      S. Dawkins
+Expires: 9 November 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                              3 May 2024
+                                                              8 May 2024
 
 
                           RTP over QUIC (RoQ)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 November 2024.
+   This Internet-Draft will expire on 9 November 2024.
 
 Copyright Notice
 
@@ -1103,10 +1103,10 @@ Table of Contents
    Senders can also transmit RTP packets in QUIC DATAGRAMs, using a QUIC
    extension described in [RFC9221].  DATAGRAMs can only be used if the
    use of the DATAGRAM extension was successfully negotiated during the
-   QUIC handshake.  If the QUIC extension was negotiated using a
-   signaling protocol, but that extension was not negotiated during the
-   resulting QUIC handshake, an endpoint MAY close the connection with
-   the ROQ_EXPECTATION_UNMET error code.
+   QUIC handshake.  If the DATAGRAM extension was negotiated using a
+   signaling protocol, but was not also negotiated during the resulting
+   QUIC handshake, an endpoint can close the connection with the
+   ROQ_EXPECTATION_UNMET error code.
 
    DATAGRAMs preserve application frame boundaries.  Thus, a single RTP
    packet can be mapped to a single DATAGRAM without additional framing.
@@ -2124,9 +2124,9 @@ Table of Contents
    [I-D.draft-ietf-wish-whip]
               Murillo, S. G. and A. Gouaillard, "WebRTC-HTTP ingestion
               protocol (WHIP)", Work in Progress, Internet-Draft, draft-
-              ietf-wish-whip-13, 7 February 2024,
+              ietf-wish-whip-14, 3 May 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wish-
-              whip-13>.
+              whip-14>.
 
    [I-D.draft-smith-quic-receive-ts]
               Smith, C. and I. Swett, "QUIC Extension for Reporting
