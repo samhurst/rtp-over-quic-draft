@@ -1037,7 +1037,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Ott, et al.</td>
-<td class="center">Expires 30 November 2024</td>
+<td class="center">Expires 1 December 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1050,12 +1050,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-avtcore-rtp-over-quic-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-05-29" class="published">29 May 2024</time>
+<time datetime="2024-05-30" class="published">30 May 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Experimental</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-11-30">30 November 2024</time></dd>
+<dd class="expires"><time datetime="2024-12-01">1 December 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1114,7 +1114,7 @@ adaptation for RTP without relying on RTCP feedback.<a href="#section-abstract-2
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 30 November 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2892,7 +2892,7 @@ selecting and configuring a QUIC stack for use with RoQ.<a href="#section-12.3-5
 <p id="section-13.1-1">Possible directions would include<a href="#section-13.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13.1-2.1">
-            <p id="section-13.1-2.1.1">More guidance on transport for RTCP (for example, when to use QUIC streams vs. DATAGRAMs).<a href="#section-13.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-13.1-2.1.1">More guidance on transport for RTCP (for example, when to use QUIC streams vs. DATAGRAMs) including guidance on prioritization between streams and DATAGRAMs for the performance of RTCP.<a href="#section-13.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.1-2.2">
             <p id="section-13.1-2.2.1">More guidance on the use of real-time-friendly congestion control algorithms (for example, Copa <span>[<a href="#Copa" class="cite xref">Copa</a>]</span>, L4S <span>[<a href="#RFC9330" class="cite xref">RFC9330</a>]</span>, etc.).<a href="#section-13.1-2.2.1" class="pilcrow">¶</a></p>
@@ -2902,6 +2902,12 @@ selecting and configuring a QUIC stack for use with RoQ.<a href="#section-12.3-5
 </li>
           <li class="normal" id="section-13.1-2.4">
             <p id="section-13.1-2.4.1">Possible guidance for connection sharing between real-time and non-real-time flows, including considerations for congestion control and rate adaptation, scheduling, prioritization, and which ALPNs to use.<a href="#section-13.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.1-2.5">
+            <p id="section-13.1-2.5.1">Investigation of the effects of delaying or dropping DATAGRAMs due to congestion before they can be transmitted by the QUIC stack.<a href="#section-13.1-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.1-2.6">
+            <p id="section-13.1-2.6.1">Implementation of translating middleboxes for translating between RoQ and RTP over UDP. As described in <a href="#topologies" class="auto internal xref">Section 3.3</a>, RoQ can be used to connect to some RTP middleboxes using some topologies, and these middleboxes might be connecting RoQ endpoints and non-RoQ endpoints, so will need to translate between RoQ and RTP over UDP.<a href="#section-13.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-13.1-3">For these reasons, publication of this document as a stable reference for implementers to test with, and report results, seems useful.<a href="#section-13.1-3" class="pilcrow">¶</a></p>
@@ -3008,47 +3014,18 @@ stack they use to their preferences.<a href="#section-14.1-2" class="pilcrow">¶
           <dd class="break"></dd>
 <dt id="section-14.1-3.5">Implementation Experience:</dt>
           <dd style="margin-left: 1.5em" id="section-14.1-3.6">
-            <p id="section-14.1-3.6.1">The implementer reports they have no experience with the following:<a href="#section-14.1-3.6.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-</dl>
-<ul class="normal">
-<li class="normal" id="section-14.1-4.1">
-            <p id="section-14.1-4.1.1">Using RoQ with QUIC connections during path changes, whether due to QUIC
-connection migration or use of the Multipath Extension for QUIC. As described
-in <a href="#futures-new-ext" class="auto internal xref">Section 13.2</a>, we expect future work on this topic.<a href="#section-14.1-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-14.1-4.2">
-            <p id="section-14.1-4.2.1">Influence of default priorities of QUIC implementations between streams and
-DATAGRAMs on the performance of RTCP. As described in <a href="#futures-impl-deploy" class="auto internal xref">Section 13.1</a>,
-we expect future work on this topic.<a href="#section-14.1-4.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-14.1-4.3">
-            <p id="section-14.1-4.3.1">DATAGRAMs that are queued (and thus delayed) or dropped on expiration before
-being transmitted due to congestion. As described in <a href="#futures-impl-deploy" class="auto internal xref">Section 13.1</a>,
-we expect future work on this topic.<a href="#section-14.1-4.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-14.1-4.4">
-            <p id="section-14.1-4.4.1">Translating between RoQ and RTP over UDP. As described in <a href="#topologies" class="auto internal xref">Section 3.3</a>, RoQ
-can be used to connect to some RTP middleboxes using some topologies, and
-these middleboxes might be connecting RoQ endpoints and non-RoQ endpoints, so
-will need to translate between RoQ and RTP over UDP.<a href="#section-14.1-4.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-14.1-4.5">
-            <p id="section-14.1-4.5.1">Performance impacts of multiplexing many RTP sessions on a single QUIC
-connection. As described in <a href="#futures-impl-deploy" class="auto internal xref">Section 13.1</a>, we expect future work on
-this topic.<a href="#section-14.1-4.5.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<span class="break"></span><dl class="dlParallel" id="section-14.1-5">
-          <dt id="section-14.1-5.1">Contact Information:</dt>
-          <dd style="margin-left: 1.5em" id="section-14.1-5.2">
-            <p id="section-14.1-5.2.1">Mathis Engelbart (mathis.engelbart@gmail.com)<a href="#section-14.1-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-14.1-3.6.1">The implementer reports they have no experience with the topics discussed in
+<a href="#futures" class="auto internal xref">Section 13</a>.<a href="#section-14.1-3.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-14.1-5.3">Last Updated:</dt>
-          <dd style="margin-left: 1.5em" id="section-14.1-5.4">
-            <p id="section-14.1-5.4.1">25 May 2024<a href="#section-14.1-5.4.1" class="pilcrow">¶</a></p>
+<dt id="section-14.1-3.7">Contact Information:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-3.8">
+            <p id="section-14.1-3.8.1">Mathis Engelbart (mathis.engelbart@gmail.com)<a href="#section-14.1-3.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-14.1-3.9">Last Updated:</dt>
+          <dd style="margin-left: 1.5em" id="section-14.1-3.10">
+            <p id="section-14.1-3.10.1">25 May 2024<a href="#section-14.1-3.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>

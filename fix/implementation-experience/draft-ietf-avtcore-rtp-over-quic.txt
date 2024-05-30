@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 30 November 2024                                     S. Dawkins
+Expires: 1 December 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                             29 May 2024
+                                                             30 May 2024
 
 
                           RTP over QUIC (RoQ)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 November 2024.
+   This Internet-Draft will expire on 1 December 2024.
 
 Copyright Notice
 
@@ -1786,7 +1786,8 @@ Table of Contents
    Possible directions would include
 
    *  More guidance on transport for RTCP (for example, when to use QUIC
-      streams vs. DATAGRAMs).
+      streams vs. DATAGRAMs) including guidance on prioritization
+      between streams and DATAGRAMs for the performance of RTCP.
 
    *  More guidance on the use of real-time-friendly congestion control
       algorithms (for example, Copa [Copa], L4S [RFC9330], etc.).
@@ -1798,6 +1799,15 @@ Table of Contents
       non-real-time flows, including considerations for congestion
       control and rate adaptation, scheduling, prioritization, and which
       ALPNs to use.
+
+   *  Investigation of the effects of delaying or dropping DATAGRAMs due
+      to congestion before they can be transmitted by the QUIC stack.
+
+   *  Implementation of translating middleboxes for translating between
+      RoQ and RTP over UDP.  As described in Section 3.3, RoQ can be
+      used to connect to some RTP middleboxes using some topologies, and
+      these middleboxes might be connecting RoQ endpoints and non-RoQ
+      endpoints, so will need to translate between RoQ and RTP over UDP.
 
    For these reasons, publication of this document as a stable reference
    for implementers to test with, and report results, seems useful.
@@ -1885,30 +1895,7 @@ Table of Contents
    Licensing:  MIT License
 
    Implementation Experience:  The implementer reports they have no
-      experience with the following:
-
-   *  Using RoQ with QUIC connections during path changes, whether due
-      to QUIC connection migration or use of the Multipath Extension for
-      QUIC.  As described in Section 13.2, we expect future work on this
-      topic.
-
-   *  Influence of default priorities of QUIC implementations between
-      streams and DATAGRAMs on the performance of RTCP.  As described in
-      Section 13.1, we expect future work on this topic.
-
-   *  DATAGRAMs that are queued (and thus delayed) or dropped on
-      expiration before being transmitted due to congestion.  As
-      described in Section 13.1, we expect future work on this topic.
-
-   *  Translating between RoQ and RTP over UDP.  As described in
-      Section 3.3, RoQ can be used to connect to some RTP middleboxes
-      using some topologies, and these middleboxes might be connecting
-      RoQ endpoints and non-RoQ endpoints, so will need to translate
-      between RoQ and RTP over UDP.
-
-   *  Performance impacts of multiplexing many RTP sessions on a single
-      QUIC connection.  As described in Section 13.1, we expect future
-      work on this topic.
+      experience with the topics discussed in Section 13.
 
    Contact Information:  Mathis Engelbart (mathis.engelbart@gmail.com)
 
