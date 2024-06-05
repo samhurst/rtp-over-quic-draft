@@ -5,9 +5,9 @@
 Audio/Video Transport Core Maintenance                            J. Ott
 Internet-Draft                                              M. Engelbart
 Intended status: Experimental                Technical University Munich
-Expires: 9 November 2024                                      S. Dawkins
+Expires: 7 December 2024                                      S. Dawkins
                                                      Tencent America LLC
-                                                              8 May 2024
+                                                             5 June 2024
 
 
                           RTP over QUIC (RoQ)
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 November 2024.
+   This Internet-Draft will expire on 7 December 2024.
 
 Copyright Notice
 
@@ -126,13 +126,17 @@ Table of Contents
      13.1.  Future Work Resulting from Implementation and Deployment
             Experience
      13.2.  Future Work Resulting from New QUIC Extensions
-   14. Security Considerations
-   15. IANA Considerations
-     15.1.  Registration of a RoQ Identification String
-     15.2.  RoQ Error Codes Registry
-   16. References
-     16.1.  Normative References
-     16.2.  Informative References
+   14. Implementation Status
+     14.1.  mengelbart/roq
+     14.2.  bbc/gst-roq
+     14.3.  mengelbart/rtp-over-quic
+   15. Security Considerations
+   16. IANA Considerations
+     16.1.  Registration of a RoQ Identification String
+     16.2.  RoQ Error Codes Registry
+   17. References
+     17.1.  Normative References
+     17.2.  Informative References
    Appendix A.  List of optional QUIC Extensions
    Appendix B.  Considered RTCP Packet Types and RTP Header Extensions
      B.1.  RTCP Control Packet Types
@@ -148,7 +152,6 @@ Table of Contents
        B.6.2.  Congestion Control Feedback ("CCFB")
        B.6.3.  Extended Report ("XR")
        B.6.4.  Application Layer Repair and other Control Messages
-   Appendix C.  Experimental Results
    Acknowledgments
    Authors' Addresses
 
@@ -822,7 +825,7 @@ Table of Contents
       transport, and QUIC authenticates the entirety of each packet and
       encrypts as much of each packet as is practical, RoQ secures both
       RTP headers and RTP payloads, while other RTP transports do not.
-      Section 14 describes strategies to prevent the inadvertent
+      Section 15 describes strategies to prevent the inadvertent
       disclosure of RTP sessions to unintended third parties.
 
    Note-MCast:  Not supported, because QUIC [RFC9000] does not support
@@ -854,7 +857,7 @@ Table of Contents
    QUIC requires the use of Application-Layer Protocol Negotiation
    (ALPN) [RFC7301] tokens during connection setup.  RoQ uses "roq" as
    the ALPN token, included as part of the TLS handshake (see also
-   Section 15).
+   Section 16).
 
    Note that the "roq" ALPN token is not tied to a specific RTP profile,
    even though the RTP profile could be considered part of the
@@ -1783,7 +1786,8 @@ Table of Contents
    Possible directions would include
 
    *  More guidance on transport for RTCP (for example, when to use QUIC
-      streams vs. DATAGRAMs).
+      streams vs. DATAGRAMs) including guidance on prioritization
+      between streams and DATAGRAMs for the performance of RTCP.
 
    *  More guidance on the use of real-time-friendly congestion control
       algorithms (for example, Copa [Copa], L4S [RFC9330], etc.).
@@ -1795,6 +1799,15 @@ Table of Contents
       non-real-time flows, including considerations for congestion
       control and rate adaptation, scheduling, prioritization, and which
       ALPNs to use.
+
+   *  Investigation of the effects of delaying or dropping DATAGRAMs due
+      to congestion before they can be transmitted by the QUIC stack.
+
+   *  Implementation of translating middleboxes for translating between
+      RoQ and RTP over UDP.  As described in Section 3.3, RoQ can be
+      used to connect to some RTP middleboxes using some topologies, and
+      these middleboxes might be connecting RoQ endpoints and non-RoQ
+      endpoints, so will need to translate between RoQ and RTP over UDP.
 
    For these reasons, publication of this document as a stable reference
    for implementers to test with, and report results, seems useful.
@@ -1829,7 +1842,123 @@ Table of Contents
    Other QUIC extensions, not yet proposed, might also be useful with
    RoQ.
 
-14.  Security Considerations
+14.  Implementation Status
+
+      *RFC Editor's note:* Please remove this section prior to
+      publication of a final version of this document.
+
+   This section records the status of known implementations of the
+   protocol defined by this specification at the time of posting of this
+   Internet-Draft, and is based on a proposal described in [RFC7942].
+   The description of implementations in this section is intended to
+   assist the IETF in its decision processes in progressing drafts to
+   RFCs.  Please note that the listing of any individual implementation
+   here does not imply endorsement by the IETF.  Furthermore, no effort
+   has been spent to verify the information presented here that was
+   supplied by IETF contributors.  This is not intended as, and must not
+   be construed to be, a catalog of available implementations or their
+   features.  Readers are advised to note that other implementations may
+   exist.
+
+   According to [RFC7942], "this will allow reviewers and working groups
+   to assign due consideration to documents that have the benefit of
+   running code, which may serve as evidence of valuable experimentation
+   and feedback that have made the implemented protocols more mature.
+   It is up to the individual working groups to use this information as
+   they see fit".
+
+14.1.  mengelbart/roq
+
+   Ogranization:  Technical University of Munich
+
+   Implementation:  [roq]
+
+   Description:  _roq_ is a library implementing the basic encapsulation
+      described in Section 5.  The library uses the Go programming
+      language and supports the [quic-go] QUIC implementation.
+
+   Level of Maturity:  prototype
+
+   Coverage: : The library supports sending and receiving RTP and RTCP
+   packets using QUIC streams and QUIC DATAGRAMs, and supports
+   multiplexing using flow identifiers.  Applications using the library
+   are responsible for appropriate signaling, setting up QUIC
+   connections, and managing RTP sessions.  Applications choose whether
+   to send RTP and RTCP packets over streams or DATAGRAMs, and
+   applications also have control over the QUIC and RTP congestion
+   controllers in use since they control the QUIC connection setup and
+   can thus configure the QUIC stack they use to their preferences.
+
+   Version Compatibility:  The library implements
+      [I-D.draft-ietf-avtcore-rtp-over-quic-10].
+
+   Licensing:  MIT License
+
+   Implementation Experience:  The implementer reports they have no
+      experience with the topics discussed in Section 13.  RoQ relies on
+      out-of-band signaling for connection establishment, and since
+      there is currently no specification for SDP for RoQ, applications
+      using the library have to statically configure connection
+      information to allow testing
+
+   Contact Information:  Mathis Engelbart (mathis.engelbart@gmail.com)
+
+   Last Updated:  25 May 2024
+
+14.2.  bbc/gst-roq
+
+   Ogranization:  BBC
+
+   Implementation:  RTP-over-QUIC elements for GStreamer [gst-roq]
+
+   Description:  _gst-roq_ provides a set of GStreamer plugins
+      implementing RoQ.
+
+   Level of Maturity:  TODO
+
+   Coverage:  TODO
+
+   Version Compatibility:  TODO
+
+   Licensing:  GNU Lesser General Public License v2.1
+
+   Implementation Experience:  TODO
+
+   Contact Information:  TODO
+
+   Last Updated:  25 May 2024
+
+14.3.  mengelbart/rtp-over-quic
+
+   Ogranization:  Technical University of Munich
+
+   Implementation:  RTP over QUIC [RTP-over-QUIC]
+
+   Description:  _RTP over QUIC_ is a experimental implementation of the
+      mapping described in an earlier version of this document.
+
+   Level of Maturity:  research
+
+   Coverage:  The application implements the RoQ DATAGRAMs mapping and
+      implements SCReAM congestion control at the application layer.  It
+      can optionally disable the built-in QUIC congestion control
+      (NewReno).  The endpoints only use RTCP for congestion control
+      feedback, which can optionally be disabled and replaced by the
+      QUIC connection statistics as described in Section 10.4.
+      Experimental results of the implementation can be found in
+      [RoQ-Mininet].
+
+   Version Compatibility:  [I-D.draft-ietf-avtcore-rtp-over-quic-00]
+
+   Licensing:  MIT
+
+   Implementation Experience:  See [RoQ-Mininet]
+
+   Contact Information:  Mathis Engelbart (mathis.engelbart@gmail.com)
+
+   Last Updated:  25 May 2024
+
+15.  Security Considerations
 
    RoQ is subject to the security considerations of RTP described in
    Section 9 of [RFC3550] and the security considerations of any RTP
@@ -1849,13 +1978,13 @@ Table of Contents
    equivalent RTP-level security), whether or not RoQ senders are using
    a secure AVP profile for those RTP packets.
 
-15.  IANA Considerations
+16.  IANA Considerations
 
-   This document registers a new ALPN protocol ID (in Section 15.1) and
+   This document registers a new ALPN protocol ID (in Section 16.1) and
    creates a new registry that manages the assignment of error code
-   points in RoQ (in Section 15.2).
+   points in RoQ (in Section 16.2).
 
-15.1.  Registration of a RoQ Identification String
+16.1.  Registration of a RoQ Identification String
 
    This document creates a new registration for the identification of
    RoQ in the "TLS Application-Layer Protocol Negotiation (ALPN)
@@ -1869,7 +1998,7 @@ Table of Contents
 
    Specification:  This document
 
-15.2.  RoQ Error Codes Registry
+16.2.  RoQ Error Codes Registry
 
    This document establishes a registry for RoQ error codes.  The "RTP
    over QUIC (RoQ) Error Codes" registry manages a 62-bit space and is
@@ -1939,9 +2068,9 @@ Table of Contents
 
                       Table 2: Initial RoQ Error Codes
 
-16.  References
+17.  References
 
-16.1.  Normative References
+17.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2044,10 +2173,13 @@ Table of Contents
               DOI 10.17487/RFC9221, March 2022,
               <https://www.rfc-editor.org/rfc/rfc9221>.
 
-16.2.  Informative References
+17.2.  Informative References
 
    [Copa]     "Copa: Practical Delay-Based Congestion Control for the
               Internet", 2018, <https://web.mit.edu/copa/>.
+
+   [gst-roq]  "RTP-over-QUIC elements for GStreamer", n.d.,
+              <https://github.com/bbc/gst-roq>.
 
    [I-D.draft-dawkins-avtcore-sdp-rtp-quic]
               Dawkins, S., "SDP Offer/Answer for RTP using QUIC as
@@ -2077,6 +2209,20 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-
               rtcp-green-metadata-03>.
 
+   [I-D.draft-ietf-avtcore-rtp-over-quic-00]
+              Ott, J. and M. Engelbart, "RTP over QUIC", Work in
+              Progress, Internet-Draft, draft-ietf-avtcore-rtp-over-
+              quic-00, 26 July 2022,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-
+              rtp-over-quic-00>.
+
+   [I-D.draft-ietf-avtcore-rtp-over-quic-10]
+              Ott, J., Engelbart, M., and S. Dawkins, "RTP over QUIC
+              (RoQ)", Work in Progress, Internet-Draft, draft-ietf-
+              avtcore-rtp-over-quic-10, 8 May 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-avtcore-
+              rtp-over-quic-10>.
+
    [I-D.draft-ietf-avtext-lrr-07]
               Lennox, J., Hong, D., Uberti, J., Holmer, S., and M.
               Flodman, "The Layer Refresh Request (LRR) RTCP Feedback
@@ -2102,9 +2248,9 @@ Table of Contents
    [I-D.draft-ietf-quic-multipath]
               Liu, Y., Ma, Y., De Coninck, Q., Bonaventure, O., Huitema,
               C., and M. Kühlewind, "Multipath Extension for QUIC", Work
-              in Progress, Internet-Draft, draft-ietf-quic-multipath-07,
-              10 April 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-quic-multipath-07>.
+              in Progress, Internet-Draft, draft-ietf-quic-multipath-08,
+              29 May 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-quic-multipath-08>.
 
    [I-D.draft-ietf-quic-reliable-stream-reset]
               Seemann, M. and K. Oku, "QUIC Stream Resets with Partial
@@ -2176,6 +2322,9 @@ Table of Contents
               "IEEE 1733-2011 Standard for Layer 3 Transport Protocol
               for Time-Sensitive Applications in Local Area Networks",
               n.d., <https://standards.ieee.org/ieee/1733/4748/>.
+
+   [quic-go]  "A QUIC implementation in pure Go", n.d.,
+              <https://github.com/quic-go/quic-go>.
 
    [RFC0768]  Postel, J., "User Datagram Protocol", STD 6, RFC 768,
               DOI 10.17487/RFC0768, August 1980,
@@ -2401,6 +2550,11 @@ Table of Contents
               Source Description Items", RFC 7941, DOI 10.17487/RFC7941,
               August 2016, <https://www.rfc-editor.org/rfc/rfc7941>.
 
+   [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
+              Code: The Implementation Status Section", BCP 205,
+              RFC 7942, DOI 10.17487/RFC7942, July 2016,
+              <https://www.rfc-editor.org/rfc/rfc7942>.
+
    [RFC8015]  Singh, V., Perkins, C., Clark, A., and R. Huang, "RTP
               Control Protocol (RTCP) Extended Report (XR) Block for
               Independent Reporting of Burst/Gap Discard Metrics",
@@ -2486,6 +2640,17 @@ Table of Contents
               Encrypting RTP Header Extensions and Contributing
               Sources", RFC 9335, DOI 10.17487/RFC9335, January 2023,
               <https://www.rfc-editor.org/rfc/rfc9335>.
+
+   [roq]      "RTP over QUIC (RoQ)", n.d.,
+              <https://github.com/mengelbart/roq>.
+
+   [RoQ-Mininet]
+              "Congestion Control for RTP over QUIC Simulations", n.d.,
+              <https://github.com/mengelbart/rtp-over-quic-mininet>.
+
+   [RTP-over-QUIC]
+              "RTP over QUIC", n.d.,
+              <https://github.com/mengelbart/rtp-over-quic>.
 
    [VJMK88]   "Congestion Avoidance and Control", November 1988,
               <https://ee.lbl.gov/papers/congavoid.pdf>.
@@ -3137,20 +3302,6 @@ B.6.4.  Application Layer Repair and other Control Messages
    types.  If the RTP application needs this information, the RTCP
    packet types are used in the same way as they would be used over any
    other transport protocol.
-
-Appendix C.  Experimental Results
-
-   An experimental implementation of the mapping described in this
-   document can be found on Github (https://github.com/mengelbart/rtp-
-   over-quic).  The application implements the RoQ Datagrams mapping and
-   implements SCReAM congestion control at the application layer.  It
-   can optionally disable the builtin QUIC congestion control (NewReno).
-   The endpoints only use RTCP for congestion control feedback, which
-   can optionally be disabled and replaced by the QUIC connection
-   statistics as described in Section 10.4.
-
-   Experimental results of the implementation can be found on Github
-   (https://github.com/mengelbart/rtp-over-quic-mininet), too.
 
 Acknowledgments
 
